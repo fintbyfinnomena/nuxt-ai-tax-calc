@@ -1,6 +1,6 @@
 <template>
     <div class="h-screen">
-        <div class="max-w-screen-xl mx-auto w-6/7 h-5/6">
+        <div class="mx-3 max-w-screen-xl md:mx-auto w-6/7 h-5/6">
             <div class="grid max-w-screen-xl mx-auto ">
                 <nav class="flex justify-between mt-10">
                     <div class="text-left inline-flex align-middle">
@@ -54,6 +54,7 @@ export default {
                     this.AuthStore.user_obj.email = user.email;
                     this.AuthStore.user_obj.profPic = user.photoURL;
                     this.AuthStore.user_obj.access_token = user.accessToken;
+                    console.log(this.AuthStore.user_obj.name);
                     // ...
                 } else {
                     // User is signed out

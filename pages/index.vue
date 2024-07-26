@@ -52,7 +52,7 @@ export default {
           const credential = GoogleAuthProvider.credentialFromResult(result);
           const token = credential.accessToken;
           const user = result.user;
-          console.log(result.user.email);
+          console.log(result.user.email + " EMAIL");
           window.location.href = "/chat";
         }).catch((error) => {
           // Handle Errors here.
