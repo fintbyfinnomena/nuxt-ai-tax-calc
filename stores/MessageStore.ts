@@ -5,15 +5,25 @@ export const useMessageStore = defineStore("messageStore", {
         message_obj: {
             messagesList : [] as any,
             index: 0,
-        }
+        },
+        startingOption: 0,
+        Questions: [
+            { option: 1, title: "อยากจัดพอร์ตกองทุนประหยัดภาษี?", sub: "จัดพอร์ตให้เลยแบบที่เหมาะกับคุณ" },
+            { option: 2,title: "Finnomena แนะนำกองทุนอะไรบ้าง?", sub: "ครบทั้ง SSF, RMF และ ThaiESG" },
+            { option: 3,title: "ความรู้เกี่ยวกับกองทุนลดหย่อนภาษ", sub: "ไม่ต้องเปิดหาให้เสียเวลา ถามปุ้บตอบปั้บ รู้เรื่อง!" }
+        ],
     }),
     actions: {
         addMessage(MessageObj: any) {
             this.message_obj.messagesList.push(MessageObj);
             this.message_obj.index += 1;
         },
-        clearMessages() {
+        clearMessages(chat_id: string) {
+            console.log(chat_id)
             this.message_obj.messagesList = [];
         },
+        SetstartingOption(value: number) {
+            this.startingOption = value;
+        }
     },
 })

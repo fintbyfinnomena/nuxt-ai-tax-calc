@@ -30,10 +30,10 @@ module.exports = {
           foreground: "hsl(var(--secondary-foreground))",
         },
         finnoblue: {
-          DEFAULT: '#DBF5FF'
+          DEFAULT: "#c7ecff"
         },
         finnopurple: {
-          DEFAULT: '#FADEFF'
+          DEFAULT: "#f6c7ff"
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",

@@ -1,5 +1,6 @@
 <script>
 import { useMessageStore } from "../stores/MessageStore";
+import fundcard from "./render/fund-card.vue";
 
 export default {
     props: ['data'],
@@ -90,7 +91,7 @@ export default {
                                 item.value }}</div>
                         </div>
                         <div v-else-if="item.type === 'render'">
-                            <div class="text-sm font-normal py-2.5 text-gray-900 bg-gray-50">{{ item.value }}</div>
+                            <Render :renderVal="item.value"/>
                         </div>
                     </div>
                 </div>

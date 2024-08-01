@@ -10,6 +10,8 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@dotlottie/dotlottie-js": "^0.8.0",
+    "@lottiefiles/dotlottie-vue": "^0.4.8",
     "@nuxt/icon": "^1.2.0",
     "@pinia/nuxt": "^0.5.1",
     "@radix-icons/vue": "^1.0.0",

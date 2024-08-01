@@ -10,47 +10,31 @@
                             <span class="ml-5 font-medium">{{ AuthStore.user_obj.name }}</span>
                         </div>
                     </div>
-                    <div class="text-right">
-                        <TaxInfo v-model:open="isOpen" />
-                        <Button @click="signout()"
-                            class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">ออกจากระบบ
-                        </Button>
-                        <Button @click="Clear()"
-                            class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">Clear History
-                        </Button>
-                    </div>
-
                 </nav>
             </div>
             <div class="h-6/8">
-                <ChatView/>
+                <promptView/>
             </div>
         </div>
     </div>
 </template>
+
 <script>
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useAuthStore } from "../stores/AuthStore";
-import { useMessageStore } from "../stores/MessageStore";
-import { Button } from '@/components/ui/button'
-
 export default {
     data() {
         return {
             nuxtApp: useNuxtApp(),
             AuthStore: null,
             MessageStore: null,
-            isOpen: false
         };
     },
     created() {
         this.AuthStore = useAuthStore();
-        this.MessageStore = useMessageStore();
     },
     mounted() {
         this.checkAuth();
-        // this.isOpen = true;
-        console.log(this.MessageStore.startingOption);
     },
     methods: {
         checkAuth() {
@@ -67,7 +51,7 @@ export default {
                 } else {
                     // User is signed out
                     console.log("user is not authenticated");
-                    window.location.href = "/";
+                    // window.location.href = "/";
                 }
             });
         },
@@ -79,10 +63,9 @@ export default {
                 console.log(error);
             });
         },
-        open() {
-            this.isOpen = true;
-        }
     }
 }
 </script>
-<style></style>
+<style lang="">
+
+</style>
