@@ -34,7 +34,6 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useAuthStore } from "../stores/AuthStore";
 import { useMessageStore } from "../stores/MessageStore";
 import { Button } from '@/components/ui/button'
-const runtimeConfig = useRuntimeConfig();
 
 export default {
     data() {
@@ -42,12 +41,15 @@ export default {
             nuxtApp: useNuxtApp(),
             AuthStore: null,
             MessageStore: null,
-            isOpen: false
+            isOpen: false,
+            config: null,
         };
     },
     created() {
         this.AuthStore = useAuthStore();
         this.MessageStore = useMessageStore();
+        this.config = useRuntimeConfig();
+
     },
     mounted() {
         this.checkAuth();
@@ -77,7 +79,7 @@ export default {
             });
         },
         initChat() {
-            fetch(`${runtimeConfig.public.url.serviceUrl}/api/v1/langchain-chat/chats`, {
+            fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

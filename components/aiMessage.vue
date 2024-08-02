@@ -2,7 +2,6 @@
 import { useMessageStore } from "../stores/MessageStore";
 import { useAuthStore } from "../stores/AuthStore";
 import fundcard from "./render/fund-card.vue";
-const runtimeConfig = useRuntimeConfig();
 
 export default {
   props: ["data", "feedback"],
@@ -12,11 +11,13 @@ export default {
       MessageStore: null,
       AuthStore: null,
       RenderObjectArray: [],
+      config: null
     };
   },
   created() {
     this.MessageStore = useMessageStore();
     this.AuthStore = useAuthStore();
+    this.config = useRuntimeConfig();
   },
   mounted() {
     // console.log(this.data);
@@ -88,7 +89,7 @@ export default {
     },
     downvote() {
       fetch(
-        `${runtimeConfig.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}/thumb-down`,
+        `${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}/thumb-down`,
         {
           method: "POST",
           headers: {

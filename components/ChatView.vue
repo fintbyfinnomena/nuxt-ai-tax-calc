@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { useMessageStore } from "../stores/MessageStore";
 import { useAuthStore } from "../stores/AuthStore";
-const runtimeConfig = useRuntimeConfig();
 
 export default {
   data() {
@@ -14,8 +13,8 @@ export default {
       MessageStore: null,
       AuthStore: null,
       MessageArray: [],
-
       prePopulateMsg: "",
+      config: null
     };
   },
   created() {
@@ -23,6 +22,7 @@ export default {
     this.MessageStore = useMessageStore();
     this.MessageArray = this.MessageStore.message_obj.messagesList;
     this.prePopulateMsg = this.MessageStore.autoMsg;
+    this.config = useRuntimeConfig();
   },
   mounted() {
     let selected = this.MessageStore.startingOption;
@@ -68,7 +68,7 @@ export default {
           "user-id": this.AuthStore.user_obj.uid,
         };
         fetch(
-          `${runtimeConfig.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}`,
+          `${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}`,
           {
             method: "POST",
             headers: headers,
