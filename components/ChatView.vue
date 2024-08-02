@@ -51,7 +51,7 @@ export default {
                     "Content-type": "application/json",
                     "session-id": this.AuthStore.session_id,
                 }
-                fetch('http://localhost:8080/api/v1/langchain-chat/question', {
+                fetch('https://nest-langchain-tax-ai-dev-mk27cugt3a-as.a.run.app/api/v1/langchain-chat/question', {
                     method: 'POST',
                     headers: headers,
                     body: JSON.stringify(payload)
