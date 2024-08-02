@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useMessageStore } from "../stores/MessageStore";
 import { useAuthStore } from "../stores/AuthStore";
+const runtimeConfig = useRuntimeConfig();
 
 export default {
   data() {
@@ -67,7 +68,7 @@ export default {
           "user-id": this.AuthStore.user_obj.uid,
         };
         fetch(
-          `https://nest-langchain-tax-ai-dev-mk27cugt3a-as.a.run.app/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}`,
+          `${runtimeConfig.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}`,
           {
             method: "POST",
             headers: headers,

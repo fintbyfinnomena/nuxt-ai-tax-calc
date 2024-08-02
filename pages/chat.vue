@@ -34,6 +34,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useAuthStore } from "../stores/AuthStore";
 import { useMessageStore } from "../stores/MessageStore";
 import { Button } from '@/components/ui/button'
+const runtimeConfig = useRuntimeConfig();
 
 export default {
     data() {
@@ -76,7 +77,7 @@ export default {
             });
         },
         initChat() {
-            fetch('http://localhost:8080/api/v1/langchain-chat/chats', {
+            fetch(`${runtimeConfig.public.url.serviceUrl}/api/v1/langchain-chat/chats`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
