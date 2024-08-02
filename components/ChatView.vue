@@ -13,8 +13,8 @@ export default {
       MessageStore: null,
       AuthStore: null,
       MessageArray: [],
-
       prePopulateMsg: "",
+      config: null
     };
   },
   created() {
@@ -22,6 +22,7 @@ export default {
     this.MessageStore = useMessageStore();
     this.MessageArray = this.MessageStore.message_obj.messagesList;
     this.prePopulateMsg = this.MessageStore.autoMsg;
+    this.config = useRuntimeConfig();
   },
   mounted() {
     let selected = this.MessageStore.startingOption;
@@ -67,7 +68,7 @@ export default {
           "user-id": this.AuthStore.user_obj.uid,
         };
         fetch(
-          `https://nest-langchain-tax-ai-dev-mk27cugt3a-as.a.run.app/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}`,
+          `${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}`,
           {
             method: "POST",
             headers: headers,
