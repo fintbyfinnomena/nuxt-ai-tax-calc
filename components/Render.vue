@@ -1,7 +1,10 @@
 <template>
     <div>
         <div v-if="tags == 'fund-click'" class="display-inline">
-            <fund-click :shortcode="value" />
+            <fund-click :shortcode="value"/>
+        </div>
+        <div v-else-if="tags == 'fund-card'">
+            <fund-card :shortcode="value"/>
         </div>
     </div>
 </template>

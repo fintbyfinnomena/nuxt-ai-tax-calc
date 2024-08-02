@@ -16,14 +16,15 @@
                             class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">ออกจากระบบ
                         </Button>
                         <Button @click="Clear()"
-                            class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">Clear History
+                            class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">Clear
+                            History
                         </Button>
                     </div>
 
                 </nav>
             </div>
             <div class="h-6/8">
-                <ChatView/>
+                <ChatView />
             </div>
         </div>
     </div>
@@ -49,8 +50,9 @@ export default {
     },
     mounted() {
         this.checkAuth();
+        this.initChat();
         // this.isOpen = true;
-        console.log(this.MessageStore.startingOption);
+        // console.log(this.MessageStore.startingOption);
     },
     methods: {
         checkAuth() {
@@ -62,6 +64,8 @@ export default {
                     this.AuthStore.user_obj.email = user.email;
                     this.AuthStore.user_obj.profPic = user.photoURL;
                     this.AuthStore.user_obj.access_token = user.accessToken;
+                    this.AuthStore.user_obj.uid = uid;
+
                     console.log(this.AuthStore.user_obj.name);
                     // ...
                 } else {
@@ -70,6 +74,25 @@ export default {
                     window.location.href = "/";
                 }
             });
+        },
+        initChat() {
+            fetch('http://localhost:8080/api/v1/langchain-chat/chats', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'user-id': this.AuthStore.user_obj.uid,
+                },
+                // body: JSON.stringify({ key: 'value' })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response data
+                    this.AuthStore.user_obj.chatid = data.chat_id;
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error(error);
+                });
         },
         signout() {
             signOut(this.nuxtApp.$auth).then(() => {

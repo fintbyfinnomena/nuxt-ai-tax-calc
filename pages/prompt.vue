@@ -10,6 +10,11 @@
                             <span class="ml-5 font-medium">{{ AuthStore.user_obj.name }}</span>
                         </div>
                     </div>
+                    <div class="text-right">
+                        <Button @click="signout()"
+                            class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">ออกจากระบบ
+                        </Button>
+                    </div>
                 </nav>
             </div>
             <div class="h-6/8">
@@ -46,12 +51,13 @@ export default {
                     this.AuthStore.user_obj.email = user.email;
                     this.AuthStore.user_obj.profPic = user.photoURL;
                     this.AuthStore.user_obj.access_token = user.accessToken;
+                    this.AuthStore.user_obj.uid = uid;
                     console.log(this.AuthStore.user_obj.name);
                     // ...
                 } else {
                     // User is signed out
                     console.log("user is not authenticated");
-                    // window.location.href = "/";
+                    window.location.href = "/";
                 }
             });
         },

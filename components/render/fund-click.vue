@@ -13,17 +13,24 @@
     </div>
 </template>
 <script>
+import { useMessageStore } from '../../stores/MessageStore';
 export default {
     props: ['shortcode'],
     data() {
         return {
+            MessageStore: null,
             ReqString: `ขอข้อมูลกองทุน ${this.shortcode}`,
         }
     },
+    created() {
+        this.MessageStore = useMessageStore();
+        console.log(this.MessageStore.Questions);
+    },
     methods: {
-        populate: function () {
-            
-        },
+        populate() {
+            console.log("Populating");
+            this.MessageStore.setAutoMsg(this.ReqString);
+        }
     }
 }
 </script>
