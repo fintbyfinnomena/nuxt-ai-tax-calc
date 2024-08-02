@@ -4,7 +4,6 @@ import { useMessageStore } from "../stores/MessageStore";
 import { useAuthStore } from '../stores/AuthStore';
 
 export default {
-
     data() {
         return {
             streamMessage: '',
@@ -13,13 +12,16 @@ export default {
             msgSent: false,
             MessageStore: null,
             AuthStore: null,
-            MessageArray: []
+            MessageArray: [],
+
+            prePopulateMsg: ''
         }
     },
     created() {
         this.AuthStore = useAuthStore();
         this.MessageStore = useMessageStore();
         this.MessageArray = this.MessageStore.message_obj.messagesList;
+        this.prePopulateMsg = this.MessageStore.autoMsg;
     },
     mounted() {
         let selected = this.MessageStore.startingOption;
@@ -28,13 +30,19 @@ export default {
         } else {
             navigateTo('/prompt');
         }
+        watch(() => this.MessageStore.autoMsg, (newName) => {
+            this.prePopulateMsg = newName;
+            this.prePopulate(this.prePopulateMsg);
+            console.log("Success!")
+        });
     },
     updated() {
         this.scrollToElement();
     },
     methods: {
-        prePopulate(message) {
-            this.newMessage = message;
+        prePopulate(e) {
+            console.log("EVENT", e);
+            this.newMessage = e;
             this.submit_message();
         },
         submit_message() {
@@ -42,16 +50,16 @@ export default {
                 this.msgSent = true;
                 let msg_object = { index: this.MessageStore.message_obj.index, value: this.newMessage, role: 'user' };
                 this.MessageStore.addMessage(msg_object);
-                console.log(this.MessageStore.message_obj.messagesList.length)
+                // console.log(this.MessageStore.message_obj.messagesList.length)
                 let payload = {
                     question: this.newMessage
                 }
                 this.newMessage = '';
                 const headers = {
                     "Content-type": "application/json",
-                    "session-id": this.AuthStore.session_id,
+                    "user-id": this.AuthStore.user_obj.uid
                 }
-                fetch('http://localhost:8080/api/v1/langchain-chat/question', {
+                fetch(`http://localhost:8080/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}`, {
                     method: 'POST',
                     headers: headers,
                     body: JSON.stringify(payload)
@@ -64,9 +72,9 @@ export default {
                             this.streaming = true;
                             if (done) {
                                 let ai_text = this.streamMessage;
-                                let ai_msg = { index: this.MessageStore.message_obj.index, value: ai_text, role: 'ai' };
+                                let ai_msg = { index: this.MessageStore.message_obj.index, value: ai_text, role: 'ai', downvote: false };
                                 this.MessageStore.addMessage(ai_msg);
-                                console.log(this.MessageStore.message_obj.messagesList.length)
+                                // console.log(this.MessageStore.message_obj.messagesList.length)
                                 this.streamMessage = '';
                                 this.streaming = false;
                                 this.scrollToElement();
@@ -114,7 +122,7 @@ export default {
                         <userMessage :data="message.value" />
                     </div>
                     <div v-else>
-                        <aiMessage :data="message.value" class="mb-10 mr-5 md:mr-0" />
+                        <aiMessage :data="message.value" :feedback="message.index" class="mb-10 mr-5 md:mr-0" />
                     </div>
                 </div>
                 <div v-if="streaming == true && msgSent == false">

@@ -1,23 +1,27 @@
 <script>
 import { useMessageStore } from "../stores/MessageStore";
+import { useAuthStore } from "../stores/AuthStore";
 import fundcard from "./render/fund-card.vue";
 
 export default {
-    props: ['data'],
+    props: ['data', 'feedback'],
     data() {
         return {
             SplittedArray: [],
             MessageStore: null,
+            AuthStore: null,
             RenderObjectArray: []
         }
     },
     created() {
         this.MessageStore = useMessageStore();
+        this.AuthStore = useAuthStore();
     },
     mounted() {
         // console.log(this.data);
         this.SplittedArray = this.GenerateArray(this.data);
         this.GenerateRenderObject();
+        this.ArrangeRenderObject();
     },
     methods: {
         GenerateArray(str) {
@@ -71,6 +75,29 @@ export default {
                     });
                 }
             });
+        },
+        ArrangeRenderObject() {
+            const fundCardElements = this.RenderObjectArray.filter(item => item.value.startsWith('<fund-card>'));
+            const nonFundCardElements = this.RenderObjectArray.filter(item => !item.value.startsWith('<fund-card>'));
+            this.RenderObjectArray = [...nonFundCardElements, ...fundCardElements];
+        },
+        downvote() {
+            fetch(`http://localhost:8080/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}/thumb-down`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ index: this.feedback })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response data
+                    this.MessageStore.message_obj.messagesList[this.feedback].downvote = true;
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error(error);
+                });
         }
     }
 }
@@ -91,8 +118,15 @@ export default {
                                 item.value }}</div>
                         </div>
                         <div v-else-if="item.type === 'render'">
-                            <Render :renderVal="item.value"/>
+                            <Render :renderVal="item.value" />
                         </div>
+                    </div>
+                    <div v-if="this.MessageStore.message_obj.messagesList[this.feedback].downvote == false" class="mt-5 hover:cursor-pointer"
+                        @click="downvote(this.feedback)">
+                        <Icon icon="material-symbols:thumb-down-outline-sharp" size="1.4em"/>
+                    </div>
+                    <div v-else>
+                        <Icon icon="ic:sharp-thumb-down-alt" size="1.4em" />
                     </div>
                 </div>
             </div>
