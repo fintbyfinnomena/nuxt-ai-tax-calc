@@ -84,7 +84,7 @@
                   : '#E60A0A',
             }"
           >
-            {{ three_month.toFixed(2) }}%
+            {{ isNumber(three_month) ? three_month.toFixed(2) : three_month }}%
           </p>
           <p>3M</p>
         </div>
@@ -101,7 +101,7 @@
                   : '#E60A0A',
             }"
           >
-            {{ six_month }}%
+            {{ isNumber(six_month) ? six_month.toFixed(2) : six_month }}%
           </p>
           <p>6M</p>
         </div>
@@ -118,7 +118,7 @@
                   : '#E60A0A',
             }"
           >
-            {{ one_year }}%
+            {{ isNumber(one_year) ? one_year.toFixed(2) : one_year }}%
           </p>
           <p>1Y</p>
         </div>
@@ -163,6 +163,9 @@ export default {
     let fundInfo = this.GetFundData();
   },
   methods: {
+    isNumber(n) {
+      return !isNaN(parseFloat(n)) && !isNaN(n - 0);
+    },
     async GetFundData() {
       let res = await fetch(
         `${this.config.public.url.serviceUrl}/api/v1/fund/fund-info/${this.shortcode}`
