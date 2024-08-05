@@ -11,7 +11,6 @@
                         </div>
                     </div>
                     <div class="text-right">
-                        <TaxInfo v-model:open="isOpen" />
                         <Button @click="signout()"
                             class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">ออกจากระบบ
                         </Button>
@@ -85,6 +84,29 @@ export default {
         },
         open() {
             this.isOpen = true;
+        },
+        Clear() {
+            fetch('http://localhost:8080/api/v1/langchain-chat/chats', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'user-id': this.AuthStore.user_obj.uid,
+                },
+                // body: JSON.stringify({ key: 'value' })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Clear Successful")
+                    console.log(data)
+                    // Handle the response data
+                    this.AuthStore.user_obj.chatid = data.chat_id;
+                    this.MessageStore.message_obj.messagesList = [];
+
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error(error);
+                });
         }
     }
 }

@@ -20,7 +20,6 @@ export default {
     created() {
         this.AuthStore = useAuthStore();
         this.MessageStore = useMessageStore();
-        this.MessageArray = this.MessageStore.message_obj.messagesList;
         this.prePopulateMsg = this.MessageStore.autoMsg;
     },
     mounted() {
@@ -118,12 +117,14 @@ export default {
     <div class="h-svh">
         <div class="flex flex-col mx-auto w-6/7 h-5/6 bg-white rounded-lg shadow-lg">
             <div id="chat-container" class="flex-grow mt-10 overflow-scroll">
-                <div v-for="message in MessageArray">
-                    <div v-if="message.role == 'user'" class="mb-10">
-                        <userMessage :data="message.value" />
-                    </div>
-                    <div v-else>
-                        <aiMessage :data="message.value" :feedback="message.index" class="mb-10 mr-5 md:mr-0" />
+                <div v-if="MessageStore.message_obj.messagesList.length > 0">
+                    <div v-for="message in MessageStore.message_obj.messagesList">
+                        <div v-if="message.role == 'user'" class="mb-10">
+                            <userMessage :data="message.value" />
+                        </div>
+                        <div v-else>
+                            <aiMessage :data="message.value" :feedback="message.index" class="mb-10 mr-5 md:mr-0" />
+                        </div>
                     </div>
                 </div>
                 <div v-if="streaming == true && msgSent == false">

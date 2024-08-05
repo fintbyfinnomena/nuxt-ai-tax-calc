@@ -122,12 +122,14 @@ export default {
                             <Render :renderVal="item.value" />
                         </div>
                     </div>
-                    <div v-if="this.MessageStore.message_obj.messagesList[this.feedback].downvote == false" class="mt-5 hover:cursor-pointer"
-                        @click="downvote(this.feedback)">
-                        <Icon icon="material-symbols:thumb-down-outline-sharp" size="1.4em"/>
-                    </div>
-                    <div v-else class="mt-5">
-                        <Icon icon="ic:sharp-thumb-down-alt" size="1.4em" />
+                    <div v-if="this.MessageStore.message_obj.messagesList.length > 0">
+                        <div v-if="this.MessageStore.message_obj.messagesList[this.feedback].downvote == false"
+                            class="mt-5 hover:cursor-pointer" @click="downvote(this.feedback)">
+                            <Icon icon="material-symbols:thumb-down-outline-sharp" size="1.4em" />
+                        </div>
+                        <div v-else class="mt-5">
+                            <Icon icon="ic:sharp-thumb-down-alt" size="1.4em" />
+                        </div>
                     </div>
                 </div>
             </div>
