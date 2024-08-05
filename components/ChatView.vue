@@ -20,8 +20,8 @@ export default {
     created() {
         this.AuthStore = useAuthStore();
         this.MessageStore = useMessageStore();
-        this.prePopulateMsg = this.MessageStore.autoMsg;
         this.config = useRuntimeConfig();
+        this.prePopulateMsg = this.MessageStore.autoMsg;
     },
     mounted() {
         let selected = this.MessageStore.startingOption;

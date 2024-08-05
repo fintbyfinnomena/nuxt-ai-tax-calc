@@ -76,6 +76,7 @@ export default {
     props: ['shortcode'],
     data() {
         return {
+            config: null,
             Code: '',
             name: '',
             category: '',
@@ -91,9 +92,11 @@ export default {
             one_year: ''
         }
     },
+    created() {
+        this.config = useRuntimeConfig();
+    },
     mounted() {
         let fundInfo = this.GetFundData();
-
     },
     methods: {
         async GetFundData() {
