@@ -4,7 +4,7 @@
       <div class="bg-white grid max-w-screen-xl mx-auto my-20 lg:gap-10 xl:gap-0 lg:grid-cols-12 shadow-lg p-20 rounded-xl">
         <div class="mr-auto place-self-center lg:col-span-7 justify-center items-center">
           <h1 class="max-w-2xl mb-4 text-3xl text-primary font-bold leading-none flex align-middle">
-            สวัสดี! Charlie พร้อมช่วยคุณเรื่องประหยัดภาษี
+            สวัสดี! TAXi พร้อมช่วยคุณเรื่องประหยัดภาษี
           </h1>
           <h1 class="max-w-xl mb-6 font-medium text-primary lg:mb-8 md:text-lg lg:text-lg">
             ให้เรื่องการลดหย่อนภาษีเป็นเรื่องง่ายๆ ทั้งจัดพอร์ตกองทุน, แนะนำกองทุนในประเภทที่คุณสนใจ
