@@ -33,10 +33,12 @@ export default {
             nuxtApp: useNuxtApp(),
             AuthStore: null,
             MessageStore: null,
+            config: null,
         };
     },
     created() {
         this.AuthStore = useAuthStore();
+        this.config = useRuntimeConfig();
     },
     mounted() {
         this.checkAuth();
@@ -66,7 +68,7 @@ export default {
         initChat() {
             console.log("POSTING CHAT");
             console.log(this.AuthStore.user_obj.uid);
-            fetch('http://localhost:8080/api/v1/langchain-chat/chats', {
+            fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -12,15 +12,16 @@ export default {
             msgSent: false,
             MessageStore: null,
             AuthStore: null,
-            MessageArray: [],
+            prePopulateMsg: '',
+            config: null
 
-            prePopulateMsg: ''
         }
     },
     created() {
         this.AuthStore = useAuthStore();
         this.MessageStore = useMessageStore();
         this.prePopulateMsg = this.MessageStore.autoMsg;
+        this.config = useRuntimeConfig();
     },
     mounted() {
         let selected = this.MessageStore.startingOption;
@@ -59,7 +60,7 @@ export default {
                     "user-id": this.AuthStore.user_obj.uid
                 }
                 console.log(this.AuthStore.user_obj.chatid)
-                fetch(`http://localhost:8080/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}`, {
+                fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}`, {
                     method: 'POST',
                     headers: headers,
                     body: JSON.stringify(payload)

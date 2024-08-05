@@ -10,12 +10,14 @@ export default {
             SplittedArray: [],
             MessageStore: null,
             AuthStore: null,
-            RenderObjectArray: []
+            RenderObjectArray: [],
+            config: null
         }
     },
     created() {
         this.MessageStore = useMessageStore();
         this.AuthStore = useAuthStore();
+        this.config = useRuntimeConfig();
     },
     mounted() {
         // console.log(this.data);
@@ -29,11 +31,11 @@ export default {
             const parts = str.split(tagRegex).filter(part => part.trim() !== "");
             const result = [];
 
-            let buffer = '';
+            let buffer = "";
             let insideTag = false;
 
             for (const part of parts) {
-                if (part.startsWith('<') && !insideTag) {
+                if (part.startsWith("<") && !insideTag) {
                     if (buffer.trim()) {
                         result.push(buffer.trim());
                     }
@@ -41,9 +43,9 @@ export default {
                     insideTag = true;
                 } else if (insideTag) {
                     buffer += part;
-                    if (part.endsWith('>')) {
+                    if (part.endsWith(">")) {
                         result.push(buffer.trim());
-                        buffer = '';
+                        buffer = "";
                         insideTag = false;
                     }
                 } else {
@@ -82,7 +84,7 @@ export default {
             this.RenderObjectArray = [...nonFundCardElements, ...fundCardElements];
         },
         downvote() {
-            fetch(`http://localhost:8080/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}/thumb-down`, {
+            fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}/thumb-down`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
