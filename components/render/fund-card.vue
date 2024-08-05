@@ -97,7 +97,7 @@ export default {
     },
     methods: {
         async GetFundData() {
-            let res = await fetch(`http://localhost:8080/api/v1/fund/fund-info/${this.shortcode}`);
+            let res = await fetch(`${this.config.public.url.serviceUrl}/api/v1/fund/fund-info/${this.shortcode}`);
             let data = await res.json();
             this.Code = data.data.info.shortCode;
             this.name = data.data.info.nameTh;
