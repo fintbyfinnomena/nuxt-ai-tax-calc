@@ -61,9 +61,9 @@
             </div>
         </section>
 
-        <a :href="link" target="_blank"
-            class="text-sm px-3 py-1 rounded-full font-semibold bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">ดูข้อมูล
-            {{ this.Code }}
+        <a :href="link"
+            class="text-sm px-3 py-1 rounded-full font-semibold bg-transparent text-primary border border-primary hover:text-white hover:bg-primary" target="_blank">
+            ดูข้อมูล {{ this.Code }}
             <Icon icon="iconoir:arrow-right" size="1.4em" />
         </a>
 
