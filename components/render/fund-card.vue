@@ -11,11 +11,11 @@
                 class="bg-TESG text-primary text-base font-medium me-2 px-2.5 py-0.5 rounded">{{
                     this.fundTaxType }}</span>
             <span v-if="isFinnnoPick" class="bg-primary text-white text-md font-medium me-2 px-2.5 py-0.5 rounded">
-                <svg width="6" height="7" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="15" height="15" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline; margin-right:2px">
                     <path d="M10.4356 0.333252V2.11103H0.666626V6.55547H11.3237V0.333252H10.4356Z" fill="#F2F93C" />
                     <path d="M0.666626 7.44434V13.6666H1.55472V11.8888H5.99518V7.44434H0.666626Z" fill="#F2F93C" />
                 </svg>
-                PICK
+                <span style="display: inline;">PICK</span>
             </span>
             <span v-if="isEligibleForFintCashback && isEligibleForFintEarn"
                 class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded">
@@ -33,12 +33,12 @@
             <p>{{ this.name }}</p>
             <p class="text-sm">{{ this.category }} | {{ this.riskSpectrum }}</p>
         </section>
-        <a :href="factsheet" class="text-sm font-semibold text-primary underline">
+        <a :href="factsheet" class="text-sm font-semibold text-primary underline" target="_blank">
             <Icon icon="iconoir:page" size="1.4em" />หนังสือชี้ชวน
         </a>
         <section class="bg-white my-3 py-3 rounded-lg mb-5 mt-5">
-            <div class="grid grid-cols-4">
-                <div class="text-center align-middle">
+            <div class="grid grid-cols-1 md:grid-cols-4">
+                <div class="text-center align-middle border-b md:border-b-0">
                     ผลตอบแทน
                 </div>
                 <div class="text-center align-middle">
@@ -46,13 +46,13 @@
                         three_month }}%</p>
                     <p>3M</p>
                 </div>
-                <div class="text-center border-l align-middle">
+                <div class="text-center border-t md:border-l md:border-t-0 align-middle">
                     <p :style="{ color: six_month === '-' ? 'gray' : (six_month > 0 ? '#00853E' : '#E60A0A') }">{{
                         six_month
                         }}%</p>
                     <p>6M</p>
                 </div>
-                <div class="text-center border-l align-middle">
+                <div class="text-center border-t md:border-l md:border-t-0 align-middle">
                     <p :style="{ color: one_year === '-' ? 'gray' : (one_year > 0 ? '#00853E' : '#E60A0A') }">{{
                         one_year }}%
                     </p>

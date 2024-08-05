@@ -24,7 +24,7 @@ export default {
     },
     created() {
         this.MessageStore = useMessageStore();
-        console.log(this.MessageStore.Questions);
+        // console.log(this.MessageStore.Questions);
     },
     methods: {
         populate() {
