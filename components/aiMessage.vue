@@ -92,6 +92,7 @@ export default {
                 .then(response => response.json())
                 .then(data => {
                     // Handle the response data
+                    console.log(data)
                     this.MessageStore.message_obj.messagesList[this.feedback].downvote = true;
                 })
                 .catch(error => {
@@ -125,7 +126,7 @@ export default {
                         @click="downvote(this.feedback)">
                         <Icon icon="material-symbols:thumb-down-outline-sharp" size="1.4em"/>
                     </div>
-                    <div v-else>
+                    <div v-else class="mt-5">
                         <Icon icon="ic:sharp-thumb-down-alt" size="1.4em" />
                     </div>
                 </div>

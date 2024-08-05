@@ -52,7 +52,9 @@ export default {
                     this.AuthStore.user_obj.profPic = user.photoURL;
                     this.AuthStore.user_obj.access_token = user.accessToken;
                     this.AuthStore.user_obj.uid = uid;
+
                     console.log(this.AuthStore.user_obj.name);
+                    this.initChat();
                     // ...
                 } else {
                     // User is signed out
@@ -60,6 +62,28 @@ export default {
                     window.location.href = "/";
                 }
             });
+        },
+        initChat() {
+            console.log("POSTING CHAT");
+            console.log(this.AuthStore.user_obj.uid);
+            fetch('http://localhost:8080/api/v1/langchain-chat/chats', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'user-id': this.AuthStore.user_obj.uid,
+                },
+                // body: JSON.stringify({ key: 'value' })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    // Handle the response data
+                    this.AuthStore.user_obj.chatid = data.chat_id;
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error(error);
+                });
         },
         signout() {
             signOut(this.nuxtApp.$auth).then(() => {

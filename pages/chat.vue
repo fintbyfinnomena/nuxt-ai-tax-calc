@@ -50,7 +50,7 @@ export default {
     },
     mounted() {
         this.checkAuth();
-        this.initChat();
+        // this.initChat();
         // this.isOpen = true;
         // console.log(this.MessageStore.startingOption);
     },
@@ -74,25 +74,6 @@ export default {
                     window.location.href = "/";
                 }
             });
-        },
-        initChat() {
-            fetch('http://localhost:8080/api/v1/langchain-chat/chats', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'user-id': this.AuthStore.user_obj.uid,
-                },
-                // body: JSON.stringify({ key: 'value' })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Handle the response data
-                    this.AuthStore.user_obj.chatid = data.chat_id;
-                })
-                .catch(error => {
-                    // Handle any errors
-                    console.error(error);
-                });
         },
         signout() {
             signOut(this.nuxtApp.$auth).then(() => {

@@ -59,6 +59,7 @@ export default {
                     "Content-type": "application/json",
                     "user-id": this.AuthStore.user_obj.uid
                 }
+                console.log(this.AuthStore.user_obj.chatid)
                 fetch(`http://localhost:8080/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}`, {
                     method: 'POST',
                     headers: headers,
