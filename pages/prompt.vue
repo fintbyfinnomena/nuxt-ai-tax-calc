@@ -18,7 +18,12 @@
                 </nav>
             </div>
             <div class="h-6/8">
-                <promptView/>
+                <div v-if="isinit">
+                    <promptView/>
+                </div>
+                <div v-else>
+                    Loading..
+                </div>
             </div>
         </div>
     </div>
@@ -34,6 +39,7 @@ export default {
             AuthStore: null,
             MessageStore: null,
             config: null,
+            isinit: false
         };
     },
     created() {
@@ -81,6 +87,7 @@ export default {
                     console.log(data)
                     // Handle the response data
                     this.AuthStore.user_obj.chatid = data.chat_id;
+                    this.isinit = true;
                 })
                 .catch(error => {
                     // Handle any errors
