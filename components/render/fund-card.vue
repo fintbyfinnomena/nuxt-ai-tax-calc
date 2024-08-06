@@ -167,8 +167,10 @@ export default {
       return !isNaN(parseFloat(n)) && !isNaN(n - 0);
     },
     async GetFundData() {
+      let encodedShortcode = encodeURIComponent(this.shortcode);
+
       let res = await fetch(
-        `${this.config.public.url.serviceUrl}/api/v1/fund/fund-info/${this.shortcode}`
+        `${this.config.public.url.serviceUrl}/api/v1/fund/fund-info/${encodedShortcode}`
       );
       let data = await res.json();
       this.Code = data.data.info.shortCode;
