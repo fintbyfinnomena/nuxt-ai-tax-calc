@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gray-100 p-5 text-primary">
+    <div class="bg-gray-100 p-5 text-primary mt-5 rounded-md">
         <section>
             <span v-if="fundTaxType == 'SSF'"
                 class="bg-SSF text-primary text-md font-semibold me-2 px-2.5 py-0.5 rounded">{{

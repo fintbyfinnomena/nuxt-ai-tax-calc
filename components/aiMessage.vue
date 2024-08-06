@@ -113,7 +113,7 @@ export default {
                 <div
                     class="flex flex-col w-full max-w-[800px] leading-1.5 p-4 border-gray-200 bg-gradient-to-r from-finnopurple to-finnoblue rounded-e-xl rounded-es-xl dark:bg-gray-700">
                     <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                        <span class="text-sm font-semibold text-gray-900 dark:text-white">Charlie</span>
+                        <span class="text-sm font-semibold text-gray-900 dark:text-white">TAXi</span>
                     </div>
                     <div v-for="item in RenderObjectArray" :key="item.index">
                         <div v-if="item.type === 'text'">

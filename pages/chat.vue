@@ -103,6 +103,7 @@ export default {
                     // Handle the response data
                     this.AuthStore.user_obj.chatid = data.chat_id;
                     this.MessageStore.message_obj.messagesList = [];
+                    this.MessageStore.message_obj.index = 0;
 
                 })
                 .catch(error => {
