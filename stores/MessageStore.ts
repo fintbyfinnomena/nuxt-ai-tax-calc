@@ -10,7 +10,7 @@ export const useMessageStore = defineStore("messageStore", {
     Questions: [
       {
         option: 1,
-        title: "Want to allocation as portfolio",
+        title: "Want to allocate as portfolio",
         sub: "จัดพอร์ตให้เลยแบบที่เหมาะกับคุณ",
       },
       {
