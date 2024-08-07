@@ -11,17 +11,17 @@ export const useMessageStore = defineStore("messageStore", {
       {
         option: 1,
         title: "Want to allocate as portfolio",
-        sub: "จัดพอร์ตให้เลยแบบที่เหมาะกับคุณ",
+        sub: "Create a portfolio tailored for you",
       },
       {
         option: 2,
         title: "What are funds that Finnomena recommend?",
-        sub: "ครบทั้ง SSF, RMF และ ThaiESG",
+        sub: "Complete with SSF, RMF, and ThaiESG",
       },
       {
         option: 3,
         title: "Knowledge about tax saving fund",
-        sub: "ไม่ต้องเปิดหาให้เสียเวลา ถามปุ้บตอบปั้บ รู้เรื่อง!",
+        sub: "No need to waste time searching. Ask and get an immediate answer!",
       },
     ],
     autoMsg: "",
