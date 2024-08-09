@@ -12,7 +12,9 @@ export const useMessageStore = defineStore("messageStore", {
             { option: 2, title: "Finnomena แนะนำกองทุนอะไรบ้าง?", sub: "ครบทั้ง SSF, RMF และ ThaiESG" },
             { option: 3, title: "ความรู้เกี่ยวกับกองทุนลดหย่อนภาษี", sub: "ไม่ต้องเปิดหาให้เสียเวลา ถามปุ้บตอบปั้บ รู้เรื่อง!" }
         ],
-        autoMsg: ''
+        autoMsg: '',
+        msgSent: false,
+        streaming: false
     }),
     actions: {
         addMessage(MessageObj: any) {

@@ -8,8 +8,8 @@ export default {
         return {
             streamMessage: '',
             newMessage: '',
-            streaming: false,
-            msgSent: false,
+            // streaming: false,
+            // msgSent: false,
             MessageStore: null,
             AuthStore: null,
             prePopulateMsg: '',
@@ -47,7 +47,7 @@ export default {
         },
         submit_message() {
             if (this.newMessage.trim() != "") {
-                this.msgSent = true;
+                this.MessageStore.msgSent = true;
                 let msg_object = { index: this.MessageStore.message_obj.index, value: this.newMessage, role: 'user' };
                 this.MessageStore.addMessage(msg_object);
                 // console.log(this.MessageStore.message_obj.messagesList.length)
@@ -69,15 +69,15 @@ export default {
                     const decoder = new TextDecoder();
                     const readStream = () => {
                         reader.read().then(({ done, value }) => {
-                            this.msgSent = false;
-                            this.streaming = true;
+                            this.MessageStore.msgSent = false;
+                            this.MessageStore.streaming = true;
                             if (done) {
                                 let ai_text = this.streamMessage;
                                 let ai_msg = { index: this.MessageStore.message_obj.index, value: ai_text, role: 'ai', downvote: false };
                                 this.MessageStore.addMessage(ai_msg);
                                 // console.log(this.MessageStore.message_obj.messagesList.length)
                                 this.streamMessage = '';
-                                this.streaming = false;
+                                this.MessageStore.streaming = false;
                                 this.scrollToElement();
                                 return;
                             }
@@ -115,8 +115,8 @@ export default {
 }
 </script>
 <template>
-    <div class="h-svh">
-        <div class="flex flex-col mx-auto w-6/7 h-5/6 bg-white rounded-lg shadow-lg">
+    <div class="h-dvh w-full mx-auto">
+        <div class="flex flex-col mx-auto h-5/6 bg-white rounded-lg shadow-lg">
             <div id="chat-container" class="flex-grow mt-10 overflow-scroll">
                 <div v-if="MessageStore.message_obj.messagesList.length > 0">
                     <div v-for="message in MessageStore.message_obj.messagesList">
@@ -128,18 +128,16 @@ export default {
                         </div>
                     </div>
                 </div>
-                <div v-if="streaming == true && msgSent == false">
+                <div v-if="this.MessageStore.streaming == true && this.MessageStore.msgSent == false">
                     <streamMessage :data="streamMessage" class="mb-10 mr-5 md:mr-0" />
                 </div>
-                <div v-if="msgSent == true && streaming == false">
+                <div v-if="this.MessageStore.msgSent == true && this.MessageStore.streaming == false">
                     <loading class="mb-10" />
                 </div>
 
             </div>
             <div class="p-5 md:p-10">
-
-
-                <div v-if="msgSent == false && streaming == false">
+                <div v-if="this.MessageStore.msgSent == false && this.MessageStore.streaming == false">
                     <div class="flex items-center px-3 py-2">
                         <textarea rows="1" @keydown="handleKeyDown"
                             class="block resize-none mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border"
@@ -149,7 +147,6 @@ export default {
                         </Button>
                     </div>
                 </div>
-
                 <div v-else>
                     <div class="flex items-center px-3 py-2">
                         <textarea rows="1"
@@ -162,8 +159,6 @@ export default {
                         </Button>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>

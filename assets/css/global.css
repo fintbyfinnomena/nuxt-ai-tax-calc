@@ -1,14 +1,27 @@
 body {
-  background: url('../img/bg-gradient.png') no-repeat center center fixed;
-  background-size: cover;
+  /* background: url('../img/bg-gradient.png') no-repeat center center fixed; */
+  background-color: #E9EFF2;
   margin: 0;
   padding: 0;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  /* width: 100vw; */
   overflow: hidden;
   font-family: "IBM Plex Sans Thai";
-  ;
 }
+@media (max-width: 768px) {
+  body {
+    /* Add your styles for mobile devices here */
+    overflow: auto;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  body {
+    /* Add your styles for tablets here */
+    overflow: auto;
+  }
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

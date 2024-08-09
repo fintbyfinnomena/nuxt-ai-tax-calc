@@ -28,8 +28,10 @@ export default {
     },
     methods: {
         populate() {
-            console.log("Populating");
-            this.MessageStore.setAutoMsg(this.ReqString);
+            if (this.MessageStore.msgSent == false && this.MessageStore.streaming == false) {
+                console.log("Populating");
+                this.MessageStore.setAutoMsg(this.ReqString);
+            }
         }
     }
 }
