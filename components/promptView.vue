@@ -1,7 +1,7 @@
 <template>
-    <div class="h-svh">
-        <div class="flex flex-col mx-auto w-6/7 h-5/6 bg-white rounded-lg shadow-lg">
-            <div id="chat-container" class="flex flex-grow justify-center items-center">
+    <div class="h-dvh w-full mx-auto">
+        <div class="flex flex-col mx-auto h-5/6 bg-white rounded-lg shadow-lg overflow-scroll">
+            <div class="flex flex-grow justify-center items-center">
                 <img id="logo" src="../assets/img/chat-logo.png" alt="">
             </div>
             <div class="p-5 md:p-10">
@@ -9,7 +9,7 @@
                     @click="SelectQuestion(question.option)"
                     class="bg-white rounded-lg mb-4 p-5 border flex justify-between items-center border-gray-200 cursor-pointer hover:bg-gray-100">
                     <div>
-                        <h3 class="text-lg font-bold">{{ question.title }}</h3>
+                        <h3 class="text-sm md:text-lg font-bold">{{ question.title }}</h3>
                         <p class="text-sm">{{ question.sub }}</p>
                     </div>
                     <div>
