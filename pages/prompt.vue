@@ -1,29 +1,29 @@
 <template>
-    <div>
-        <div class="mx-3 max-w-screen-xl md:mx-auto w-6/7">
-            <div class="grid max-w-screen-xl mx-auto h-2/8">
-                <nav class="flex justify-between mt-10 mb-5">
-                    <div class="text-left inline-flex align-middle">
-                        <div class="flex items-center">
-                            <img :src="AuthStore.user_obj.profPic" alt="Profile Picture"
-                                class="rounded-full h-10 w-10" />
-                            <span class="ml-5 font-medium">{{ AuthStore.user_obj.name }}</span>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <Button @click="signout()"
-                            class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">ออกจากระบบ
-                        </Button>
-                    </div>
-                </nav>
+    <div class="w-11/12 md:w-5/6 lg:w-4/6 h-screen mx-auto flex flex-col">
+        <div id="nav" class="flex items-center justify-between py-10">
+            <!-- <div class="text-left inline-flex align-middle"> -->
+            <div class="flex-1">
+                <div class="flex items-center">
+                    <img :src="AuthStore.user_obj.profPic" alt="Profile Picture" class="rounded-full h-10 w-10" />
+                    <span class="hidden md:inline-block ml-5 font-medium">{{ AuthStore.user_obj.name }}</span>
+                </div>
             </div>
-            <div class="h-6/8">
-                <div v-if="isinit">
-                    <promptView/>
+            <div class="flex-1 text-right flex justify-end space-x-4">
+                <Button @click="signout()"
+                    class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">ออกจากระบบ
+                </Button>
+            </div>
+        </div>
+        <div id="prompt">
+            <div v-if="isinit">
+                <promptView />
+            </div>
+            <div v-else class="text-center">
+                <div class="flex items-center justify-center">
+                    <img src="../assets/animations/loading.gif" alt="loading">
                 </div>
-                <div v-else>
-                    Loading..
-                </div>
+                <br>
+                กำลังเชื่อมต่อกับระบบ...
             </div>
         </div>
     </div>
@@ -105,6 +105,12 @@ export default {
     }
 }
 </script>
-<style lang="">
+<style>
+#nav {
+    height: 10%;
+}
 
+#prompt {
+    height: 90%;
+}
 </style>

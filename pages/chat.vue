@@ -1,33 +1,29 @@
 <template>
-    <div>
-        <div class="mx-3 max-w-screen-xl md:mx-auto w-6/7">
-            <div class="grid max-w-screen-xl mx-auto h-2/8">
-                <nav class="flex justify-between mt-10 mb-5">
-                    <div class="text-left inline-flex align-middle">
-                        <div class="flex items-center">
-                            <img :src="AuthStore.user_obj.profPic" alt="Profile Picture"
-                                class="rounded-full h-10 w-10" />
-                            <span class="ml-5 font-medium">{{ AuthStore.user_obj.name }}</span>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <Button @click="signout()"
-                            class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">ออกจากระบบ
-                        </Button>
-                        <Button @click="Clear()"
-                            class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">Clear
-                            History
-                        </Button>
-                    </div>
-
-                </nav>
+    <div class="w-11/12 md:w-5/6 lg:w-4/6 h-svh mx-auto flex flex-col">
+        <div id="nav" class="flex items-center justify-between py-10">
+            <!-- <div class="text-left inline-flex align-middle"> -->
+            <div class="flex-1">
+                <div class="flex items-center">
+                    <img :src="AuthStore.user_obj.profPic" alt="Profile Picture" class="rounded-full h-10 w-10" />
+                    <span class="hidden md:inline-block ml-5 font-medium">{{ AuthStore.user_obj.name }}</span>
+                </div>
             </div>
-            <div class="h-6/8">
-                <ChatView />
+            <div class="flex-1 text-right flex justify-end space-x-4">
+                <Button @click="signout()"
+                    class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">ออกจากระบบ
+                </Button>
+                <Button @click="Clear()"
+                    class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">Clear
+                    History
+                </Button>
             </div>
+        </div>
+        <div id="chat">
+            <ChatView />
         </div>
     </div>
 </template>
+
 <script>
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useAuthStore } from "../stores/AuthStore";
@@ -114,4 +110,12 @@ export default {
     }
 }
 </script>
-<style></style>
+<style>
+#nav {
+    height: 10%;
+}
+
+#chat {
+    height: 90%;
+}
+</style>
