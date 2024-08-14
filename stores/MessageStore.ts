@@ -13,8 +13,10 @@ export const useMessageStore = defineStore("messageStore", {
             { option: 3, title: "ความรู้เกี่ยวกับกองทุนลดหย่อนภาษี", sub: "ไม่ต้องเปิดหาให้เสียเวลา ถามปุ้บตอบปั้บ รู้เรื่อง!" }
         ],
         autoMsg: '',
+        Rendered: false,
         msgSent: false,
-        streaming: false
+        streaming: false,
+        modal: false,
     }),
     actions: {
         addMessage(MessageObj: any) {

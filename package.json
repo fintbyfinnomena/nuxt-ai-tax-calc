@@ -28,6 +28,7 @@
     "pinia": "^2.1.7",
     "radix-vue": "^1.9.1",
     "shadcn-nuxt": "^0.10.4",
+    "showdown": "^2.1.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "vue": "latest"

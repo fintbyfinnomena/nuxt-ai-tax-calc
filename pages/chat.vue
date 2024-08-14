@@ -10,11 +10,11 @@
             </div>
             <div class="flex-1 text-right flex justify-end space-x-4">
                 <Button @click="signout()"
-                    class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">ออกจากระบบ
+                    class="ml-5 bg-transparent text-primary border border-primary rounded-2xl hover:text-white hover:bg-primary">ออกจากระบบ
                 </Button>
                 <Button @click="Clear()"
-                    class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">Clear
-                    History
+                    class="ml-5 bg-primary text-white border border-primary rounded-2xl hover:text-primary hover:bg-transparent"><Icon icon="iconoir:restart" size="1.4em"/>
+                    เริ่มการสนทนาใหม่
                 </Button>
             </div>
         </div>
@@ -36,7 +36,6 @@ export default {
             nuxtApp: useNuxtApp(),
             AuthStore: null,
             MessageStore: null,
-            isOpen: false,
             config: null,
         };
     },
@@ -47,9 +46,6 @@ export default {
     },
     mounted() {
         this.checkAuth();
-        // this.initChat();
-        // this.isOpen = true;
-        // console.log(this.MessageStore.startingOption);
     },
     methods: {
         checkAuth() {
