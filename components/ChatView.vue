@@ -13,7 +13,8 @@ export default {
             MessageStore: null,
             AuthStore: null,
             prePopulateMsg: '',
-            config: null
+            Rendered: false,
+            config: null,
 
         }
     },
@@ -33,8 +34,12 @@ export default {
         watch(() => this.MessageStore.autoMsg, (newName) => {
             this.prePopulateMsg = newName;
             this.prePopulate(this.prePopulateMsg);
-            console.log("Success!")
         });
+        watch(() => this.MessageStore.Rendered, (isRendered) => {
+            this.prePopulateMsg = isRendered;
+            this.scrollToElement();
+        });
+        
     },
     updated() {
         this.scrollToElement();
@@ -48,6 +53,7 @@ export default {
         submit_message() {
             if (this.newMessage.trim() != "") {
                 this.MessageStore.msgSent = true;
+                this.MessageStore.Rendered = false;
                 let msg_object = { index: this.MessageStore.message_obj.index, value: this.newMessage, role: 'user' };
                 this.MessageStore.addMessage(msg_object);
                 // console.log(this.MessageStore.message_obj.messagesList.length)

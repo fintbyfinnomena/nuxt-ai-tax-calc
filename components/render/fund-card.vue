@@ -136,10 +136,13 @@
   </div>
 </template>
 <script>
+// import { useMessageStore } from "../stores/MessageStore";
+
 export default {
   props: ["shortcode"],
   data() {
     return {
+      // MessageStore: null,
       config: null,
       Code: "",
       name: "",
@@ -158,6 +161,7 @@ export default {
   },
   created() {
     this.config = useRuntimeConfig();
+    this.MessageStore = useMessageStore();
   },
   mounted() {
     let fundInfo = this.GetFundData();
@@ -186,6 +190,8 @@ export default {
       this.three_month = data.data.performance.return3m || "-";
       this.six_month = data.data.performance.return6m || "-";
       this.one_year = data.data.performance.return1y || "-";
+
+      // this.MessageStore.Rendered = true;
     },
   },
 };

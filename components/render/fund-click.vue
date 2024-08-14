@@ -1,4 +1,4 @@
-<template>
+<template class="display-inline">
     <div class="display-inline">
         <p class="text-gray-500 dark:text-gray-400">
             <a href="#" @click="populate()" class="inline-flex items-center font-bold text-primary underline">

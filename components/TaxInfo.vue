@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -16,32 +16,24 @@ import { ref } from 'vue'
 import InputUnit from './InputUnit.vue';
 import RiskRadio from './riskRadio.vue';
 import { useTaxInfoStore } from "../stores/TaxInfoStore";
+import { useMessageStore } from "../stores/MessageStore";
 
 
 export default {
     data() {
         return {
-            age: ref(''),
-            income: ref(''),
-            backupFund: ref(''),
-            pensionFund: ref(''),
-            savingFund: ref(''),
-            insurance: ref(''),
-            risk: ref(''),
-            budget: ref(''),
-            TaxInfoStore: useTaxInfoStore()
+            MessageStore: null,   
+            TaxInfoStore: null,
         }
+    },
+    created() {
+        this.TaxInfoStore = useTaxInfoStore();
+        this.MessageStore = useMessageStore();
     },
     methods: {
         Save() {
             try {
-                this.TaxInfoStore.age = parseInt(this.age)
-                this.TaxInfoStore.income = parseInt(this.income)
-                this.TaxInfoStore.backupFund = parseInt(this.backupFund)
-                this.TaxInfoStore.savingFund = parseInt(this.savingFund)
-                this.TaxInfoStore.insurance = parseInt(this.insurance)
-                this.TaxInfoStore.risk = this.risk
-                this.TaxInfoStore.budget = parseInt(this.budget)
+                this.MessageStore.autoMsg = this.TaxInfoStore.generatePrompt();
             } catch (e) {
                 console.log(e)
             }
@@ -73,36 +65,35 @@ export default {
             <div class="grid grid-cols-2 gap-6">
                 <div>
                     <Label for="age" class="block text-sm font-medium text-gray-700 mb-1">อายุ</Label>
-                    <InputUnit type="number" unit="ปี" name="age" inputmode="numeric" v-model="age" />
-                    <input type="number">
+                    <InputUnit type="text" unit="ปี" name="age" inputmode="numeric" v-model="TaxInfoStore.age" />
                 </div>
                 <div>
                     <Label for="income" class="block text-sm font-medium text-gray-700 mb-1">รายได้ต่อปี</Label>
-                    <InputUnit type="number" unit="บาท" name="income" inputmode="numeric" v-model="income" />
+                    <InputUnit type="text" unit="บาท" name="income" inputmode="numeric" v-model="TaxInfoStore.income" />
                 </div>
                 <div class="col-span-2">
                     <Label for="backupFund" class="block text-sm font-medium text-gray-700 mb-1">กองทุนสำรองเลี้ยงชีพและกองทุนสงเคราะห์ครูฯ</Label>
-                    <InputUnit type="number" unit="บาท" name="backupFund" inputmode="numeric" v-model="backupFund" />
+                    <InputUnit type="text" unit="บาท" name="backupFund" inputmode="numeric" v-model="TaxInfoStore.backupFund" />
                 </div>
                 <div class="col-span-2">
                     <Label for="pensionFund" class="block text-sm font-medium text-gray-700 mb-1">กองทุนบำเหน็จบำนาญข้าราชการ (กบข.)</Label>
-                    <InputUnit type="number" unit="บาท" name="pensionFund" inputmode="numeric" v-model="pensionFund" />
+                    <InputUnit type="text" unit="บาท" name="pensionFund" inputmode="numeric" v-model="TaxInfoStore.pensionFund" />
                 </div>
                 <div class="col-span-2">
                     <Label for="savingFund" class="block text-sm font-medium text-gray-700 mb-1">กองทุนการออมแห่งชาติ</Label>
-                    <InputUnit type="number" unit="บาท" name="savingFund" inputmode="numeric" v-model="savingFund" />
+                    <InputUnit type="text" unit="บาท" name="savingFund" inputmode="numeric" v-model="TaxInfoStore.savingFund" />
                 </div>
                 <div class="col-span-2">
                     <Label for="insurance" class="block text-sm font-medium text-gray-700 mb-1">ประกันบำนาญ</Label>
-                    <InputUnit type="number" unit="บาท" name="insurance" inputmode="numeric" v-model="insurance" />
+                    <InputUnit type="text" unit="บาท" name="insurance" inputmode="numeric" v-model="TaxInfoStore.insurance" />
                 </div>
                 <div class="col-span-2">
                     <Label for="risk" class="block text-sm font-medium text-gray-700 mb-1">ความเสี่ยงที่สามารถรับได้</Label>
-                    <RiskRadio name="risk" v-model="risk" />
+                    <RiskRadio name="risk" v-model="TaxInfoStore.risk" />
                 </div>
                 <div class="col-span-2">
                     <Label for="budget" class="block text-sm font-medium text-gray-700 mb-1">งบประมาณที่ต้องการลงทุน</Label>
-                    <InputUnit type="number" unit="บาท" name="buget" inputmode="numeric" v-model="budget" />
+                    <InputUnit type="text" unit="บาท" name="buget" inputmode="numeric" v-model="TaxInfoStore.budget" />
                 </div>
             </div>
 
