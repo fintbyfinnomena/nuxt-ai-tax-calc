@@ -17,6 +17,7 @@ import InputUnit from "./InputUnit.vue";
 import RiskRadio from "./riskRadio.vue";
 import { useTaxInfoStore } from "../stores/TaxInfoStore";
 import { useMessageStore } from "../stores/MessageStore";
+const { $tagEvent } = useNuxtApp();
 
 export default {
   data() {
@@ -33,6 +34,11 @@ export default {
     Save() {
       try {
         this.MessageStore.autoMsg = this.TaxInfoStore.generatePrompt();
+        $tagEvent(
+          "allocation-param_submit",
+          "allocation-param-modal",
+          this.TaxInfoStore
+        );
       } catch (e) {
         console.log(e);
       }
@@ -47,6 +53,8 @@ export default {
       <Button
         variant="outline"
         class="bg-primary text-white sm:mb-10 lg:mb-0 hover:bg-primary hover:text-white"
+        data-fn-location="chat"
+        data-fn-action="allocation-param-modal_open"
       >
         ระบุข้อมูลลดหย่อนภาษี
         <svg

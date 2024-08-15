@@ -37,6 +37,7 @@
     "@iconify-json/mdi": "^1.1.67",
     "@nuxtjs/google-fonts": "^3.0.0",
     "@nuxtjs/tailwindcss": "^6.12.1",
+    "@zadigetvoltaire/nuxt-gtm": "^0.0.13",
     "typescript": "^5.5.3"
   }
 }
