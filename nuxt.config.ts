@@ -17,6 +17,9 @@ export default defineNuxtConfig({
     "shadcn-nuxt",
     "nuxt-icon-tw",
   ],
+  plugins: [
+    '~/plugins/commas.ts'
+  ],
   googleFonts: {
     families: {
       "IBM Plex Mono": true,

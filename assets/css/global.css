@@ -5,7 +5,7 @@ body {
   padding: 0;
   height: 100%;
   /* width: 100vw; */
-  overflow: hidden;
+  overflow: auto;
   font-family: "IBM Plex Sans Thai";
 }
 @media (max-width: 768px) {
