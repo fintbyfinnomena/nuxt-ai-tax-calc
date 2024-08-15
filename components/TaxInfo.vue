@@ -82,92 +82,94 @@ export default {
         </div>
         <div>
           <Label
-            for="income"
+            for="annualIncome"
             class="block text-sm font-medium text-gray-700 mb-1"
             >รายได้ต่อปี</Label
           >
           <InputUnit
             type="text"
             unit="บาท"
-            name="income"
+            name="annualIncome"
             inputmode="numeric"
-            v-model="TaxInfoStore.income"
+            v-model="TaxInfoStore.annualIncome"
           />
         </div>
         <div class="col-span-2">
           <Label
-            for="backupFund"
+            for="alternativeRetirementFund"
             class="block text-sm font-medium text-gray-700 mb-1"
             >กองทุนสำรองเลี้ยงชีพและกองทุนสงเคราะห์ครูฯ</Label
           >
           <InputUnit
             type="text"
             unit="บาท"
-            name="backupFund"
+            name="alternativeRetirementFund"
             inputmode="numeric"
-            v-model="TaxInfoStore.backupFund"
+            v-model="TaxInfoStore.alternativeRetirementFund"
           />
         </div>
         <div class="col-span-2">
           <Label
-            for="pensionFund"
+            for="govPensionFund"
             class="block text-sm font-medium text-gray-700 mb-1"
             >กองทุนบำเหน็จบำนาญข้าราชการ (กบข.)</Label
           >
           <InputUnit
             type="text"
             unit="บาท"
-            name="pensionFund"
+            name="govPensionFund"
             inputmode="numeric"
-            v-model="TaxInfoStore.pensionFund"
+            v-model="TaxInfoStore.govPensionFund"
           />
         </div>
         <div class="col-span-2">
           <Label
-            for="savingFund"
+            for="nationalSavingFund"
             class="block text-sm font-medium text-gray-700 mb-1"
             >กองทุนการออมแห่งชาติ</Label
           >
           <InputUnit
             type="text"
             unit="บาท"
-            name="savingFund"
+            name="nationalSavingFund"
             inputmode="numeric"
-            v-model="TaxInfoStore.savingFund"
+            v-model="TaxInfoStore.nationalSavingFund"
           />
         </div>
         <div class="col-span-2">
           <Label
-            for="insurance"
+            for="pensionInsurance"
             class="block text-sm font-medium text-gray-700 mb-1"
             >ประกันบำนาญ</Label
           >
           <InputUnit
             type="text"
             unit="บาท"
-            name="insurance"
+            name="pensionInsurance"
             inputmode="numeric"
-            v-model="TaxInfoStore.insurance"
+            v-model="TaxInfoStore.pensionInsurance"
           />
         </div>
         <div class="col-span-2">
-          <Label for="risk" class="block text-sm font-medium text-gray-700 mb-1"
+          <Label
+            for="riskLevel"
+            class="block text-sm font-medium text-gray-700 mb-1"
             >ความเสี่ยงที่สามารถรับได้</Label
           >
-          <RiskRadio name="risk" v-model="TaxInfoStore.risk" />
+          <RiskRadio name="riskLevel" v-model="TaxInfoStore.riskLevel" />
         </div>
         <div class="col-span-2">
           <Label
-            for="budget"
+            for="desiredAmount"
             class="block text-sm font-medium text-gray-700 mb-1"
             >งบประมาณที่ต้องการลงทุน หรือ ลงทุนเพิ่ม</Label
           >
           <InputUnit
             type="text"
             unit="บาท"
-            name="buget"
+            name="desiredAmount"
             inputmode="numeric"
-            v-model="TaxInfoStore.budget"
+            v-model="TaxInfoStore.desiredAmount"
           />
         </div>
       </div>
