@@ -43,24 +43,8 @@ export default {
         console.log(e);
       }
     },
-    methods: {
-        Save() {
-            try {
-                this.TaxInfoStore.age = parseInt(this.age)
-                this.TaxInfoStore.income = parseInt(this.income)
-                this.TaxInfoStore.backupFund = parseInt(this.backupFund)
-                this.TaxInfoStore.savingFund = parseInt(this.savingFund)
-                this.TaxInfoStore.insurance = parseInt(this.insurance)
-                this.TaxInfoStore.risk = this.risk
-                this.TaxInfoStore.budget = parseInt(this.budget)
-            } catch (e) {
-                console.error(e)
-            }
-        }
-    }
-}
-
-
+  },
+};
 </script>
 
 <template>

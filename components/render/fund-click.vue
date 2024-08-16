@@ -55,15 +55,6 @@ export default {
         this.MessageStore.setAutoMsg(this.ReqString);
       }
     },
-    created() {
-        this.MessageStore = useMessageStore();
-    },
-    methods: {
-        populate() {
-            if (this.MessageStore.msgSent == false && this.MessageStore.streaming == false) {
-                this.MessageStore.setAutoMsg(this.ReqString);
-            }
-        }
-    }
-}
+  },
+};
 </script>

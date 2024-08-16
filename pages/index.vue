@@ -118,19 +118,12 @@ export default {
     return {
       nuxtApp: useNuxtApp(),
       AuthStore: null,
-<<<<<<< HEAD
       FinnoAuthStore: null
     };
   },
   created() {
     this.AuthStore = useAuthStore()
     this.FinnoAuthStore = useAuth()
-=======
-    };
-  },
-  created() {
-    this.AuthStore = useAuthStore();
->>>>>>> develop
   },
   methods: {
     LoginFirebase() {
@@ -150,12 +143,7 @@ export default {
           const email = error.customData.email;
           // The AuthCredential type that was used.
           const credential = GoogleAuthProvider.credentialFromError(error);
-<<<<<<< HEAD
           console.error(error)
-=======
-          console.log(error);
-          // ...
->>>>>>> develop
         });
     },
   },

@@ -1,10 +1,7 @@
 const serviceUrl = process.env.SERVICE_URL || "http://localhost:8080";
-<<<<<<< HEAD
 const baseURL = process.env.BASE_URL || "http://localhost:3000"
 const finnoAuthURL = process.env.FINNO_AUTH_URL || "https://auth-int.finnomena.com"
-=======
 const gtmId = process.env.GTM_ID;
->>>>>>> develop
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
