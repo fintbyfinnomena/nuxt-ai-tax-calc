@@ -19,6 +19,7 @@ import { useTaxInfoStore } from "../stores/TaxInfoStore";
 import { useMessageStore } from "../stores/MessageStore";
 
 export default {
+  props: ["location"],
   data() {
     return {
       nuxtApp: useNuxtApp(),
@@ -53,10 +54,10 @@ export default {
       <Button
         variant="outline"
         class="bg-primary text-white sm:mb-10 lg:mb-0 rounded-full border border-primary hover:text-primary hover:bg-transparent"
-        data-fn-location="chat"
+        :data-fn-location="location"
         data-fn-action="allocation-param-modal_open"
       >
-      <Icon icon="iconoir:page-edit" size="1.4em" class="mr-2"/>
+        <Icon icon="iconoir:page-edit" size="1.4em" class="mr-2" />
         ระบุข้อมูลลดหย่อนภาษี
       </Button>
     </DialogTrigger>
