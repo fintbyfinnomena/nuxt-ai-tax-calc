@@ -1,6 +1,6 @@
 import { type HttpResponse } from "~/server/types/http";
 
-const apiPrefix = "/fint-token-web/api";
+const apiPrefix = "/api";
 
 export const useUser = defineStore("user", () => {
   // composables
@@ -13,6 +13,7 @@ export const useUser = defineStore("user", () => {
     userID: null,
     displayName: "",
     imageURL: "",
+    chatID: "",
   });
 
   // getters
@@ -23,6 +24,10 @@ export const useUser = defineStore("user", () => {
   // mutations
   function setLoginStatus(isLogin: boolean) {
     user.isLoggedIn = isLogin;
+  }
+
+  function setChatID(chatID: string) {
+    user.chatID = chatID;
   }
 
   // actions
@@ -50,6 +55,7 @@ export const useUser = defineStore("user", () => {
     isLoggedIn,
     getProfile,
     setLoginStatus,
+    setChatID
   };
 });
 

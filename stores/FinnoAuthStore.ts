@@ -1,4 +1,4 @@
-const apiPrefix = '/fint-token-web/api'
+const apiPrefix = '/api'
 
 export const useAuth = defineStore('auth', () => {
 	// composables

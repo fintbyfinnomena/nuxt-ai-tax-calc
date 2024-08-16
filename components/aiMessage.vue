@@ -1,6 +1,7 @@
 <script>
 import { useMessageStore } from "../stores/MessageStore";
 import { useAuthStore } from "../stores/AuthStore";
+import { useUser } from "../stores/UserStore";
 import fundcard from "./render/fund-card.vue";
 
 export default {
@@ -10,6 +11,7 @@ export default {
             SplittedArray: [],
             MessageStore: null,
             AuthStore: null,
+            UserStore: null,
             RenderObjectArray: [],
             config: null
         }
@@ -18,9 +20,9 @@ export default {
         this.MessageStore = useMessageStore();
         this.AuthStore = useAuthStore();
         this.config = useRuntimeConfig();
+        this.UserStore = useUser();
     },
     mounted() {
-        // console.log(this.data);
         this.SplittedArray = this.GenerateArray(this.data);
         this.GenerateRenderObject();
         this.ArrangeRenderObject();
@@ -84,7 +86,7 @@ export default {
             this.RenderObjectArray = [...nonFundCardElements, ...fundCardElements];
         },
         downvote() {
-            fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}/thumb-down`, {
+            fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.UserStore.user.chatID}/thumb-down`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -94,7 +96,6 @@ export default {
                 .then(response => response.json())
                 .then(data => {
                     // Handle the response data
-                    console.log(data)
                     this.MessageStore.message_obj.messagesList[this.feedback].downvote = true;
                 })
                 .catch(error => {

@@ -22,7 +22,6 @@ export const useMessageStore = defineStore("messageStore", {
             this.message_obj.index += 1;
         },
         clearMessages(chat_id: string) {
-            console.log(chat_id)
             this.message_obj.messagesList = [];
         },
         SetstartingOption(value: number) {

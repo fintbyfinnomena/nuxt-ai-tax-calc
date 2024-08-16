@@ -1,7 +1,7 @@
 import { FINNO_AUTH_ENDPOINT } from '~/server/config/auth'
 import { successResponse, errorResponse } from '@/server/utils/http'
 
-const apiPrefix = '/fint-token-web/api'
+const apiPrefix = '/api'
 export default defineEventHandler(async (event) => {
 	try {
 		if (!event.node.req.url) {

@@ -43,7 +43,7 @@ export default {
                 this.TaxInfoStore.risk = this.risk
                 this.TaxInfoStore.budget = parseInt(this.budget)
             } catch (e) {
-                console.log(e)
+                console.error(e)
             }
         }
     }

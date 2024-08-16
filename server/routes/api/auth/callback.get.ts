@@ -6,12 +6,12 @@ export default defineEventHandler(async (event) => {
 	const config = useRuntimeConfig()
 	const query = getQuery(event)
 	if (query.code && typeof query.code === 'string') {
+
 		const challenge = getCookie(event, config.public.auth.cookie.challenge)
 
 		const data = []
 		data.push('code=' + query.code)
 		data.push('client_id=' + FINNO_AUTH_CLIENT_ID)
-		data.push('code_verifier=' + challenge)
 		data.push('redirect_uri=' + config.public.auth.callback)
 		data.push('grant_type=' + 'authorization_code')
 
@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
 
 			setIssueAt(event)
 
-			let redirectURL = '/'
+			let redirectURL = '/chat'
 			const authRedirect = getCookie(event, 'auth_redirect')
 			if (authRedirect) redirectURL = decodeURIComponent(authRedirect)
 			await sendRedirect(event, redirectURL)

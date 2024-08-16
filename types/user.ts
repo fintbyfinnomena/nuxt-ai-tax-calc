@@ -6,6 +6,7 @@ declare global {
 		userID?: number | null
 		displayName?: string
 		imageURL?: string
+		chatID: string
 	}
 
 	interface Tokens {

@@ -37,7 +37,7 @@ export default defineNuxtConfig({
 				userinfo: `${finnoAuthURL}/userinfo`,
 				logout: `${finnoAuthURL}/logout`,
 				login: `${finnoAuthURL}/oauth2/auth`,
-				callback: `${baseURL}/taxi-web/api/auth/callback`,
+				callback: `${baseURL}/api/auth/callback`,
 				ttl: {
 					refreshToken: 2592000,
 					accessToken: 3600

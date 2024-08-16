@@ -4,8 +4,10 @@
             <!-- <div class="text-left inline-flex align-middle"> -->
             <div class="flex-1">
                 <div class="flex items-center">
-                    <img :src="AuthStore.user_obj.profPic" alt="Profile Picture" class="rounded-full h-10 w-10" />
-                    <span class="hidden md:inline-block ml-5 font-medium">{{ AuthStore.user_obj.name }}</span>
+                    <!-- <img :src="AuthStore.user_obj.profPic" alt="Profile Picture" class="rounded-full h-10 w-10" />
+                    <span class="hidden md:inline-block ml-5 font-medium">{{ AuthStore.user_obj.name }}</span> -->
+                    <img :src="UserStore.user.imageURL" alt="Profile Picture" class="rounded-full h-10 w-10" />
+                    <span class="hidden md:inline-block ml-5 font-medium">{{ UserStore.user.displayName }}</span>
                 </div>
             </div>
             <div class="flex-1 text-right flex justify-end space-x-4">
@@ -28,6 +30,8 @@
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useAuthStore } from "../stores/AuthStore";
 import { useMessageStore } from "../stores/MessageStore";
+import { useUser } from "../stores/UserStore";
+import { useAuth } from "../stores/FinnoAuthStore"
 import { Button } from '@/components/ui/button'
 
 export default {
@@ -35,6 +39,8 @@ export default {
         return {
             nuxtApp: useNuxtApp(),
             AuthStore: null,
+            UserStore: null,
+            FinnoAuthStore: null,
             MessageStore: null,
             isOpen: false,
             config: null,
@@ -44,41 +50,20 @@ export default {
         this.AuthStore = useAuthStore();
         this.MessageStore = useMessageStore();
         this.config = useRuntimeConfig();
+        this.UserStore = useUser();
+        this.FinnoAuthStore = useAuth();
     },
     mounted() {
         this.checkAuth();
-        // this.initChat();
-        // this.isOpen = true;
-        // console.log(this.MessageStore.startingOption);
     },
     methods: {
         checkAuth() {
-            onAuthStateChanged(this.nuxtApp.$auth, (user) => {
-                if (user) {
-                    console.log("user is authenticated")
-                    const uid = user.uid;
-                    this.AuthStore.user_obj.name = user.displayName;
-                    this.AuthStore.user_obj.email = user.email;
-                    this.AuthStore.user_obj.profPic = user.photoURL;
-                    this.AuthStore.user_obj.access_token = user.accessToken;
-                    this.AuthStore.user_obj.uid = uid;
-
-                    console.log(this.AuthStore.user_obj.name);
-                    // ...
-                } else {
-                    // User is signed out
-                    console.log("user is not authenticated");
-                    window.location.href = "/";
-                }
-            });
+            if (!this.UserStore.user) {
+                window.location.href = "/";
+            }
         },
         signout() {
-            signOut(this.nuxtApp.$auth).then(() => {
-                window.location.href = "/";
-            }).catch((error) => {
-                // An error happened.
-                console.log(error);
-            });
+            this.FinnoAuthStore.logout();
         },
         open() {
             this.isOpen = true;
@@ -88,16 +73,15 @@ export default {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'user-id': this.AuthStore.user_obj.uid,
+                    'user-id': this.UserStore.user.userID,
                 },
                 // body: JSON.stringify({ key: 'value' })
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("Clear Successful")
-                    console.log(data)
                     // Handle the response data
-                    this.AuthStore.user_obj.chatid = data.chat_id;
+                    this.UserStore.setChatID(data.chat_id)
+                    // this.AuthStore.user_obj.chatid = data.chat_id;
                     this.MessageStore.message_obj.messagesList = [];
                     this.MessageStore.message_obj.index = 0;
 

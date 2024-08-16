@@ -28,7 +28,6 @@ export default {
     methods: {
         GetTag(tags) {
             const extractedTag = tags.match(/<([^>]+)>/)[1];
-            // console.log(extractedTag)
             return extractedTag;
         },
         GetValue(tags) {

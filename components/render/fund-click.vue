@@ -24,12 +24,10 @@ export default {
     },
     created() {
         this.MessageStore = useMessageStore();
-        // console.log(this.MessageStore.Questions);
     },
     methods: {
         populate() {
             if (this.MessageStore.msgSent == false && this.MessageStore.streaming == false) {
-                console.log("Populating");
                 this.MessageStore.setAutoMsg(this.ReqString);
             }
         }
