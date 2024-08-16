@@ -1,4 +1,5 @@
 const serviceUrl = process.env.SERVICE_URL || "http://localhost:8080";
+const gtmId = process.env.GTM_ID;
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -16,6 +17,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "shadcn-nuxt",
     "nuxt-icon-tw",
+    "@zadigetvoltaire/nuxt-gtm",
   ],
   plugins: [
     '~/plugins/commas.ts'
@@ -32,6 +34,9 @@ export default defineNuxtConfig({
     public: {
       url: {
         serviceUrl: serviceUrl,
+      },
+      gtm: {
+        id: gtmId,
       },
     },
   },

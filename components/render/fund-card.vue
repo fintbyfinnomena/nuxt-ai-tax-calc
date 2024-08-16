@@ -65,6 +65,11 @@
       :href="factsheet"
       class="text-sm font-semibold text-primary underline"
       target="_blank"
+      data-fn-location="chat"
+      data-fn-action="fund-info-prospectus_click"
+      :data-fn-params="`{
+        'fund' : '${this.Code}'
+        }`"
     >
       <Icon icon="iconoir:page" size="1.4em" />หนังสือชี้ชวน
     </a>
@@ -129,6 +134,11 @@
       :href="link"
       class="text-sm px-3 py-1 rounded-full font-semibold bg-transparent text-primary border border-primary hover:text-white hover:bg-primary"
       target="_blank"
+      data-fn-location="chat"
+      data-fn-action="fund-info-quote_click"
+      :data-fn-params="`{
+        'fund' : '${this.Code}'
+        }`"
     >
       ดูข้อมูล {{ this.Code }}
       <Icon icon="iconoir:arrow-right" size="1.4em" />

@@ -6,7 +6,9 @@
                 <div class="flex-1 text-right flex justify-end space-x-4">
                     <TaxInfo v-model:open="isOpen" />
                     <Button @click="Clear()"
-                        class="ml-5 bg-transparent text-primary border border-primary rounded-2xl hover:text-white hover:bg-primary">
+                        class="ml-5 bg-transparent text-primary border border-primary rounded-2xl hover:text-white hover:bg-primary"
+                        data-fn-location="nav-bar"
+                        data-fn-action="reset-conversation_click">
                         <Icon icon="iconoir:refresh-double" size="1.4em" />
                         เริ่มการสนทนาใหม่
                     </Button>
