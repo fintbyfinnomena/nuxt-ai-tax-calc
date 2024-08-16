@@ -22,7 +22,6 @@ export default {
 
         this.newValue = this.value.split(",")[1];
         this.newValue = this.newValue.split(']')[0];
-        console.log(this.field, this.newValue);
         this.taxInfoStore.update(this.field.trim(), this.newValue.trim());
     }
 }
