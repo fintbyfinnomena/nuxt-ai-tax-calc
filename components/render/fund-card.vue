@@ -43,17 +43,22 @@
         v-if="isEligibleForFintCashback && isEligibleForFintEarn"
         class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
       >
+        <img class="w-5 h-5 rounded-full inline-block mr-1" src="../../assets/img/fint.png">
         Earn / Cashback
       </span>
       <span
         v-else-if="isEligibleForFintCashback && !isEligibleForFintEarn"
         class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
-        >Cashback
+        >
+        <img class="w-5 h-5 rounded-full inline" src="../../assets/img/fint.png">
+        Cashback
       </span>
       <span
         v-else-if="isEligibleForFintEarn && !isEligibleForFintCashback"
         class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
-        >Earn
+        >
+        <img class="w-5 h-5 rounded-full inline" src="../../assets/img/fint.png">
+        Earn
       </span>
     </section>
     <section class="mb-3 mt-4">
@@ -71,7 +76,7 @@
         'fund' : '${this.Code}'
         }`"
     >
-      <Icon icon="iconoir:page" size="1.4em" />หนังสือชี้ชวน
+      <Icon icon="iconoir:page" size="1.4em" class="mr-1"/>หนังสือชี้ชวน
     </a>
     <section class="bg-white my-3 py-3 rounded-lg mb-5 mt-5">
       <div class="grid grid-cols-1 md:grid-cols-4">

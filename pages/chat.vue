@@ -9,7 +9,7 @@
                         class="ml-5 bg-transparent text-primary border border-primary rounded-2xl hover:text-white hover:bg-primary"
                         data-fn-location="nav-bar"
                         data-fn-action="reset-conversation_click">
-                        <Icon icon="iconoir:refresh-double" size="1.4em" />
+                        <Icon icon="iconoir:refresh-double" size="1.4em" class="mr-2"/>
                         เริ่มการสนทนาใหม่
                     </Button>
                 </div>

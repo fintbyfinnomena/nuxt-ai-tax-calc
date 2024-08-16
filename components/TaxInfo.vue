@@ -17,11 +17,11 @@ import InputUnit from "./InputUnit.vue";
 import RiskRadio from "./riskRadio.vue";
 import { useTaxInfoStore } from "../stores/TaxInfoStore";
 import { useMessageStore } from "../stores/MessageStore";
-const { $tagEvent } = useNuxtApp();
 
 export default {
   data() {
     return {
+      nuxtApp: useNuxtApp(),
       MessageStore: null,
       TaxInfoStore: null,
     };
@@ -34,7 +34,7 @@ export default {
     Save() {
       try {
         this.MessageStore.autoMsg = this.TaxInfoStore.generatePrompt();
-        $tagEvent(
+        this.nuxtApp.$tagEvent(
           "allocation-param_submit",
           "allocation-param-modal",
           this.TaxInfoStore
@@ -52,23 +52,12 @@ export default {
     <DialogTrigger as-child>
       <Button
         variant="outline"
-        class="bg-primary text-white sm:mb-10 lg:mb-0 hover:bg-primary hover:text-white"
+        class="bg-primary text-white sm:mb-10 lg:mb-0 rounded-full border border-primary hover:text-primary hover:bg-transparent"
         data-fn-location="chat"
         data-fn-action="allocation-param-modal_open"
       >
+      <Icon icon="iconoir:page-edit" size="1.4em" class="mr-2"/>
         ระบุข้อมูลลดหย่อนภาษี
-        <svg
-          class="w-5 h-5 ml-2 -mr-1"
-          fill="white"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-            clip-rule="evenodd"
-          ></path>
-        </svg>
       </Button>
     </DialogTrigger>
 
@@ -100,6 +89,7 @@ export default {
             name="annualIncome"
             inputmode="numeric"
             v-model="TaxInfoStore.annualIncome"
+            v-commas-seperate
           />
         </div>
         <div class="col-span-2">
@@ -114,6 +104,7 @@ export default {
             name="alternativeRetirementFund"
             inputmode="numeric"
             v-model="TaxInfoStore.alternativeRetirementFund"
+            v-commas-seperate
           />
         </div>
         <div class="col-span-2">
@@ -128,6 +119,7 @@ export default {
             name="govPensionFund"
             inputmode="numeric"
             v-model="TaxInfoStore.govPensionFund"
+            v-commas-seperate
           />
         </div>
         <div class="col-span-2">
@@ -142,6 +134,7 @@ export default {
             name="nationalSavingFund"
             inputmode="numeric"
             v-model="TaxInfoStore.nationalSavingFund"
+            v-commas-seperate
           />
         </div>
         <div class="col-span-2">
@@ -156,6 +149,7 @@ export default {
             name="pensionInsurance"
             inputmode="numeric"
             v-model="TaxInfoStore.pensionInsurance"
+            v-commas-seperate
           />
         </div>
         <div class="col-span-2">
@@ -178,6 +172,7 @@ export default {
             name="desiredAmount"
             inputmode="numeric"
             v-model="TaxInfoStore.desiredAmount"
+            v-commas-seperate
           />
         </div>
       </div>
