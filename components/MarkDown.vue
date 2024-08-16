@@ -30,18 +30,21 @@ export default {
     
 li {
     line-height: 1.5em;
-    list-style-type: disc;
+    list-style-type: none;
     margin: 0;
-    margin-left: 10px;
 }
 
 ol,
 ul {
     margin: 0;
     padding: 0;
-    line-height: 1em;
+    line-height: 1.2em;
 }
 strong {
-    font-size: 1.2em;
+    font-size: 1em;
+}
+a {
+    text-decoration: underline;
+    font-weight: bold;
 }
 </style>

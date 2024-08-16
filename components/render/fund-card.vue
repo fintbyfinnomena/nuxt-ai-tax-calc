@@ -57,7 +57,7 @@
       </span>
     </section>
     <section class="mb-3 mt-4">
-      <h2 class="text-2xl">{{ this.Code }}</h2>
+      <h2 class="text-2xl font-semibold">{{ this.Code }}</h2>
       <p>{{ this.name }}</p>
       <p class="text-sm">{{ this.category }} | {{ this.riskSpectrum }}</p>
     </section>

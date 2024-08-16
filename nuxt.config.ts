@@ -19,6 +19,9 @@ export default defineNuxtConfig({
     "nuxt-icon-tw",
     "@zadigetvoltaire/nuxt-gtm",
   ],
+  plugins: [
+    '~/plugins/commas.ts'
+  ],
   googleFonts: {
     families: {
       "IBM Plex Mono": true,

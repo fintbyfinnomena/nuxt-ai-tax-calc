@@ -81,7 +81,14 @@ export default {
                             index: this.MessageStore.message_obj.index,
                             role: 'ai',
                             type: 'text',
-                            value: this.MDtoHTML(element)
+                            value: this.MDtoHTML(cleanText)
+                        });
+                    } else {
+                        this.RenderObjectArray.push({
+                            index: this.MessageStore.message_obj.index,
+                            role: 'ai',
+                            type: 'text',
+                            value: 'ระบบไม่สามารถตอบคำถามนี้ได้ กรุณาลองใหม่อีกครั้งครับ'
                         });
                     }
                 }
@@ -135,12 +142,8 @@ export default {
                         <div v-for="item in RenderObjectArray" :key="item.index">
                             <div v-if="item.type === 'text'">
                                 <div v-if="item.value != ''"
-                                    class="text-sm font-normal whitespace-pre-wrap text-balance py-2.5 text-gray-900 dark:text-white display-inline">
+                                    class="text-sm font-normal whitespace-pre text-balance py-2.5 text-gray-900 dark:text-white display-inline">
                                     <MarkDown :val="item.value" />
-                                </div>
-                                <div v-else
-                                    class="text-sm font-normal whitespace-pre-wrap text-balance py-2.5 text-gray-900 dark:text-white">
-                                    กรุณาพิมพ์คำถามใหม่อีกครั้งครับ
                                 </div>
                             </div>
 

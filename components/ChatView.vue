@@ -39,7 +39,7 @@ export default {
             this.prePopulateMsg = isRendered;
             this.scrollToElement();
         });
-        
+
     },
     updated() {
         this.scrollToElement();
@@ -121,8 +121,8 @@ export default {
 }
 </script>
 <template>
-    <div class="h-dvh w-full mx-auto">
-        <div class="flex flex-col mx-auto h-5/6 bg-white rounded-lg shadow-lg">
+    <div class="w-full mx-auto" id="chat_view">
+        <div class="flex flex-col mx-auto bg-white rounded-lg shadow-lg" id="chat_wrap">
             <div id="chat-container" class="flex-grow mt-10 overflow-scroll">
                 <div v-if="MessageStore.message_obj.messagesList.length > 0">
                     <div v-for="message in MessageStore.message_obj.messagesList">
@@ -169,4 +169,12 @@ export default {
         </div>
     </div>
 </template>
-<style></style>
+<style>
+#chat_view {
+    height: 100dvh;
+}
+
+#chat_wrap {
+    height: 80%;
+}
+</style>
