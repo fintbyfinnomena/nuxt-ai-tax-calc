@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div class="w-11/12 md:w-5/6 lg:w-4/6 h-svh mx-auto flex flex-col">
         <div id="nav" class="flex items-center justify-between py-10">
             <!-- <div class="text-left inline-flex align-middle"> -->
@@ -8,20 +9,34 @@
                     <span class="hidden md:inline-block ml-5 font-medium">{{ AuthStore.user_obj.name }}</span> -->
                     <img :src="UserStore.user.imageURL" alt="Profile Picture" class="rounded-full h-10 w-10" />
                     <span class="hidden md:inline-block ml-5 font-medium">{{ UserStore.user.displayName }}</span>
+=======
+    <div class="w-11/12 md:w-5/6 lg:w-4/6 h-screen mx-auto flex flex-col">
+        <div id="navbar">
+            <navbar />
+            <div class="flex items-center justify-between pb-5">
+                <div class="flex-1 text-right flex justify-end space-x-4">
+                    <TaxInfo v-model:open="isOpen" />
+                    <Button @click="Clear()"
+                        class="ml-5 bg-transparent text-primary border border-primary rounded-2xl hover:text-white hover:bg-primary"
+                        data-fn-location="nav-bar"
+                        data-fn-action="reset-conversation_click">
+                        <Icon icon="iconoir:refresh-double" size="1.4em" />
+                        เริ่มการสนทนาใหม่
+                    </Button>
+>>>>>>> develop
                 </div>
-            </div>
-            <div class="flex-1 text-right flex justify-end space-x-4">
-                <Button @click="signout()"
-                    class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">ออกจากระบบ
-                </Button>
-                <Button @click="Clear()"
-                    class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">Clear
-                    History
-                </Button>
             </div>
         </div>
         <div id="chat">
             <ChatView />
+        </div>
+        <div id="footer" class="mt-4">
+            <p class="text-sm text-gray-500">
+                <Icon icon="iconoir:info-circle" size="1.2em" />ระบบคำนวณยอดเงินลงทุนในกองทุนลดหย่อนภาษีนี้เป็นการคำนวณเพียงเบื้องต้น
+                โดยใช้ข้อมูลจากกรมสรรพากรสำหรับปีภาษี 2567 เท่านั้น
+                ทางบริษัทขอไม่รับรองความถูกต้องของข้อมูลและผลลัพธ์
+                ในกรณีที่มีการเปลี่ยนแปลงข้อมูลเกี่ยวกับการลดหย่อนภาษี...<terms class="display-inline"/>
+            </p>
         </div>
     </div>
 </template>
@@ -42,7 +57,6 @@ export default {
             UserStore: null,
             FinnoAuthStore: null,
             MessageStore: null,
-            isOpen: false,
             config: null,
         };
     },
@@ -95,11 +109,15 @@ export default {
 }
 </script>
 <style>
-#nav {
-    height: 10%;
+#navbar {
+    height: 15%;
+    margin-bottom: 1em;
 }
 
 #chat {
-    height: 90%;
+    height: 80%;
+}
+#foot {
+    height: 5%;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="display-inline">
         <div v-if="tags == 'fund-click'" class="display-inline">
             <fund-click :shortcode="value"/>
         </div>
@@ -9,21 +9,34 @@
         <div v-else-if="tags == 'fund-port'">
             <fund-port :port="value"/>
         </div>
+        <div v-else-if="tags == 'info-modal'">
+            <TaxInfo v-model:open="this.MessageStore.modal" />
+        </div>
+        <div v-else-if="tags == 'info-change'">
+            <info-change :value="value"/>
+        </div>
     </div>
 </template>
 <script>
+import { useMessageStore } from "../stores/MessageStore";
+import { nextTick } from "vue";
 export default {
     props: ['renderVal'],
     data() {
         return {
+            MessageStore: null,
             componentString: this.renderVal,
             tags: '',
             value: ''
         }
     },
+    created() {
+        this.MessageStore = useMessageStore();
+    }, 
     mounted() {
         this.value = this.GetValue(this.componentString);
         this.tags = this.GetTag(this.componentString);
+        this.updateScroll();
     },
     methods: {
         GetTag(tags) {
@@ -33,7 +46,11 @@ export default {
         GetValue(tags) {
             const extractedValue = tags.match(/>([^<]+)</)[1];
             return extractedValue;
-        }   
+        },
+        async updateScroll() {
+            await nextTick();
+            this.MessageStore.Rendered = true;
+        }
     },
 }
 </script>

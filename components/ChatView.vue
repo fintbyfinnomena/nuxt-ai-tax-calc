@@ -15,7 +15,8 @@ export default {
             AuthStore: null,
             UserStore: null,
             prePopulateMsg: '',
-            config: null
+            Rendered: false,
+            config: null,
 
         }
     },
@@ -37,6 +38,11 @@ export default {
             this.prePopulateMsg = newName;
             this.prePopulate(this.prePopulateMsg);
         });
+        watch(() => this.MessageStore.Rendered, (isRendered) => {
+            this.prePopulateMsg = isRendered;
+            this.scrollToElement();
+        });
+
     },
     updated() {
         this.scrollToElement();
@@ -49,6 +55,7 @@ export default {
         submit_message() {
             if (this.newMessage.trim() != "") {
                 this.MessageStore.msgSent = true;
+                this.MessageStore.Rendered = false;
                 let msg_object = { index: this.MessageStore.message_obj.index, value: this.newMessage, role: 'user' };
                 this.MessageStore.addMessage(msg_object);
                 let payload = {
@@ -113,8 +120,8 @@ export default {
 }
 </script>
 <template>
-    <div class="h-dvh w-full mx-auto">
-        <div class="flex flex-col mx-auto h-5/6 bg-white rounded-lg shadow-lg">
+    <div class="w-full mx-auto" id="chat_view">
+        <div class="flex flex-col mx-auto bg-white rounded-lg shadow-lg" id="chat_wrap">
             <div id="chat-container" class="flex-grow mt-10 overflow-scroll">
                 <div v-if="MessageStore.message_obj.messagesList.length > 0">
                     <div v-for="message in MessageStore.message_obj.messagesList">
@@ -161,4 +168,12 @@ export default {
         </div>
     </div>
 </template>
-<style></style>
+<style>
+#chat_view {
+    height: 100dvh;
+}
+
+#chat_wrap {
+    height: 80%;
+}
+</style>

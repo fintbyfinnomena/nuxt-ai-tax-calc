@@ -1,6 +1,10 @@
 const serviceUrl = process.env.SERVICE_URL || "http://localhost:8080";
+<<<<<<< HEAD
 const baseURL = process.env.BASE_URL || "http://localhost:3000"
 const finnoAuthURL = process.env.FINNO_AUTH_URL || "https://auth-int.finnomena.com"
+=======
+const gtmId = process.env.GTM_ID;
+>>>>>>> develop
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -18,6 +22,10 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "shadcn-nuxt",
     "nuxt-icon-tw",
+    "@zadigetvoltaire/nuxt-gtm",
+  ],
+  plugins: [
+    '~/plugins/commas.ts'
   ],
   googleFonts: {
     families: {
@@ -52,6 +60,9 @@ export default defineNuxtConfig({
 				},
 				challengeMethod: 'S256'
 			},
+      gtm: {
+        id: gtmId,
+      },
     },
   },
 });
