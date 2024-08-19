@@ -85,7 +85,6 @@ export default {
           });
        }
     }
-  },
 };
 </script>
 <style>
