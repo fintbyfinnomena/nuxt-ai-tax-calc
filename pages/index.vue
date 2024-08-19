@@ -82,14 +82,27 @@
         >
           สวัสดี! Charlie พร้อมช่วยคุณเรื่องประหยัดภาษี
         </h1>
-        <h1 class="max-w-xl mb-6 font-medium text-primary lg:mb-8 md:text-lg lg:text-lg">
-          ให้เรื่องการลดหย่อนภาษีเป็นเรื่องง่ายๆ ทั้งจัดพอร์ตกองทุน, แนะนำกองทุนในประเภทที่คุณสนใจ
-          หรือความรู้ทั่วไปเกี่ยวกับกองทุนประหยัดภาษี</h1>
-        <button id="mybutton" @click="this.FinnoAuthStore.login()"
-          class="inline-flex items-center justify-center px-5 py-3 mr-3 text-xs md:text-base font-semibold text-center text-white rounded-full bg-primary hover:dark:focus:ring-primary-900 hover:shadow-xl">
+        <h1
+          class="max-w-xl mb-6 font-medium text-primary lg:mb-8 md:text-lg lg:text-lg"
+        >
+          ให้เรื่องการลดหย่อนภาษีเป็นเรื่องง่ายๆ ทั้งจัดพอร์ตกองทุน,
+          แนะนำกองทุนในประเภทที่คุณสนใจ
+          หรือความรู้ทั่วไปเกี่ยวกับกองทุนประหยัดภาษี
+        </h1>
+        <button
+          id="mybutton"
+          @click="SignInWithFinno()"
+          class="inline-flex items-center justify-center px-5 py-3 mr-3 text-xs md:text-base font-semibold text-center text-white rounded-full bg-primary hover:dark:focus:ring-primary-900 hover:shadow-xl"
+        >
           เริ่มสนทนากับ Charlie
-          <svg class="w-5 h-5 ml-2 -mr-1" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd"
+          <svg
+            class="w-5 h-5 ml-2 -mr-1"
+            fill="white"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
               d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
               clip-rule="evenodd"
             ></path>
@@ -109,42 +122,21 @@
   </div>
 </template>
 <script>
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { useAuthStore } from "../stores/AuthStore";
-import { useAuth } from "../stores/FinnoAuthStore"
+import { useAuth } from "../stores/FinnoAuthStore";
 
 export default {
   data() {
     return {
       nuxtApp: useNuxtApp(),
-      AuthStore: null,
-      FinnoAuthStore: null
+      FinnoAuthStore: null,
     };
   },
   created() {
-    this.AuthStore = useAuthStore()
-    this.FinnoAuthStore = useAuth()
+    this.FinnoAuthStore = useAuth();
   },
   methods: {
-    LoginFirebase() {
-      signInWithPopup(this.nuxtApp.$auth, new GoogleAuthProvider())
-        .then((result) => {
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          const credential = GoogleAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
-          const user = result.user;
-          window.location.href = "/prompt";
-        })
-        .catch((error) => {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.customData.email;
-          // The AuthCredential type that was used.
-          const credential = GoogleAuthProvider.credentialFromError(error);
-          console.error(error)
-        });
+    SignInWithFinno() {
+      this.FinnoAuthStore.login();
     },
   },
 };

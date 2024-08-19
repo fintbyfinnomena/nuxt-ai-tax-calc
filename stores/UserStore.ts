@@ -55,7 +55,7 @@ export const useUser = defineStore("user", () => {
     isLoggedIn,
     getProfile,
     setLoginStatus,
-    setChatID
+    setChatID,
   };
 });
 

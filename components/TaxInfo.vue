@@ -17,11 +17,11 @@ import InputUnit from "./InputUnit.vue";
 import RiskRadio from "./riskRadio.vue";
 import { useTaxInfoStore } from "../stores/TaxInfoStore";
 import { useMessageStore } from "../stores/MessageStore";
-const { $tagEvent } = useNuxtApp();
 
 export default {
   data() {
     return {
+      nuxtApp: useNuxtApp(),
       MessageStore: null,
       TaxInfoStore: null,
     };
@@ -34,13 +34,13 @@ export default {
     Save() {
       try {
         this.MessageStore.autoMsg = this.TaxInfoStore.generatePrompt();
-        $tagEvent(
+        this.nuxtApp.$tagEvent(
           "allocation-param_submit",
           "allocation-param-modal",
           this.TaxInfoStore
         );
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     },
   },

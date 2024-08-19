@@ -5,7 +5,7 @@
             <div class="flex items-center justify-between pb-5">
                 <div class="flex-1 text-right flex justify-end space-x-4">
                     <TaxInfo v-model:open="isOpen" />
-                    <Button @click="Clear()"
+                    <Button @click="clearChatHistory()"
                         class="ml-5 bg-transparent text-primary border border-primary rounded-2xl hover:text-white hover:bg-primary"
                         data-fn-location="nav-bar"
                         data-fn-action="reset-conversation_click">
@@ -30,28 +30,21 @@
 </template>
 
 <script>
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { useAuthStore } from "../stores/AuthStore";
 import { useMessageStore } from "../stores/MessageStore";
-import { useAuth } from "../stores/FinnoAuthStore"
-import { useUser } from "../stores/UserStore"
+import { useUser } from "../stores/UserStore";
 import { Button } from '@/components/ui/button'
 
 export default {
     data() {
         return {
             nuxtApp: useNuxtApp(),
-            AuthStore: null,
             MessageStore: null,
-            FinnoAuthStore: null,
             UserStore: null,
             config: null,
         };
     },
     created() {
-        this.AuthStore = useAuthStore();
         this.MessageStore = useMessageStore();
-        this.FinnoAuthStore = useAuth();
         this.UserStore = useUser();
         this.config = useRuntimeConfig();
     },
@@ -63,40 +56,20 @@ export default {
             if (!this.UserStore.user) {
                 window.location.href = "/";
             }
-            // onAuthStateChanged(this.nuxtApp.$auth, (user) => {
-            //     if (user) {
-            //         console.log("user is authenticated")
-            //         const uid = user.uid;
-            //         this.AuthStore.user_obj.name = user.displayName;
-            //         this.AuthStore.user_obj.email = user.email;
-            //         this.AuthStore.user_obj.profPic = user.photoURL;
-            //         this.AuthStore.user_obj.access_token = user.accessToken;
-            //         this.AuthStore.user_obj.uid = uid;
-
-            //         console.log(this.AuthStore.user_obj.name);
-            //         // ...
-            //     } else {
-            //         // User is signed out
-            //         console.log("user is not authenticated");
-            //         window.location.href = "/";
-            //     }
-            // });
         },
-        Clear() {
+        clearChatHistory() {
             fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'user-id': this.AuthStore.user_obj.uid,
+                    'user-id': this.UserStore.user.userID,
                 },
                 // body: JSON.stringify({ key: 'value' })
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("Clear Successful")
-                    console.log(data)
                     // Handle the response data
-                    this.AuthStore.user_obj.chatid = data.chat_id;
+                    this.UserStore.setChatID(data.chat_id)
                     this.MessageStore.message_obj.messagesList = [];
                     this.MessageStore.message_obj.index = 0;
 

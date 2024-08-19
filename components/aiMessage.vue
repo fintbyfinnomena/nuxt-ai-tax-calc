@@ -1,6 +1,5 @@
 <script>
 import { useMessageStore } from "../stores/MessageStore";
-import { useAuthStore } from "../stores/AuthStore";
 import { useUser } from "../stores/UserStore";
 import fundcard from "./render/fund-card.vue";
 import showdown from 'showdown';
@@ -12,7 +11,6 @@ export default {
         return {
             SplittedArray: [],
             MessageStore: null,
-            AuthStore: null,
             UserStore: null,
             RenderObjectArray: [],
             config: null
@@ -20,7 +18,6 @@ export default {
     },
     created() {
         this.MessageStore = useMessageStore();
-        this.AuthStore = useAuthStore();
         this.config = useRuntimeConfig();
         this.UserStore = useUser();
     },

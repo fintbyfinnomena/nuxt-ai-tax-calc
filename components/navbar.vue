@@ -71,11 +71,11 @@
             </a>
             <DropdownMenu>
                 <DropdownMenuTrigger as-child>
-                    <img :src="AuthStore.user_obj.profPic" alt="Profile Picture"
+                    <img :src="UserStore.user.imageURL" alt="Profile Picture"
                         class="rounded-full h-10 w-10 hover:cursor-pointer" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent class="w-30 p-5">
-                        <a @click="signout()" class="font-normal hover:cursor-pointer">
+                        <a @click="signOut()" class="font-normal hover:cursor-pointer">
                             <Icon icon="iconoir:log-out" size="1.4em" />ออกจากระบบ
                         </a>
                 </DropdownMenuContent>
@@ -84,8 +84,8 @@
     </div>
 </template>
 <script>
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { useAuthStore } from '../stores/AuthStore';
+import { useUser } from '../stores/UserStore';
+import { useAuth } from '../stores/FinnoAuthStore';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -104,20 +104,17 @@ export default {
     data() {
         return {
             nuxtApp: useNuxtApp(),
-            AuthStore: null,
+            UserStore: null,
+            FinnoAuthStore: null
         };
     },
     created() {
-        this.AuthStore = useAuthStore();
+        this.UserStore = useUser();
+        this.FinnoAuthStore = useAuth();
     },
     methods: {
-        signout() {
-            signOut(this.nuxtApp.$auth).then(() => {
-                window.location.href = "/";
-            }).catch((error) => {
-                // An error happened.
-                console.log(error);
-            });
+        signOut() {
+            this.FinnoAuthStore.logout();
         },
     }
 

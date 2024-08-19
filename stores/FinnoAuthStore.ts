@@ -22,7 +22,7 @@ export const useAuth = defineStore('auth', () => {
 		const { user, setLoginStatus } = useUser()
 		const event = useRequestEvent()
 		const refreshToken = useCookie(config.public.auth.cookie.refreshToken)
-		setLoginStatus(!!refreshToken.value)
+		setLoginStatus(!!refreshToken)
 
 		const accessToken = useCookie(config.public.auth.cookie.accessToken)
 		if (!accessToken.value) {
