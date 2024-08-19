@@ -9,17 +9,21 @@
             <section v-if="data">
                 <div v-for="(fund, index) in data" :key="index">
                     <div class="flex justify-start content-center mb-5">
-                        <div class="w-4 h-4 rounded-full mr-3" :style="{'background-color':colorArray[index]}"></div>
+                        <div class="w-4 h-4 rounded-full mr-3" :style="{ 'background-color': colorArray[index] }"></div>
                         <div><b>{{ fund.name }}</b> แนะนำลงทุน {{ fund.proportion }}%</div>
                     </div>
                 </div>
             </section>
+            <div v-if="parseInt(taxInfoStore.desiredAmount) > 0">
+                <start-invest :data="port"/>
+            </div>
         </section>
     </div>
 </template>
 <script>
 import { DonutChart } from '@/components/ui/chart-donut'
 import { usePortStore } from '../../stores/PortStore';
+import { useTaxInfoStore } from '../../stores/TaxInfoStore';
 
 export default {
     props: ['port'],
@@ -31,11 +35,13 @@ export default {
             valueFormatter: (tick) =>
                 typeof tick === 'number' ? `${new Intl.NumberFormat('us').format(tick).toString()} %` : '',
             portStore: null,
-            colorArray: []
+            colorArray: [],
+            taxInfoStore: null
         }
     },
     created() {
-        this.portStore = usePortStore()
+        this.portStore = usePortStore();
+        this.taxInfoStore = useTaxInfoStore();
     },
     mounted() {
         this.riskLevel = this.portJson.risk

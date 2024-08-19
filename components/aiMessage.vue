@@ -28,7 +28,7 @@ export default {
     },
     methods: {
         MDtoHTML(mdString) {
-            let converter = new showdown.Converter()
+            let converter = new showdown.Converter({openLinksInNewWindow: true});
             return converter.makeHtml(mdString)
         },
         GenerateArray(str) {
@@ -140,7 +140,7 @@ export default {
                         <div v-for="item in RenderObjectArray" :key="item.index">
                             <div v-if="item.type === 'text'">
                                 <div v-if="item.value != ''"
-                                    class="text-sm font-normal whitespace-pre text-balance py-2.5 text-gray-900 dark:text-white display-inline">
+                                    class="text-sm font-normal whitespace-normal text-balance py-2.5 text-gray-900 dark:text-white display-inline">
                                     <MarkDown :val="item.value" />
                                 </div>
                             </div>
@@ -153,7 +153,7 @@ export default {
                     <div v-if="this.MessageStore.message_obj.messagesList.length > 0">
                         <div v-if="this.MessageStore.message_obj.messagesList[this.feedback].downvote == false"
                             class="mt-3 hover:cursor-pointer" @click="downvote(this.feedback)">
-                            <Icon icon="material-symbols:thumb-down-outline-sharp" size="1.4em" />
+                            <Icon icon="material-symbols:thumb-down-outline-sharp" size="1.4em" class="hover:bg-gray-200"/>
                         </div>
                         <div v-else class="mt-3">
                             <Icon icon="ic:sharp-thumb-down-alt" size="1.4em" />
