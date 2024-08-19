@@ -3,7 +3,7 @@
         <!-- <div class="text-left inline-flex align-middle"> -->
         <div class="flex-1">
             <div class="flex items-center">
-                <img src="../assets/img/nav-logo.png" alt="Logo Picture" class="h-14" />
+                <img src="../assets/img/nav_logo.png" alt="Logo Picture" class="h-14" />
             </div>
         </div>
         <div class="flex-1 text-right flex justify-end space-x-4">
