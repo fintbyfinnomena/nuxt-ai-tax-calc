@@ -81,7 +81,6 @@ export default {
                 }
                 fundList.push(object)
             })
-            // console.log(fundList)
             return fundList
         }
     }

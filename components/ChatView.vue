@@ -1,7 +1,7 @@
 <script>
 import { Button } from '@/components/ui/button'
 import { useMessageStore } from "../stores/MessageStore";
-import { useAuthStore } from '../stores/AuthStore';
+import { useUser } from '../stores/UserStore';
 
 export default {
     data() {
@@ -11,7 +11,7 @@ export default {
             // streaming: false,
             // msgSent: false,
             MessageStore: null,
-            AuthStore: null,
+            UserStore: null,
             prePopulateMsg: '',
             Rendered: false,
             config: null,
@@ -19,9 +19,9 @@ export default {
         }
     },
     created() {
-        this.AuthStore = useAuthStore();
         this.MessageStore = useMessageStore();
         this.config = useRuntimeConfig();
+        this.UserStore = useUser();
         this.prePopulateMsg = this.MessageStore.autoMsg;
     },
     mounted() {
@@ -46,7 +46,6 @@ export default {
     },
     methods: {
         prePopulate(e) {
-            console.log("EVENT", e);
             this.newMessage = e;
             this.submit_message();
         },
@@ -56,17 +55,15 @@ export default {
                 this.MessageStore.Rendered = false;
                 let msg_object = { index: this.MessageStore.message_obj.index, value: this.newMessage, role: 'user' };
                 this.MessageStore.addMessage(msg_object);
-                // console.log(this.MessageStore.message_obj.messagesList.length)
                 let payload = {
                     question: this.newMessage
                 }
                 this.newMessage = '';
                 const headers = {
                     "Content-type": "application/json",
-                    "user-id": this.AuthStore.user_obj.uid
+                    "user-id": this.UserStore.user.userID
                 }
-                console.log(this.AuthStore.user_obj.chatid)
-                fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}`, {
+                fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.UserStore.user.chatID}`, {
                     method: 'POST',
                     headers: headers,
                     body: JSON.stringify(payload)
@@ -81,7 +78,6 @@ export default {
                                 let ai_text = this.streamMessage;
                                 let ai_msg = { index: this.MessageStore.message_obj.index, value: ai_text, role: 'ai', downvote: false };
                                 this.MessageStore.addMessage(ai_msg);
-                                // console.log(this.MessageStore.message_obj.messagesList.length)
                                 this.streamMessage = '';
                                 this.MessageStore.streaming = false;
                                 this.scrollToElement();
@@ -94,7 +90,6 @@ export default {
                         });
                     };
                     readStream();
-                    console.log(this.MessageStore.message_obj.messagesList.length)
 
                 }).catch(error => {
                     console.error(error);

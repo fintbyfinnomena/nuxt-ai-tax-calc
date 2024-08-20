@@ -1,6 +1,6 @@
 <script>
 import { useMessageStore } from "../stores/MessageStore";
-import { useAuthStore } from "../stores/AuthStore";
+import { useUser } from "../stores/UserStore";
 import fundcard from "./render/fund-card.vue";
 import showdown from 'showdown';
 import { useElementHover } from "@vueuse/core";
@@ -11,18 +11,17 @@ export default {
         return {
             SplittedArray: [],
             MessageStore: null,
-            AuthStore: null,
+            UserStore: null,
             RenderObjectArray: [],
             config: null
         }
     },
     created() {
         this.MessageStore = useMessageStore();
-        this.AuthStore = useAuthStore();
         this.config = useRuntimeConfig();
+        this.UserStore = useUser();
     },
     mounted() {
-        // console.log(this.data);
         this.SplittedArray = this.GenerateArray(this.data);
         this.GenerateRenderObject();
         this.ArrangeRenderObject();
@@ -100,7 +99,7 @@ export default {
             this.RenderObjectArray = [...nonFundCardElements, ...fundCardElements];
         },
         downvote() {
-            fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}/thumb-down`, {
+            fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.UserStore.user.chatID}/thumb-down`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -110,7 +109,6 @@ export default {
                 .then(response => response.json())
                 .then(data => {
                     // Handle the response data
-                    console.log(data)
                     this.MessageStore.message_obj.messagesList[this.feedback].downvote = true;
                 })
                 .catch(error => {
@@ -137,7 +135,7 @@ export default {
                     <div
                         class="flex flex-col w-auto max-w-[280px] md:max-w-[450px] lg:max-w-[600px] xl:max-w-[800px] leading-1.5 p-4 bg-gradient-to-r from-finnopurple to-finnoblue rounded-e-xl rounded-es-xl dark:bg-gray-700 border border-pink-200">
                         <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                            <span class="text-sm font-semibold text-gray-900 dark:text-white">TAXi</span>
+                            <span class="text-sm font-semibold text-gray-900 dark:text-white">Charlie</span>
                         </div>
                         <div v-for="item in RenderObjectArray" :key="item.index">
                             <div v-if="item.type === 'text'">

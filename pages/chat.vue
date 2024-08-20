@@ -6,7 +6,7 @@
         <div class="flex-1 text-right flex justify-end space-x-4">
           <TaxInfo v-model:open="isOpen" location="nav-bar" />
           <Button
-            @click="Clear()"
+            @click="clearChatHistory()"
             class="ml-5 bg-transparent text-primary border border-primary rounded-2xl hover:text-white hover:bg-primary"
             data-fn-location="nav-bar"
             data-fn-action="reset-conversation_click"
@@ -37,76 +37,54 @@
 </template>
 
 <script>
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { useAuthStore } from "../stores/AuthStore";
 import { useMessageStore } from "../stores/MessageStore";
-import { Button } from "@/components/ui/button";
+import { useUser } from "../stores/UserStore";
+import { Button } from '@/components/ui/button'
 
 export default {
-  data() {
-    return {
-      nuxtApp: useNuxtApp(),
-      AuthStore: null,
-      MessageStore: null,
-      config: null,
-    };
-  },
-  created() {
-    this.AuthStore = useAuthStore();
-    this.MessageStore = useMessageStore();
-    this.config = useRuntimeConfig();
-  },
-  mounted() {
-    this.checkAuth();
-  },
-  methods: {
-    checkAuth() {
-      onAuthStateChanged(this.nuxtApp.$auth, (user) => {
-        if (user) {
-          console.log("user is authenticated");
-          const uid = user.uid;
-          this.AuthStore.user_obj.name = user.displayName;
-          this.AuthStore.user_obj.email = user.email;
-          this.AuthStore.user_obj.profPic = user.photoURL;
-          this.AuthStore.user_obj.access_token = user.accessToken;
-          this.AuthStore.user_obj.uid = uid;
-
-          console.log(this.AuthStore.user_obj.name);
-          // ...
-        } else {
-          // User is signed out
-          console.log("user is not authenticated");
-          window.location.href = "/";
-        }
-      });
+    data() {
+        return {
+            nuxtApp: useNuxtApp(),
+            MessageStore: null,
+            UserStore: null,
+            config: null,
+        };
     },
-    Clear() {
-      fetch(
-        `${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "user-id": this.AuthStore.user_obj.uid,
-          },
-          // body: JSON.stringify({ key: 'value' })
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Clear Successful");
-          console.log(data);
-          // Handle the response data
-          this.AuthStore.user_obj.chatid = data.chat_id;
-          this.MessageStore.message_obj.messagesList = [];
-          this.MessageStore.message_obj.index = 0;
-        })
-        .catch((error) => {
-          // Handle any errors
-          console.error(error);
-        });
+    created() {
+        this.MessageStore = useMessageStore();
+        this.UserStore = useUser();
+        this.config = useRuntimeConfig();
     },
-  },
+    mounted() {
+        this.checkAuth();
+    },
+    methods: {
+      checkAuth() {
+          if (!this.UserStore.user) {
+              window.location.href = "/";
+          }
+      },
+      clearChatHistory() {
+        fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'user-id': this.UserStore.user.userID,
+            },
+                // body: JSON.stringify({ key: 'value' })
+        }).then(response => response.json())
+          .then(data => {
+            // Handle the response data
+            this.UserStore.setChatID(data.chat_id)
+            this.MessageStore.message_obj.messagesList = [];
+            this.MessageStore.message_obj.index = 0;
+          })
+          .catch(error => {
+            // Handle any errors
+            console.error(error);
+          });
+       }
+    }
 };
 </script>
 <style>
