@@ -150,6 +150,8 @@
         <button
           id="mybutton"
           @click="SignInWithFinno()"
+          data-fn-location="intro"
+          data-fn-action="start-button_click"
           class="inline-flex items-center justify-center px-5 py-3 mr-3 text-xs md:text-base font-semibold text-center text-white rounded-md bg-primary hover:dark:focus:ring-primary-900 hover:shadow-xl"
         >
           เริ่มสนทนากับ Charlie

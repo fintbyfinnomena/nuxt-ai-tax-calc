@@ -2,7 +2,7 @@
 
 Frontend Tagging
 
-- [ ] start-button_click
+- [x] start-button_click
 - [x] template-prompt_click
 - [x] allocation-param-modal_open (navbar)
 - [x] reset_conversation_click
