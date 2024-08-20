@@ -49,7 +49,7 @@
           </svg>
         </button>
         <hr class="my-4" />
-        <div class="flex flex-col space-y-2">
+        <div class="flex flex-col space-y-2 text-sm">
           <div>
             ระบบ Charlie
             ยังอยู่ในช่วงทดสอบและจะพยายามทำดีที่สุดในการให้ข้อมูลกับนักลงทุน
@@ -68,14 +68,15 @@
             </ul>
           </div>
           <div>
-            หากมีข้อสงสัย หรือพบปัญหาการใช้งานสามารถติดต่อได้ทางอีเมล
-            <a class="underline font-bold" href="mailto: support@finnomena.com"
+            การกดเริ่มสนทนา แสดงว่าคุณเข้าใจและยอมรับ
+            <terms class="display-inline" text="ข้อตกลงและเงื่อนไขการใช้งาน" />
+            แล้ว <br /><br />หากมีข้อสงสัย
+            หรือพบปัญหาการใช้งานสามารถติดต่อได้ทางอีเมล
+            <a class="underline" href="mailto: support@finnomena.com"
               >support@finnomena.com</a
             >
             หรือเบอร์โทรศัพท์
-            <a class="underline font-bold" href="tel: 02-026-5100">
-              02-026-5100
-            </a>
+            <a class="underline" href="tel: 02-026-5100"> 02-026-5100 </a>
           </div>
         </div>
       </div>
@@ -97,6 +98,7 @@
         ทางบริษัทขอไม่รับรองความถูกต้องของข้อมูลและผลลัพธ์
         ในกรณีที่มีการเปลี่ยนแปลงข้อมูลเกี่ยวกับการลดหย่อนภาษี...<terms
           class="display-inline"
+          text="อ่านเพิ่มเติม"
         />
       </p>
     </div>
