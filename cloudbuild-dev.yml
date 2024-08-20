@@ -1,7 +1,13 @@
 steps:
 # Step 1: Build the Docker image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/nuxt-ai-tax-dev:$COMMIT_SHA', '--build-arg', 'BASE_URL=https://nuxt-ai-tax-dev-mk27cugt3a-as.a.run.app', '.']
+  args: [
+    'build', 
+    '-t', 'gcr.io/$PROJECT_ID/nuxt-ai-tax-dev:$COMMIT_SHA', 
+    '--build-arg', 'BASE_URL=https://nuxt-ai-tax-dev-mk27cugt3a-as.a.run.app',
+    '--build-arg', 'FINNO_AUTH_URL=https://auth-int.finnomena.com',
+     '.'
+  ]
 
 # Step 2: Push the Docker image to Google Container Registry
 - name: 'gcr.io/cloud-builders/docker'
