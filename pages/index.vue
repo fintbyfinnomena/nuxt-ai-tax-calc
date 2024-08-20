@@ -3,7 +3,7 @@
     <navbar />
     <div
       id="wrap"
-      class="bg-white grid lg:grid-cols-12 shadow-lg p-5 md:py-10 md:px-15 lg:px-20 lg:py-15 rounded-xl overflow-scroll"
+      class="bg-white grid lg:grid-cols-12 shadow-lg p-5 sm:py-10 sm:px-10 md:py-20 md:px-20 lg:py-25 lg:px-20 rounded-xl"
     >
       <div
         class="mr-auto place-self-center lg:col-span-7 justify-center items-center"
@@ -32,7 +32,7 @@
           @click="SignInWithFinno()"
           data-fn-location="intro"
           data-fn-action="start-button_click"
-          class="inline-flex items-center justify-center px-5 py-3 mr-3 text-xs md:text-base font-semibold text-center text-white rounded-md bg-primary hover:dark:focus:ring-primary-900 hover:shadow-xl"
+          class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-semibold text-center text-white rounded-md bg-primary hover:dark:focus:ring-primary-900 hover:shadow-xl"
         >
           เริ่มสนทนากับ Charlie
           <svg
@@ -55,7 +55,7 @@
             ยังอยู่ในช่วงทดสอบและจะพยายามทำดีที่สุดในการให้ข้อมูลกับนักลงทุน
           </div>
           <div>
-            <ul class="list-disc list-outside pl-3">
+            <ul class="list-disc list-outside pl-7">
               <li>
                 ระบบอาจจะให้ข้อมูลที่ผิดพลาดได้
                 ในการลงทุนจริงหลังจากใช้งานนักลงทุนควรหาข้อมูลเพิ่มเติม
@@ -91,10 +91,8 @@
     </div>
     <div id="footer" class="mt-4">
       <p class="text-sm text-gray-500">
-        <Icon
-          icon="iconoir:info-circle"
-          size="1.2em"
-        />ระบบคำนวณยอดเงินลงทุนในกองทุนลดหย่อนภาษีนี้เป็นการคำนวณเพียงเบื้องต้น
+        <Icon icon="iconoir:info-circle" size="1.2em" />
+        ระบบคำนวณยอดเงินลงทุนในกองทุนลดหย่อนภาษีนี้เป็นการคำนวณเพียงเบื้องต้น
         โดยใช้ข้อมูลจากกรมสรรพากรสำหรับปีภาษี 2567 เท่านั้น
         ทางบริษัทขอไม่รับรองความถูกต้องของข้อมูลและผลลัพธ์
         ในกรณีที่มีการเปลี่ยนแปลงข้อมูลเกี่ยวกับการลดหย่อนภาษี...<terms
@@ -127,9 +125,5 @@ export default {
 <style>
 h1 {
   font-weight: 700;
-}
-
-#wrap {
-  height: 95%;
 }
 </style>
