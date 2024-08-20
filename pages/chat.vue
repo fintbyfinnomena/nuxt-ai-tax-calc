@@ -3,7 +3,7 @@
     <div id="navbar">
       <navbar />
       <div class="flex items-center justify-between">
-        <div class="flex-1 text-right flex justify-end space-x-4 pt-5">
+        <div class="flex-1 text-right flex justify-end space-x-4 -mt-2 pb-4">
           <TaxInfo v-model:open="isOpen" location="nav-bar" />
           <Button
             @click="clearChatHistory()"
@@ -89,15 +89,4 @@ export default {
   },
 };
 </script>
-<style>
-#navbar {
-  height: 15%;
-}
-
-#chat {
-  height: 80%;
-}
-#foot {
-  height: 5%;
-}
-</style>
+<style scoped></style>
