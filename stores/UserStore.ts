@@ -1,6 +1,8 @@
 import { type HttpResponse } from "~/server/types/http";
 
 const apiPrefix = "/api";
+const defaultProfileImage =
+  "https://storage.googleapis.com/scontent.finnomena.com/fint/finnomena-logo.png";
 
 export const useUser = defineStore("user", () => {
   // composables
@@ -44,7 +46,9 @@ export const useUser = defineStore("user", () => {
       );
       user.userID = res.data.user_id;
       user.displayName = res.data.display_name;
-      user.imageURL = res.data.profile_url;
+      user.imageURL = res.data.profile_url
+        ? res.data.profile_url
+        : defaultProfileImage;
     } catch (err: unknown) {
       user.isLoggedIn = false;
     }
