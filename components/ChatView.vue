@@ -1,26 +1,27 @@
 <script>
 import { Button } from '@/components/ui/button'
 import { useMessageStore } from "../stores/MessageStore";
-import { useAuthStore } from '../stores/AuthStore';
+import { useUser } from '../stores/UserStore';
 
 export default {
     data() {
         return {
             streamMessage: '',
             newMessage: '',
-            streaming: false,
-            msgSent: false,
+            // streaming: false,
+            // msgSent: false,
             MessageStore: null,
-            AuthStore: null,
+            UserStore: null,
             prePopulateMsg: '',
-            config: null
+            Rendered: false,
+            config: null,
 
         }
     },
     created() {
-        this.AuthStore = useAuthStore();
         this.MessageStore = useMessageStore();
         this.config = useRuntimeConfig();
+        this.UserStore = useUser();
         this.prePopulateMsg = this.MessageStore.autoMsg;
     },
     mounted() {
@@ -33,34 +34,36 @@ export default {
         watch(() => this.MessageStore.autoMsg, (newName) => {
             this.prePopulateMsg = newName;
             this.prePopulate(this.prePopulateMsg);
-            console.log("Success!")
         });
+        watch(() => this.MessageStore.Rendered, (isRendered) => {
+            this.prePopulateMsg = isRendered;
+            this.scrollToElement();
+        });
+
     },
     updated() {
         this.scrollToElement();
     },
     methods: {
         prePopulate(e) {
-            console.log("EVENT", e);
             this.newMessage = e;
             this.submit_message();
         },
         submit_message() {
             if (this.newMessage.trim() != "") {
-                this.msgSent = true;
+                this.MessageStore.msgSent = true;
+                this.MessageStore.Rendered = false;
                 let msg_object = { index: this.MessageStore.message_obj.index, value: this.newMessage, role: 'user' };
                 this.MessageStore.addMessage(msg_object);
-                // console.log(this.MessageStore.message_obj.messagesList.length)
                 let payload = {
                     question: this.newMessage
                 }
                 this.newMessage = '';
                 const headers = {
                     "Content-type": "application/json",
-                    "user-id": this.AuthStore.user_obj.uid
+                    "user-id": this.UserStore.user.userID
                 }
-                console.log(this.AuthStore.user_obj.chatid)
-                fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.AuthStore.user_obj.chatid}`, {
+                fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.UserStore.user.chatID}`, {
                     method: 'POST',
                     headers: headers,
                     body: JSON.stringify(payload)
@@ -69,15 +72,14 @@ export default {
                     const decoder = new TextDecoder();
                     const readStream = () => {
                         reader.read().then(({ done, value }) => {
-                            this.msgSent = false;
-                            this.streaming = true;
+                            this.MessageStore.msgSent = false;
+                            this.MessageStore.streaming = true;
                             if (done) {
                                 let ai_text = this.streamMessage;
                                 let ai_msg = { index: this.MessageStore.message_obj.index, value: ai_text, role: 'ai', downvote: false };
                                 this.MessageStore.addMessage(ai_msg);
-                                // console.log(this.MessageStore.message_obj.messagesList.length)
                                 this.streamMessage = '';
-                                this.streaming = false;
+                                this.MessageStore.streaming = false;
                                 this.scrollToElement();
                                 return;
                             }
@@ -88,7 +90,6 @@ export default {
                         });
                     };
                     readStream();
-                    console.log(this.MessageStore.message_obj.messagesList.length)
 
                 }).catch(error => {
                     console.error(error);
@@ -115,8 +116,8 @@ export default {
 }
 </script>
 <template>
-    <div class="h-svh">
-        <div class="flex flex-col mx-auto w-6/7 h-5/6 bg-white rounded-lg shadow-lg">
+    <div class="w-full mx-auto" id="chat_view">
+        <div class="flex flex-col mx-auto bg-white rounded-lg shadow-lg" id="chat_wrap">
             <div id="chat-container" class="flex-grow mt-10 overflow-scroll">
                 <div v-if="MessageStore.message_obj.messagesList.length > 0">
                     <div v-for="message in MessageStore.message_obj.messagesList">
@@ -128,18 +129,16 @@ export default {
                         </div>
                     </div>
                 </div>
-                <div v-if="streaming == true && msgSent == false">
+                <div v-if="this.MessageStore.streaming == true && this.MessageStore.msgSent == false">
                     <streamMessage :data="streamMessage" class="mb-10 mr-5 md:mr-0" />
                 </div>
-                <div v-if="msgSent == true && streaming == false">
+                <div v-if="this.MessageStore.msgSent == true && this.MessageStore.streaming == false">
                     <loading class="mb-10" />
                 </div>
 
             </div>
             <div class="p-5 md:p-10">
-
-
-                <div v-if="msgSent == false && streaming == false">
+                <div v-if="this.MessageStore.msgSent == false && this.MessageStore.streaming == false">
                     <div class="flex items-center px-3 py-2">
                         <textarea rows="1" @keydown="handleKeyDown"
                             class="block resize-none mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border"
@@ -149,7 +148,6 @@ export default {
                         </Button>
                     </div>
                 </div>
-
                 <div v-else>
                     <div class="flex items-center px-3 py-2">
                         <textarea rows="1"
@@ -162,10 +160,16 @@ export default {
                         </Button>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
 </template>
-<style></style>
+<style>
+#chat_view {
+    height: 100dvh;
+}
+
+#chat_wrap {
+    height: 80%;
+}
+</style>

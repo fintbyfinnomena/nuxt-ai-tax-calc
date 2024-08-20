@@ -1,118 +1,190 @@
-<script lang="ts">
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+<script>
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from '@/components/ui/dialog'
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
-import { ref } from 'vue'
-import InputUnit from './InputUnit.vue';
-import RiskRadio from './riskRadio.vue';
+import { ref } from "vue";
+import InputUnit from "./InputUnit.vue";
+import RiskRadio from "./riskRadio.vue";
 import { useTaxInfoStore } from "../stores/TaxInfoStore";
-
+import { useMessageStore } from "../stores/MessageStore";
 
 export default {
-    data() {
-        return {
-            age: ref(''),
-            income: ref(''),
-            backupFund: ref(''),
-            pensionFund: ref(''),
-            savingFund: ref(''),
-            insurance: ref(''),
-            risk: ref(''),
-            budget: ref(''),
-            TaxInfoStore: useTaxInfoStore()
-        }
+  props: ["location"],
+  data() {
+    return {
+      nuxtApp: useNuxtApp(),
+      MessageStore: null,
+      TaxInfoStore: null,
+    };
+  },
+  created() {
+    this.TaxInfoStore = useTaxInfoStore();
+    this.MessageStore = useMessageStore();
+  },
+  methods: {
+    Save() {
+      try {
+        this.MessageStore.autoMsg = this.TaxInfoStore.generatePrompt();
+        this.nuxtApp.$tagEvent(
+          "allocation-param_submit",
+          "allocation-param-modal",
+          this.TaxInfoStore
+        );
+      } catch (e) {
+        console.error(e);
+      }
     },
-    methods: {
-        Save() {
-            try {
-                this.TaxInfoStore.age = parseInt(this.age)
-                this.TaxInfoStore.income = parseInt(this.income)
-                this.TaxInfoStore.backupFund = parseInt(this.backupFund)
-                this.TaxInfoStore.savingFund = parseInt(this.savingFund)
-                this.TaxInfoStore.insurance = parseInt(this.insurance)
-                this.TaxInfoStore.risk = this.risk
-                this.TaxInfoStore.budget = parseInt(this.budget)
-            } catch (e) {
-                console.log(e)
-            }
-        }
-    }
-}
-
-
+  },
+};
 </script>
 
 <template>
-    <Dialog>
+  <Dialog>
+    <DialogTrigger as-child>
+      <Button
+        variant="outline"
+        class="bg-primary text-white sm:mb-10 lg:mb-0 rounded-full border border-primary hover:text-primary hover:bg-transparent"
+        :data-fn-location="location"
+        data-fn-action="allocation-param-modal_open"
+      >
+        <Icon icon="iconoir:page-edit" size="1.4em" class="mr-2" />
+        ระบุข้อมูลลดหย่อนภาษี
+      </Button>
+    </DialogTrigger>
 
-        <DialogTrigger as-child>
-            <Button variant="outline" class="bg-primary text-white sm:mb-10 lg:mb-0 hover:bg-primary hover:text-white">
-                ระบุข้อมูลลดหย่อนภาษี
-                <svg class="w-5 h-5 ml-2 -mr-1" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                        clip-rule="evenodd"></path>
-                </svg>
-            </Button>
-        </DialogTrigger>
+    <DialogContent class="sm:max-w-xl">
+      <DialogHeader> </DialogHeader>
+      <hr />
+      <div class="grid grid-cols-2 gap-6">
+        <div>
+          <Label for="age" class="block text-sm font-medium text-gray-700 mb-1"
+            >อายุ</Label
+          >
+          <InputUnit
+            type="text"
+            unit="ปี"
+            name="age"
+            inputmode="numeric"
+            v-model="TaxInfoStore.age"
+          />
+        </div>
+        <div>
+          <Label
+            for="annualIncome"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >รายได้ต่อปี</Label
+          >
+          <InputUnit
+            type="text"
+            unit="บาท"
+            name="annualIncome"
+            inputmode="numeric"
+            v-model="TaxInfoStore.annualIncome"
+            v-commas-seperate
+          />
+        </div>
+        <div class="col-span-2">
+          <Label
+            for="alternativeRetirementFund"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >กองทุนสำรองเลี้ยงชีพและกองทุนสงเคราะห์ครูฯ</Label
+          >
+          <InputUnit
+            type="text"
+            unit="บาท"
+            name="alternativeRetirementFund"
+            inputmode="numeric"
+            v-model="TaxInfoStore.alternativeRetirementFund"
+            v-commas-seperate
+          />
+        </div>
+        <div class="col-span-2">
+          <Label
+            for="govPensionFund"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >กองทุนบำเหน็จบำนาญข้าราชการ (กบข.)</Label
+          >
+          <InputUnit
+            type="text"
+            unit="บาท"
+            name="govPensionFund"
+            inputmode="numeric"
+            v-model="TaxInfoStore.govPensionFund"
+            v-commas-seperate
+          />
+        </div>
+        <div class="col-span-2">
+          <Label
+            for="nationalSavingFund"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >กองทุนการออมแห่งชาติ</Label
+          >
+          <InputUnit
+            type="text"
+            unit="บาท"
+            name="nationalSavingFund"
+            inputmode="numeric"
+            v-model="TaxInfoStore.nationalSavingFund"
+            v-commas-seperate
+          />
+        </div>
+        <div class="col-span-2">
+          <Label
+            for="pensionInsurance"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >ประกันบำนาญ</Label
+          >
+          <InputUnit
+            type="text"
+            unit="บาท"
+            name="pensionInsurance"
+            inputmode="numeric"
+            v-model="TaxInfoStore.pensionInsurance"
+            v-commas-seperate
+          />
+        </div>
+        <div class="col-span-2">
+          <Label
+            for="riskLevel"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >ความเสี่ยงที่สามารถรับได้</Label
+          >
+          <RiskRadio name="riskLevel" v-model="TaxInfoStore.riskLevel" />
+        </div>
+        <div class="col-span-2">
+          <Label
+            for="desiredAmount"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >งบประมาณที่ต้องการลงทุน หรือ ลงทุนเพิ่ม</Label
+          >
+          <InputUnit
+            type="text"
+            unit="บาท"
+            name="desiredAmount"
+            inputmode="numeric"
+            v-model="TaxInfoStore.desiredAmount"
+            v-commas-seperate
+          />
+        </div>
+      </div>
 
-        <DialogContent class="sm:max-w-xl">
-            <DialogHeader>
-            </DialogHeader>
-            <hr>
-            <div class="grid grid-cols-2 gap-6">
-                <div>
-                    <Label for="age" class="block text-sm font-medium text-gray-700 mb-1">อายุ</Label>
-                    <InputUnit type="number" unit="ปี" name="age" inputmode="numeric" v-model="age" />
-                    <input type="number">
-                </div>
-                <div>
-                    <Label for="income" class="block text-sm font-medium text-gray-700 mb-1">รายได้ต่อปี</Label>
-                    <InputUnit type="number" unit="บาท" name="income" inputmode="numeric" v-model="income" />
-                </div>
-                <div class="col-span-2">
-                    <Label for="backupFund" class="block text-sm font-medium text-gray-700 mb-1">กองทุนสำรองเลี้ยงชีพและกองทุนสงเคราะห์ครูฯ</Label>
-                    <InputUnit type="number" unit="บาท" name="backupFund" inputmode="numeric" v-model="backupFund" />
-                </div>
-                <div class="col-span-2">
-                    <Label for="pensionFund" class="block text-sm font-medium text-gray-700 mb-1">กองทุนบำเหน็จบำนาญข้าราชการ (กบข.)</Label>
-                    <InputUnit type="number" unit="บาท" name="pensionFund" inputmode="numeric" v-model="pensionFund" />
-                </div>
-                <div class="col-span-2">
-                    <Label for="savingFund" class="block text-sm font-medium text-gray-700 mb-1">กองทุนการออมแห่งชาติ</Label>
-                    <InputUnit type="number" unit="บาท" name="savingFund" inputmode="numeric" v-model="savingFund" />
-                </div>
-                <div class="col-span-2">
-                    <Label for="insurance" class="block text-sm font-medium text-gray-700 mb-1">ประกันบำนาญ</Label>
-                    <InputUnit type="number" unit="บาท" name="insurance" inputmode="numeric" v-model="insurance" />
-                </div>
-                <div class="col-span-2">
-                    <Label for="risk" class="block text-sm font-medium text-gray-700 mb-1">ความเสี่ยงที่สามารถรับได้</Label>
-                    <RiskRadio name="risk" v-model="risk" />
-                </div>
-                <div class="col-span-2">
-                    <Label for="budget" class="block text-sm font-medium text-gray-700 mb-1">งบประมาณที่ต้องการลงทุน</Label>
-                    <InputUnit type="number" unit="บาท" name="buget" inputmode="numeric" v-model="budget" />
-                </div>
-            </div>
-
-            <DialogFooter class="sm:justify-center">
-                <DialogClose as-child>
-                    <Button type="button" class="bg-primary" @click="Save()">
-                        <p>บันทึกข้อมูล</p>
-                    </Button>
-                </DialogClose>
-            </DialogFooter>
-        </DialogContent>
-    </Dialog>
+      <DialogFooter class="sm:justify-center">
+        <DialogClose as-child>
+          <Button type="button" class="bg-primary" @click="Save()">
+            <p>บันทึกข้อมูล</p>
+          </Button>
+        </DialogClose>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
 </template>
