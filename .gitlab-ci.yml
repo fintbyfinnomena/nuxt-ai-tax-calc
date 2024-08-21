@@ -19,6 +19,86 @@ stages:
 - publish_prod
 - update_prod
 
+publish_integration:
+  stage: publish_staging
+  image: docker:20.10.6
+  before_script:
+    - until docker info; do sleep 1; done
+    - echo $SERVICEACCOUNT | base64 -d > /tmp/$CI_PIPELINE_ID.json
+    - cat /tmp/$CI_PIPELINE_ID.json | docker login -u _json_key --password-stdin https://gcr.io
+  script:
+    - >
+      docker build -t $CI_PROJECT_NAME
+      --build-arg BASE_URL=$BASE_URL_INT
+      --build-arg FINNO_AUTH_URL=$FINNO_AUTH_URL_INT
+      --build-arg FINNO_AUTH_CLIENT_ID=$FINNO_AUTH_CLIENT_ID_INT
+      --build-arg FINNO_AUTH_SECRET=$FINNO_AUTH_SECRET_INT -f Dockerfile .
+    - docker tag $CI_PROJECT_NAME $GCR_IMAGE_STAGING:latest
+    - docker push $GCR_IMAGE_STAGING:latest
+    - docker tag $CI_PROJECT_NAME $GCR_IMAGE_STAGING:$CI_COMMIT_SHORT_SHA
+    - docker push $GCR_IMAGE_STAGING:$CI_COMMIT_SHORT_SHA
+    - echo $CI_COMMIT_SHORT_SHA > variable-gitlab
+  artifacts:
+    paths:
+      - variable-gitlab
+    expire_in: 60 minutes
+  only:
+    - integration
+
+publish_uat:
+  stage: publish_staging
+  image: docker:20.10.6
+  before_script:
+    - until docker info; do sleep 1; done
+    - echo $SERVICEACCOUNT | base64 -d > /tmp/$CI_PIPELINE_ID.json
+    - cat /tmp/$CI_PIPELINE_ID.json | docker login -u _json_key --password-stdin https://gcr.io
+  script:
+    - >
+      docker build -t $CI_PROJECT_NAME
+      --build-arg BASE_URL=$BASE_URL_UAT
+      --build-arg FINNO_AUTH_URL=$FINNO_AUTH_URL_UAT
+      --build-arg FINNO_AUTH_CLIENT_ID=$FINNO_AUTH_CLIENT_ID_UAT
+      --build-arg FINNO_AUTH_SECRET=$FINNO_AUTH_SECRET_UAT -f Dockerfile .
+    - docker tag $CI_PROJECT_NAME $GCR_IMAGE_STAGING:latest
+    - docker push $GCR_IMAGE_STAGING:latest
+    - docker tag $CI_PROJECT_NAME $GCR_IMAGE_STAGING:$CI_COMMIT_SHORT_SHA
+    - docker push $GCR_IMAGE_STAGING:$CI_COMMIT_SHORT_SHA
+    - echo $CI_COMMIT_SHORT_SHA > variable-gitlab
+  artifacts:
+    paths:
+      - variable-gitlab
+    expire_in: 60 minutes
+  only:
+    - qa-6
+    - uat
+
+publish_prod:
+  stage: publish_prod
+  image: docker:20.10.6
+  before_script:
+    - until docker info; do sleep 1; done
+    - echo $SERVICEACCOUNT_PROD | base64 -d > /tmp/$CI_PIPELINE_ID.json
+    - cat /tmp/$CI_PIPELINE_ID.json | docker login -u _json_key --password-stdin https://gcr.io
+  script:
+    - >
+      docker build -t $CI_PROJECT_NAME
+      --build-arg BASE_URL=$BASE_URL
+      --build-arg FINNO_AUTH_URL=$FINNO_AUTH_URL
+      --build-arg FINNO_AUTH_CLIENT_ID=$FINNO_AUTH_CLIENT_ID
+      --build-arg FINNO_AUTH_SECRET=$FINNO_AUTH_SECRET -f Dockerfile .
+    - docker tag $CI_PROJECT_NAME $GCR_IMAGE_PROD:$CI_COMMIT_TAG
+    - docker push $GCR_IMAGE_PROD:$CI_COMMIT_TAG
+    - echo $CI_COMMIT_TAG > variable-gitlab
+  artifacts:
+    paths:
+      - variable-gitlab
+    expire_in: 60 minutes
+  when: manual
+  only:
+    - tags
+  except:
+    - branches
+
 update_development:
   stage: update_staging
   rules:
