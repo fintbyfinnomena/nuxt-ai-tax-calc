@@ -41,14 +41,14 @@ export default {
     font-weight: bold;
   }
   h1 {
-    font-size: 1.125rem; /* 18px */
+    font-size: 1.1rem; /* 18px */
     line-height: 1.75rem;
     font-weight: bold;
     margin-top: 1.25rem;
   }
   h2,
   h3 {
-    font-size: 1.15rem; /* 16px */
+    font-size: 1rem; /* 16px */
     line-height: 1.5rem;
     font-weight: bold;
     margin-top: 1rem;

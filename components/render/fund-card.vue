@@ -77,7 +77,7 @@
     </section>
     <a
       :href="factsheet"
-      class="text-sm font-semibold text-primary underline"
+      class="text-sm font-semibold text-primary"
       target="_blank"
       data-fn-location="chat"
       data-fn-action="fund-info-prospectus_click"
@@ -143,20 +143,27 @@
         </div>
       </div>
     </section>
-
-    <a
-      :href="link"
-      class="text-sm px-3 py-1 rounded-full font-semibold bg-transparent text-primary border border-primary hover:text-white hover:bg-primary"
-      target="_blank"
-      data-fn-location="chat"
-      data-fn-action="fund-info-quote_click"
-      :data-fn-params="`{
+    <div v-if="comment" class="text-sm mb-3">
+      <b>คำแนะนำเกี่ยวกับกองทุนนี้</b>
+      <div>
+        {{ comment }}
+      </div>
+    </div>
+    <div class="text-right">
+      <a
+        :href="link"
+        class="text-sm px-3 py-1 rounded-full font-semibold bg-transparent text-primary border border-primary hover:text-white hover:bg-primary"
+        target="_blank"
+        data-fn-location="chat"
+        data-fn-action="fund-info-quote_click"
+        :data-fn-params="`{
         'fund' : '${this.Code}'
         }`"
-    >
-      ดูข้อมูล {{ this.Code }}
-      <Icon icon="iconoir:arrow-right" size="1.4em" />
-    </a>
+      >
+        ดูข้อมูล {{ this.Code }}
+        <Icon icon="iconoir:arrow-right" size="1.4em" />
+      </a>
+    </div>
     <p class="text-xs mt-4">
       *
       ข้อมูลค่าธรรมเนียมทั้งหมดมาจากสำนักงานคณะกรรมการกำกับหลักทรัพย์และตลาดหลักทรัพย์
@@ -187,6 +194,7 @@ export default {
       three_month: "",
       six_month: "",
       one_year: "",
+      comment: "",
     };
   },
   created() {
@@ -220,6 +228,7 @@ export default {
       this.three_month = data.data.performance.return3m || "-";
       this.six_month = data.data.performance.return6m || "-";
       this.one_year = data.data.performance.return1y || "-";
+      this.comment = data.data.tsfComment || "";
 
       // this.MessageStore.Rendered = true;
     },
