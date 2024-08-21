@@ -1,5 +1,5 @@
 <template>
-  <div v-html="componentString"></div>
+  <div class="md-element" v-html="componentString"></div>
 </template>
 <script>
 import { useMessageStore } from "../stores/MessageStore";
@@ -26,24 +26,42 @@ export default {
   },
 };
 </script>
-<style scoped>
-li {
-  line-height: 1.5em;
-  list-style-type: none;
-  margin: 0;
-}
-
-ol,
-ul {
-  margin: 0;
-  padding: 0;
-  line-height: 1.2em;
-}
-strong {
-  font-size: 1em;
-}
-a {
-  text-decoration: underline;
-  font-weight: bold;
+<style lang="scss">
+.md-element {
+  ol,
+  ul {
+    list-style-type: disc;
+    padding-left: 1.5em;
+  }
+  strong {
+    font-size: 1em;
+  }
+  a {
+    text-decoration: underline;
+    font-weight: bold;
+  }
+  h1 {
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.75rem;
+    font-weight: bold;
+    margin-top: 1.25rem;
+  }
+  h2,
+  h3 {
+    font-size: 1.15rem; /* 16px */
+    line-height: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+  p {
+    margin-top: 10px;
+  }
+  table {
+    background-color: white;
+    margin-top: 1rem;
+    td {
+      padding: 0.5rem;
+    }
+  }
 }
 </style>
