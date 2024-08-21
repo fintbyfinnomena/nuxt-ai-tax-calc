@@ -53,7 +53,7 @@ export default {
     <DialogTrigger as-child>
       <Button
         variant="outline"
-        class="bg-primary text-white sm:mb-10 lg:mb-0 rounded-full border border-primary hover:text-primary hover:bg-transparent"
+        class="bg-primary text-white lg:mb-0 rounded-full border border-primary hover:text-primary hover:bg-transparent"
         :data-fn-location="location"
         data-fn-action="allocation-param-modal_open"
       >

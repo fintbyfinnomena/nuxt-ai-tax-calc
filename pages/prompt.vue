@@ -1,18 +1,30 @@
 <template>
   <div class="w-11/12 md:w-5/6 lg:w-4/6 h-screen mx-auto flex flex-col">
-      <navbar/>
-      <div id="prompt">
-          <div v-if="isinit">
-              <promptView />
-          </div>
-          <div v-else class="text-center">
-              <div class="flex items-center justify-center">
-                  <img src="../assets/animations/loading.gif" alt="loading">
-              </div>
-              <br>
-              กำลังเชื่อมต่อกับระบบ...
-          </div>
+    <navbar />
+    <div id="prompt">
+      <div v-if="isinit">
+        <promptView />
       </div>
+      <div v-else class="text-center">
+        <div class="flex items-center justify-center">
+          <img src="../assets/animations/loading.gif" alt="loading" />
+        </div>
+        <br />
+        กำลังเชื่อมต่อกับระบบ...
+      </div>
+    </div>
+    <div id="footer" class="mt-4">
+      <p class="text-sm text-gray-500">
+        <Icon icon="iconoir:info-circle" size="1.2em" />
+        ระบบคำนวณยอดเงินลงทุนในกองทุนลดหย่อนภาษีนี้เป็นการคำนวณเพียงเบื้องต้น
+        โดยใช้ข้อมูลจากกรมสรรพากรสำหรับปีภาษี 2567 เท่านั้น
+        ทางบริษัทขอไม่รับรองความถูกต้องของข้อมูลและผลลัพธ์
+        ในกรณีที่มีการเปลี่ยนแปลงข้อมูลเกี่ยวกับการลดหย่อนภาษี...<terms
+          class="display-inline"
+          text="อ่านเพิ่มเติม"
+        />
+      </p>
+    </div>
   </div>
 </template>
 
@@ -41,8 +53,8 @@ export default {
   methods: {
     checkAuth() {
       if (!this.UserStore.user) {
-        window.location.href = "/"; 
-      } 
+        window.location.href = "/";
+      }
       this.initChat();
     },
     initChat() {
@@ -71,12 +83,4 @@ export default {
   },
 };
 </script>
-<style>
-#nav {
-  height: 10%;
-}
-
-#prompt {
-  height: 90%;
-}
-</style>
+<style scoped></style>
