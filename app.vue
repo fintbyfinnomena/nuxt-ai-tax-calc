@@ -2,9 +2,15 @@
 useHead({
   titleTemplate: (titleChunk: string | undefined) => {
     return titleChunk
-      ? `${titleChunk} - TAXi - Your Tax Companion`
-      : "TAXi - Your Tax Companion";
+      ? `${titleChunk} - Charlie - Your Tax Companion`
+      : "Charlie - Your Tax Companion";
   },
+  meta: [
+    {
+      name: "viewport",
+      content: "width=device-width, initial-scale=1, maximum-scale=1",
+    },
+  ],
 });
 </script>
 
