@@ -19,7 +19,7 @@ stages:
 - publish_prod
 - update_prod
 
-publish_integration:
+publish_staging:
   stage: publish_staging
   image: docker:20.10.6
   before_script:
