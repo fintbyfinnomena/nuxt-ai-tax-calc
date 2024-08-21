@@ -43,21 +43,26 @@
         v-if="isEligibleForFintCashback && isEligibleForFintEarn"
         class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
       >
+        <img class="w-5 h-5 rounded-full inline-block mr-1" src="../../assets/img/fint.png">
         Earn / Cashback
       </span>
       <span
         v-else-if="isEligibleForFintCashback && !isEligibleForFintEarn"
         class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
-        >Cashback
+        >
+        <img class="w-5 h-5 rounded-full inline" src="../../assets/img/fint.png">
+        Cashback
       </span>
       <span
         v-else-if="isEligibleForFintEarn && !isEligibleForFintCashback"
         class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
-        >Earn
+        >
+        <img class="w-5 h-5 rounded-full inline" src="../../assets/img/fint.png">
+        Earn
       </span>
     </section>
     <section class="mb-3 mt-4">
-      <h2 class="text-2xl">{{ this.Code }}</h2>
+      <h2 class="text-2xl font-semibold">{{ this.Code }}</h2>
       <p>{{ this.name }}</p>
       <p class="text-sm">{{ this.category }} | {{ this.riskSpectrum }}</p>
     </section>
@@ -65,8 +70,13 @@
       :href="factsheet"
       class="text-sm font-semibold text-primary underline"
       target="_blank"
+      data-fn-location="chat"
+      data-fn-action="fund-info-prospectus_click"
+      :data-fn-params="`{
+        'fund' : '${this.Code}'
+        }`"
     >
-      <Icon icon="iconoir:page" size="1.4em" />หนังสือชี้ชวน
+      <Icon icon="iconoir:page" size="1.4em" class="mr-1"/>หนังสือชี้ชวน
     </a>
     <section class="bg-white my-3 py-3 rounded-lg mb-5 mt-5">
       <div class="grid grid-cols-1 md:grid-cols-4">
@@ -129,6 +139,11 @@
       :href="link"
       class="text-sm px-3 py-1 rounded-full font-semibold bg-transparent text-primary border border-primary hover:text-white hover:bg-primary"
       target="_blank"
+      data-fn-location="chat"
+      data-fn-action="fund-info-quote_click"
+      :data-fn-params="`{
+        'fund' : '${this.Code}'
+        }`"
     >
       ดูข้อมูล {{ this.Code }}
       <Icon icon="iconoir:arrow-right" size="1.4em" />
@@ -136,10 +151,13 @@
   </div>
 </template>
 <script>
+// import { useMessageStore } from "../stores/MessageStore";
+
 export default {
   props: ["shortcode"],
   data() {
     return {
+      // MessageStore: null,
       config: null,
       Code: "",
       name: "",
@@ -158,6 +176,7 @@ export default {
   },
   created() {
     this.config = useRuntimeConfig();
+    this.MessageStore = useMessageStore();
   },
   mounted() {
     let fundInfo = this.GetFundData();
@@ -186,6 +205,8 @@ export default {
       this.three_month = data.data.performance.return3m || "-";
       this.six_month = data.data.performance.return6m || "-";
       this.one_year = data.data.performance.return1y || "-";
+
+      // this.MessageStore.Rendered = true;
     },
   },
 };

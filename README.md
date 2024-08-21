@@ -1,75 +1,14 @@
-# Nuxt 3 Minimal Starter
+# Tagging
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Frontend Tagging
 
-## Setup
-
-Make sure to install the dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- [x] start-button_click
+- [x] template-prompt_click
+- [x] allocation-param-modal_open (navbar)
+- [x] reset_conversation_click
+- [x] allocation-param-modal_open (chat)
+- [x] allocation-invest_click
+- [x] fund-info-prompt_click
+- [x] fund-info-prospectus_click
+- [x] fund-info-quote_click
+- [x] allocation-param_submit
