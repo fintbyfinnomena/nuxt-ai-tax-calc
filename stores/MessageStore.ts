@@ -22,7 +22,7 @@ export const useMessageStore = defineStore("messageStore", {
       },
       {
         option: 3,
-        title: "ความรู้เกี่ยวกับกองทุนลดหย่อนภาษี",
+        title: "ความรู้เกี่ยวกับกองทุนลดหย่อนภาษี SSF RMF ThaiESG คืออะไร",
         sub: "ไม่ต้องเปิดหาให้เสียเวลา ถามปุ้บตอบปั้บ รู้เรื่อง!",
         prompt: "tax-fund-knowledge",
       },
