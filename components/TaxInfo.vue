@@ -25,6 +25,11 @@ export default {
       nuxtApp: useNuxtApp(),
       MessageStore: null,
       TaxInfoStore: null,
+      hasDesiredAmount: false,
+      hasAlternativeRetirementFund: false,
+      hasGovPensionFund: false,
+      hasNationalSavingFund: false,
+      hasPensionInsurance: false,
     };
   },
   created() {
@@ -45,6 +50,16 @@ export default {
       }
     },
   },
+  computed: {
+    canAddTaxBenefitOption() {
+      return !(
+        this.hasAlternativeRetirementFund &&
+        this.hasGovPensionFund &&
+        this.hasNationalSavingFund &&
+        this.hasPensionInsurance
+      );
+    },
+  },
 };
 </script>
 
@@ -63,12 +78,18 @@ export default {
     </DialogTrigger>
 
     <DialogContent class="sm:max-w-xl">
-      <DialogHeader> </DialogHeader>
+      <DialogHeader>
+        <div class="text-sm font-semibold">
+          <Icon icon="iconoir:page-edit" /> ข้อมูลลดหย่อนภาษี
+        </div>
+      </DialogHeader>
       <hr />
       <div class="grid grid-cols-2 gap-6">
-        <div>
-          <Label for="age" class="block text-sm font-medium text-gray-700 mb-1"
-            >อายุ</Label
+        <div class="col-span-2 sm:col-span-1">
+          <Label
+            for="age"
+            class="block text-sm font-semibold text-gray-700 mb-1"
+            >อายุ*</Label
           >
           <InputUnit
             type="text"
@@ -78,11 +99,11 @@ export default {
             v-model="TaxInfoStore.age"
           />
         </div>
-        <div>
+        <div class="col-span-2 sm:col-span-1 -mt-3 sm:mt-0">
           <Label
             for="annualIncome"
-            class="block text-sm font-medium text-gray-700 mb-1"
-            >รายได้ต่อปี</Label
+            class="block text-sm font-semibold text-gray-700 mb-1"
+            >รายได้ต่อปี*</Label
           >
           <InputUnit
             type="text"
@@ -91,14 +112,85 @@ export default {
             inputmode="numeric"
             v-model="TaxInfoStore.annualIncome"
             v-commas-seperate
+            placeholder="โปรดระบุจำนวน"
           />
         </div>
         <div class="col-span-2">
           <Label
-            for="alternativeRetirementFund"
-            class="block text-sm font-medium text-gray-700 mb-1"
-            >กองทุนสำรองเลี้ยงชีพและกองทุนสงเคราะห์ครูฯ</Label
+            for="riskLevel"
+            class="block text-sm font-semibold text-gray-700 mb-1"
+            >ความเสี่ยงที่สามารถรับได้*
+            <div class="has-tooltip inline">
+              <span
+                class="tooltip rounded shadow-lg p-1 bg-gray-100 mt-5 -ml-16 max-w-72 py-5 px-4"
+                >คุณเต็มใจที่จะลงทุนในกลุ่มการลงทุนใดมากที่สุด
+                <ul class="list-disc list-outside text-sm pl-7 mt-1">
+                  <li>
+                    <b>เสี่ยงสูง</b> - หวังกำไรถึง 20%
+                    แต่ถ้าโชคไม่ดีขาดทุนก็ยอมได้ 10% ขึ้นไป
+                  </li>
+                  <li>
+                    <b>เสี่ยงปานกลาง</b> - หวังกำไรถึง 10%
+                    แต่ถ้าโชคไม่ดีขาดทุนก็ยอมได้สัก 5%
+                  </li>
+                  <li>
+                    <b>เสี่ยงต่ำ</b> - ผลตอบแทนค่อนๆโต 5% แต่อาจขาดทุนได้บ้าง
+                    1-2%
+                  </li>
+                  <li>
+                    <b>เสี่ยงต่ำมาก</b> - ผลตอบแทนแน่นอน 1-2.5% โดยไม่ขาดทุนเลย
+                  </li>
+                </ul>
+              </span>
+              <Icon
+                icon="fa:question-circle"
+                class="ml-1 text-gray-500 -m-t-1"
+              />
+            </div>
+          </Label>
+          <RiskRadio name="riskLevel" v-model="TaxInfoStore.riskLevel" />
+        </div>
+        <div class="col-span-2">
+          <Label
+            for="desiredAmount"
+            class="block text-sm font-semibold text-gray-700 mb-1"
+            >งบประมาณที่ต้องการลงทุน หรือ ลงทุนเพิ่ม</Label
           >
+          <RadioGroup
+            class="flex text-gray-700 mt-2"
+            v-model="hasDesiredAmount"
+          >
+            <RadioGroupItem id="da1" :value="true" class="" />
+            <Label for="da1" class="text-sm">มีงบประมาณที่คิดไว้</Label>
+            <RadioGroupItem id="da2" :value="false" />
+            <Label for="da2" class="text-sm">ไม่มีงบประมาณที่คิดไว้</Label>
+          </RadioGroup>
+          <InputUnit
+            v-if="hasDesiredAmount"
+            type="text"
+            unit="บาท"
+            name="desiredAmount"
+            inputmode="numeric"
+            class="mt-1"
+            v-model="TaxInfoStore.desiredAmount"
+            v-commas-seperate
+            placeholder="โปรดระบุจำนวน"
+          />
+        </div>
+        <div class="col-span-2" v-if="hasAlternativeRetirementFund">
+          <div class="flex justify-between">
+            <Label
+              for="alternativeRetirementFund"
+              class="block text-sm font-semibold text-gray-700 mb-1"
+              >กองทุนสำรองเลี้ยงชีพและกองทุนสงเคราะห์ครูฯ</Label
+            >
+            <Icon
+              icon="fa:times-circle"
+              class="text-red-500 cursor-pointer"
+              @click="hasAlternativeRetirementFund = false"
+              size="0.8rem"
+            />
+          </div>
           <InputUnit
             type="text"
             unit="บาท"
@@ -106,14 +198,23 @@ export default {
             inputmode="numeric"
             v-model="TaxInfoStore.alternativeRetirementFund"
             v-commas-seperate
+            placeholder="โปรดระบุจำนวน"
           />
         </div>
-        <div class="col-span-2">
-          <Label
-            for="govPensionFund"
-            class="block text-sm font-medium text-gray-700 mb-1"
-            >กองทุนบำเหน็จบำนาญข้าราชการ (กบข.)</Label
-          >
+        <div class="col-span-2" v-if="hasGovPensionFund">
+          <div class="flex justify-between">
+            <Label
+              for="govPensionFund"
+              class="block text-sm font-semibold text-gray-700 mb-1"
+              >กองทุนบำเหน็จบำนาญข้าราชการ (กบข.)</Label
+            >
+            <Icon
+              icon="fa:times-circle"
+              class="text-red-500 cursor-pointer"
+              @click="hasGovPensionFund = false"
+              size="0.8rem"
+            />
+          </div>
           <InputUnit
             type="text"
             unit="บาท"
@@ -121,14 +222,23 @@ export default {
             inputmode="numeric"
             v-model="TaxInfoStore.govPensionFund"
             v-commas-seperate
+            placeholder="โปรดระบุจำนวน"
           />
         </div>
-        <div class="col-span-2">
-          <Label
-            for="nationalSavingFund"
-            class="block text-sm font-medium text-gray-700 mb-1"
-            >กองทุนการออมแห่งชาติ</Label
-          >
+        <div class="col-span-2" v-if="hasNationalSavingFund">
+          <div class="flex justify-between">
+            <Label
+              for="nationalSavingFund"
+              class="block text-sm font-semibold text-gray-700 mb-1"
+              >กองทุนการออมแห่งชาติ</Label
+            >
+            <Icon
+              icon="fa:times-circle"
+              class="text-red-500 cursor-pointer"
+              @click="hasNationalSavingFund = false"
+              size="0.8rem"
+            />
+          </div>
           <InputUnit
             type="text"
             unit="บาท"
@@ -136,14 +246,23 @@ export default {
             inputmode="numeric"
             v-model="TaxInfoStore.nationalSavingFund"
             v-commas-seperate
+            placeholder="โปรดระบุจำนวน"
           />
         </div>
-        <div class="col-span-2">
-          <Label
-            for="pensionInsurance"
-            class="block text-sm font-medium text-gray-700 mb-1"
-            >ประกันบำนาญ</Label
-          >
+        <div class="col-span-2" v-if="hasPensionInsurance">
+          <div class="flex justify-between">
+            <Label
+              for="pensionInsurance"
+              class="block text-sm font-semibold text-gray-700 mb-1"
+              >ประกันบำนาญ</Label
+            >
+            <Icon
+              icon="fa:times-circle"
+              class="text-red-500 cursor-pointer"
+              size="0.8rem"
+              @click="hasPensionInsurance = false"
+            />
+          </div>
           <InputUnit
             type="text"
             unit="บาท"
@@ -151,34 +270,60 @@ export default {
             inputmode="numeric"
             v-model="TaxInfoStore.pensionInsurance"
             v-commas-seperate
+            placeholder="โปรดระบุจำนวน"
           />
         </div>
-        <div class="col-span-2">
-          <Label
-            for="riskLevel"
-            class="block text-sm font-medium text-gray-700 mb-1"
-            >ความเสี่ยงที่สามารถรับได้</Label
-          >
-          <RiskRadio name="riskLevel" v-model="TaxInfoStore.riskLevel" />
-        </div>
-        <div class="col-span-2">
-          <Label
-            for="desiredAmount"
-            class="block text-sm font-medium text-gray-700 mb-1"
-            >งบประมาณที่ต้องการลงทุน หรือ ลงทุนเพิ่ม</Label
-          >
-          <InputUnit
-            type="text"
-            unit="บาท"
-            name="desiredAmount"
-            inputmode="numeric"
-            v-model="TaxInfoStore.desiredAmount"
-            v-commas-seperate
-          />
+        <div class="col-span-2" v-if="canAddTaxBenefitOption">
+          <div class="block text-sm font-semibold text-gray-700 mb-1">
+            เพิ่มสิทธิ์ลดหย่อน
+          </div>
+          <div class="flex flex-wrap gap-2 text-sm">
+            <div
+              class="bg-gray-100 cursor-pointer px-3 py-1 rounded"
+              @click="hasAlternativeRetirementFund = true"
+              v-if="!hasAlternativeRetirementFund"
+            >
+              กองทุนสำรองเลี้ยงชีพและกองทุนสงเคราะห์ครูฯ
+              <Icon icon="iconoir:plus" size="1.2rem" class="align-sub" />
+            </div>
+            <div
+              class="bg-gray-100 cursor-pointer px-3 py-1 rounded"
+              @click="hasGovPensionFund = true"
+              v-if="!hasGovPensionFund"
+            >
+              กบข. <Icon icon="iconoir:plus" size="1.2rem" class="align-sub" />
+            </div>
+
+            <div
+              class="bg-gray-100 cursor-pointer px-3 py-1 rounded"
+              @click="hasNationalSavingFund = true"
+              v-if="!hasNationalSavingFund"
+            >
+              กองทุนการออมแห่งชาติ
+              <Icon icon="iconoir:plus" size="1.2rem" class="align-sub" />
+            </div>
+
+            <div
+              class="bg-gray-100 cursor-pointer px-3 py-1 rounded"
+              @click="hasPensionInsurance = true"
+              v-if="!hasPensionInsurance"
+            >
+              ประกันบำนาญ
+              <Icon icon="iconoir:plus" size="1.2rem" class="align-sub" />
+            </div>
+          </div>
         </div>
       </div>
 
-      <DialogFooter class="sm:justify-center">
+      <DialogFooter class="mt-2">
+        <DialogClose as-child class="ml-auto">
+          <Button
+            type="button"
+            class="bg-secondary text-gray-700 hover:text-gray-100"
+          >
+            <p>ยกเลิก</p>
+          </Button>
+        </DialogClose>
         <DialogClose as-child>
           <Button type="button" class="bg-primary" @click="Save()">
             <p>บันทึกข้อมูล</p>
@@ -188,3 +333,13 @@ export default {
     </DialogContent>
   </Dialog>
 </template>
+
+<style scoped>
+.tooltip {
+  @apply invisible absolute;
+}
+
+.has-tooltip:hover .tooltip {
+  @apply visible z-50;
+}
+</style>

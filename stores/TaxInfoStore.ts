@@ -1,14 +1,14 @@
 import { defineStore } from "pinia";
 export const useTaxInfoStore = defineStore("taxinfoStore", {
   state: () => ({
-    age: "0",
-    annualIncome: "0",
-    alternativeRetirementFund: "0",
-    govPensionFund: "0",
-    nationalSavingFund: "0",
-    pensionInsurance: "0",
-    riskLevel: "",
-    desiredAmount: "0",
+    age: null,
+    annualIncome: null,
+    alternativeRetirementFund: null,
+    govPensionFund: null,
+    nationalSavingFund: null,
+    pensionInsurance: null,
+    riskLevel: null,
+    desiredAmount: null,
   }),
   actions: {
     generatePrompt() {

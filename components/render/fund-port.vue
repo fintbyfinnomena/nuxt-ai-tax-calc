@@ -114,17 +114,30 @@ export default {
       return colors;
     },
     GenFundJSON(list) {
-      let fundList = [];
-      list.forEach((fund) => {
-        let object = {
-          name: fund[0],
-          proportion: fund[2],
-          type: fund[1],
-          amount: fund[3],
-        };
-        fundList.push(object);
-      });
-      return fundList;
+      let result = [];
+      // Check if the element is object as the LLM might return object instead of list
+      if (typeof list[0] === "object") {
+        for (let elem in list) {
+          result.push({
+            name: elem.fundName,
+            type: elem.fundType,
+            proportion: elem.proportion,
+
+            amount: elem.amount,
+          });
+        }
+        return result;
+      }
+
+      for (let elem of list) {
+        result.push({
+          name: elem[0],
+          type: elem[1],
+          proportion: elem[2],
+          amount: elem[3],
+        });
+      }
+      return result;
     },
     GenGroupingFund(data) {
       let group = [];

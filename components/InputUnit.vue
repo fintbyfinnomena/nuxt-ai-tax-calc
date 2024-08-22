@@ -1,62 +1,81 @@
 <template>
+  <div>
     <div class="input-wrapper">
-        <input :type="type" :placeholder="placeholder" v-model="inputValue" :inputmode="inputmode"
-            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-            @input="$emit('update:modelValue', inputValue)" v-commas-seperate/>
-        <span class="unit">{{ unit }}</span>
+      <input
+        :type="type"
+        :placeholder="placeholder"
+        v-model="inputValue"
+        :inputmode="inputmode"
+        class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+        :class="{ 'border-red-600': errorText }"
+        @input="$emit('update:modelValue', inputValue)"
+        v-commas-seperate
+      />
+      <span class="unit">{{ unit }}</span>
     </div>
+    <div
+      v-if="errorText"
+      class="text-xs text-error mt-1 ml-1 text-red-600 -mb-1.5"
+    >
+      {{ errorText }}
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'InputWithUnit',
-    props: {
-        modelValue: {
-            type: String,
-            default: ''
-        },
-        unit: {
-            type: String,
-            required: true
-        },
-        type: {
-            type: String,
-            default: 'text'
-        },
-        placeholder: {
-            type: String,
-            default: ''
-        },
-        inputmode: {
-            type: String,
-            default: 'text'
-        }
+  name: "InputWithUnit",
+  props: {
+    modelValue: {
+      type: String,
+      default: "",
     },
-    data() {
-        return {
-            inputValue: this.modelValue
-        };
+    unit: {
+      type: String,
+      required: true,
     },
-    watch: {
-        modelValue(newVal) {
-            this.inputValue = newVal;
-        }
-    }
+    type: {
+      type: String,
+      default: "text",
+    },
+    placeholder: {
+      type: String,
+      default: "",
+    },
+    inputmode: {
+      type: String,
+      default: "text",
+    },
+    errorText: {
+      type: String,
+      default: "",
+    },
+  },
+  data() {
+    return {
+      inputValue: this.modelValue,
+    };
+  },
+  watch: {
+    modelValue(newVal) {
+      this.inputValue = newVal;
+    },
+  },
 };
 </script>
 
 <style scoped>
 .input-wrapper {
-    position: relative;
-    display: block;
+  position: relative;
+  display: block;
 }
 
 .unit {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    /* Ensures the unit text does not interfere with input interactions */
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  /* Ensures the unit text does not interfere with input interactions */
 }
 </style>
