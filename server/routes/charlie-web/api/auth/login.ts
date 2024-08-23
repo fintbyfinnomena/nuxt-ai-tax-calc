@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
 		url = `${url}&action=${query.action}`
 	}
 
-	let authRedirect = '/chat'
+	let authRedirect = '/charlie/chat'
 
 	setCookie(event, 'auth_redirect', authRedirect, {
 		httpOnly: true,

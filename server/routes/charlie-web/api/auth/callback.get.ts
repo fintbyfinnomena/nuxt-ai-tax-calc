@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
 
 			setIssueAt(event)
 
-			let redirectURL = '/chat'
+			let redirectURL = '/charlie/chat'
 			const authRedirect = getCookie(event, 'auth_redirect')
 			if (authRedirect) redirectURL = decodeURIComponent(authRedirect)
 			await sendRedirect(event, redirectURL)
