@@ -46,7 +46,7 @@ export default {
         };
         this.allocationPayload.push(fundObj);
       });
-      console.log(this.allocationPayload);
+      // console.log(this.allocationPayload);
       Toastify({
         text: "Hello world",
         duration: 3000,
