@@ -127,9 +127,7 @@ export default {
             amount: elem.amount,
           });
         }
-        console.log("obj");
-        console.log(list);
-        console.log(result);
+
         return result;
       }
 
@@ -141,10 +139,6 @@ export default {
           amount: elem[3],
         });
       }
-
-      console.log("list");
-      console.log(list);
-      console.log(result);
 
       return result;
     },
