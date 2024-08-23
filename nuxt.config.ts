@@ -47,7 +47,7 @@ export default defineNuxtConfig({
 				userinfo: `${finnoAuthURL}/userinfo`,
 				logout: logoutURL,
 				login: `${finnoAuthURL}/oauth2/auth`,
-				callback: `${baseURL}/api/auth/callback`,
+				callback: `${baseURL}/charlie-web/api/auth/callback`,
 				ttl: {
 					refreshToken: 2592000,
 					accessToken: 3600
