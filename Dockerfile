@@ -1,6 +1,7 @@
 # use node 20 alpine image as build image
 FROM node:20-alpine as builder
 
+ARG GTM_ID
 ARG BASE_URL
 ARG FINNO_AUTH_URL
 ARG FINNO_AUTH_CLIENT_ID
