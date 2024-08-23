@@ -29,6 +29,7 @@ publish_staging:
   script:
     - >
       docker build -t $CI_PROJECT_NAME
+      --build-arg GTM_ID=$GTM_ID_INT
       --build-arg BASE_URL=$BASE_URL_INT
       --build-arg FINNO_AUTH_URL=$FINNO_AUTH_URL_INT
       --build-arg FINNO_AUTH_CLIENT_ID=$FINNO_AUTH_CLIENT_ID_INT
@@ -55,6 +56,7 @@ publish_uat:
   script:
     - >
       docker build -t $CI_PROJECT_NAME
+      --build-arg GTM_ID=$GTM_ID_UAT
       --build-arg BASE_URL=$BASE_URL_UAT
       --build-arg FINNO_AUTH_URL=$FINNO_AUTH_URL_UAT
       --build-arg FINNO_AUTH_CLIENT_ID=$FINNO_AUTH_CLIENT_ID_UAT
@@ -82,6 +84,7 @@ publish_prod:
   script:
     - >
       docker build -t $CI_PROJECT_NAME
+      --build-arg GTM_ID=$GTM_ID
       --build-arg BASE_URL=$BASE_URL
       --build-arg FINNO_AUTH_URL=$FINNO_AUTH_URL
       --build-arg FINNO_AUTH_CLIENT_ID=$FINNO_AUTH_CLIENT_ID
