@@ -29,6 +29,7 @@
     "radix-vue": "^1.9.1",
     "shadcn-nuxt": "^0.10.4",
     "showdown": "^2.1.0",
+    "simple-mask-money": "^4.1.3",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "toastify-js": "^1.12.0",

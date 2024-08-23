@@ -48,7 +48,7 @@ export default {
   methods: {
     async SelectQuestion(value) {
       this.MessageStore.SetstartingOption(value);
-      await navigateTo("/chat");
+      await navigateTo("/charlie/chat");
     },
   },
 };

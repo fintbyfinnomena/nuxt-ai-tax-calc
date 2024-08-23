@@ -4,7 +4,8 @@
       <navbar />
       <div class="flex items-center justify-between">
         <div class="flex-1 text-right flex justify-end space-x-4 -mt-2 pb-4">
-          <TaxInfo v-model:open="isOpen" location="nav-bar" />
+          <TaxInfo v-model:open="this.MessageStore.modal" />
+          <TaxInfoBtn location="nav-bar" />
           <Button
             @click="clearChatHistory()"
             class="ml-5 bg-transparent text-primary border border-primary rounded-2xl hover:text-white hover:bg-primary"

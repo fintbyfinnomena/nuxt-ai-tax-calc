@@ -138,7 +138,7 @@ export default {
       class="flex flex-col mx-auto bg-white rounded-lg shadow-lg"
       id="chat_wrap"
     >
-      <div id="chat-container" class="flex-grow mt-10 overflow-scroll">
+      <div id="chat-container" class="flex-grow mt-5 overflow-y-scroll">
         <div v-if="MessageStore.message_obj.messagesList.length > 0">
           <div v-for="message in MessageStore.message_obj.messagesList">
             <div v-if="message.role == 'user'" class="mb-10">
@@ -170,7 +170,7 @@ export default {
           <loading class="mb-10" />
         </div>
       </div>
-      <div class="sm:p-5 md:p10">
+      <div class="sm:px-5 sm:pb-3 sm:pt-2">
         <div
           v-if="
             this.MessageStore.msgSent == false &&
