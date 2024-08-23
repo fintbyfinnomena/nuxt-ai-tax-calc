@@ -66,7 +66,7 @@ export default {
     },
     clearChatHistory() {
       fetch(
-        `${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats`,
+        `${this.config.public.url.serviceUrl}/private/api/v1/langchain-chat/chats`,
         {
           method: "POST",
           headers: {

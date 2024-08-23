@@ -111,7 +111,7 @@ export default {
     },
     downvote() {
       fetch(
-        `${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.UserStore.user.chatID}/thumb-down`,
+        `${this.config.public.url.serviceUrl}/private/api/v1/langchain-chat/chats/${this.UserStore.user.chatID}/thumb-down`,
         {
           method: "POST",
           headers: {
