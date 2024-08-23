@@ -13,7 +13,7 @@
       <prompt-click-list :prompt="value" />
     </div>
     <div class="info-modal" v-else-if="tags == 'info-modal'">
-      <TaxInfo v-model:open="this.MessageStore.modal" location="chat" />
+      <TaxInfoBtn location="chat" />
     </div>
     <div v-else-if="tags == 'info-change'">
       <info-change :value="value" />

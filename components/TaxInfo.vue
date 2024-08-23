@@ -9,7 +9,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 import { ref } from "vue";
@@ -19,7 +18,6 @@ import { useTaxInfoStore } from "../stores/TaxInfoStore";
 import { useMessageStore } from "../stores/MessageStore";
 
 export default {
-  props: ["location"],
   data() {
     return {
       nuxtApp: useNuxtApp(),
@@ -30,6 +28,15 @@ export default {
       hasGovPensionFund: false,
       hasNationalSavingFund: false,
       hasPensionInsurance: false,
+
+      errorAge: "",
+      errorAnnualIncome: "",
+      errorRisk: "",
+      errorDesiredAmount: "",
+      errorAlternativeRetirementFund: "",
+      errorGovPensionFund: "",
+      errorNationalSavingFund: "",
+      errorPensionInsurance: "",
     };
   },
   created() {
@@ -38,13 +45,16 @@ export default {
   },
   methods: {
     Save() {
+      // Validate
+      this.MessageStore.modal = false;
+
       try {
-        this.MessageStore.autoMsg = this.TaxInfoStore.generatePrompt();
-        this.nuxtApp.$tagEvent(
-          "allocation-param_submit",
-          "allocation-param-modal",
-          this.TaxInfoStore
-        );
+        // this.MessageStore.autoMsg = this.TaxInfoStore.generatePrompt();
+        // this.nuxtApp.$tagEvent(
+        //   "allocation-param_submit",
+        //   "allocation-param-modal",
+        //   this.TaxInfoStore
+        // );
       } catch (e) {
         console.error(e);
       }
@@ -65,18 +75,6 @@ export default {
 
 <template>
   <Dialog>
-    <DialogTrigger as-child>
-      <Button
-        variant="outline"
-        class="bg-primary text-white lg:mb-0 rounded-full border border-primary hover:text-primary hover:bg-transparent"
-        :data-fn-location="location"
-        data-fn-action="allocation-param-modal_open"
-      >
-        <Icon icon="iconoir:page-edit" size="1.4em" class="mr-2" />
-        ระบุข้อมูลลดหย่อนภาษี
-      </Button>
-    </DialogTrigger>
-
     <DialogContent class="sm:max-w-xl">
       <DialogHeader>
         <div class="text-sm font-semibold">
@@ -93,10 +91,12 @@ export default {
           >
           <InputUnit
             type="text"
+            id="age"
             unit="ปี"
             name="age"
             inputmode="numeric"
             v-model="TaxInfoStore.age"
+            :errorText="errorAge"
           />
         </div>
         <div class="col-span-2 sm:col-span-1 -mt-3 sm:mt-0">
@@ -109,10 +109,12 @@ export default {
             type="text"
             unit="บาท"
             name="annualIncome"
+            id="annualIncome"
             inputmode="numeric"
             v-model="TaxInfoStore.annualIncome"
-            v-commas-seperate
             placeholder="โปรดระบุจำนวน"
+            :mask-money="true"
+            :errorText="errorAnnualIncome"
           />
         </div>
         <div class="col-span-2">
@@ -122,7 +124,7 @@ export default {
             >ความเสี่ยงที่สามารถรับได้*
             <div class="has-tooltip inline">
               <span
-                class="tooltip rounded shadow-lg p-1 bg-gray-100 mt-5 -ml-16 max-w-72 py-5 px-4"
+                class="tooltip rounded shadow-lg p-1 bg-gray-100 mt-5 -ml-16 max-w-72 py-5 px-4 font-medium"
                 >คุณเต็มใจที่จะลงทุนในกลุ่มการลงทุนใดมากที่สุด
                 <ul class="list-disc list-outside text-sm pl-7 mt-1">
                   <li>
@@ -144,11 +146,15 @@ export default {
               </span>
               <Icon
                 icon="fa:question-circle"
-                class="ml-1 text-gray-500 -m-t-1"
+                class="ml-1 text-gray-400 -mt-1.5"
               />
             </div>
           </Label>
-          <RiskRadio name="riskLevel" v-model="TaxInfoStore.riskLevel" />
+          <RiskRadio
+            name="riskLevel"
+            v-model="TaxInfoStore.riskLevel"
+            :errorText="errorRisk"
+          />
         </div>
         <div class="col-span-2">
           <Label
@@ -170,11 +176,13 @@ export default {
             type="text"
             unit="บาท"
             name="desiredAmount"
+            id="desiredAmount"
             inputmode="numeric"
             class="mt-1"
             v-model="TaxInfoStore.desiredAmount"
-            v-commas-seperate
             placeholder="โปรดระบุจำนวน"
+            :mask-money="true"
+            :errorText="errorDesiredAmount"
           />
         </div>
         <div class="col-span-2" v-if="hasAlternativeRetirementFund">
@@ -195,10 +203,12 @@ export default {
             type="text"
             unit="บาท"
             name="alternativeRetirementFund"
+            id="alternativeRetirementFund"
             inputmode="numeric"
             v-model="TaxInfoStore.alternativeRetirementFund"
-            v-commas-seperate
             placeholder="โปรดระบุจำนวน"
+            :mask-money="true"
+            :errorText="errorAlternativeRetirementFund"
           />
         </div>
         <div class="col-span-2" v-if="hasGovPensionFund">
@@ -219,10 +229,12 @@ export default {
             type="text"
             unit="บาท"
             name="govPensionFund"
+            id="govPensionFund"
             inputmode="numeric"
             v-model="TaxInfoStore.govPensionFund"
-            v-commas-seperate
             placeholder="โปรดระบุจำนวน"
+            :mask-money="true"
+            :errorText="errorGovPensionFund"
           />
         </div>
         <div class="col-span-2" v-if="hasNationalSavingFund">
@@ -243,10 +255,12 @@ export default {
             type="text"
             unit="บาท"
             name="nationalSavingFund"
+            id="nationalSavingFund"
             inputmode="numeric"
             v-model="TaxInfoStore.nationalSavingFund"
-            v-commas-seperate
             placeholder="โปรดระบุจำนวน"
+            :mask-money="true"
+            :errorText="errorNationalSavingFund"
           />
         </div>
         <div class="col-span-2" v-if="hasPensionInsurance">
@@ -267,10 +281,12 @@ export default {
             type="text"
             unit="บาท"
             name="pensionInsurance"
+            id="pensionInsurance"
             inputmode="numeric"
             v-model="TaxInfoStore.pensionInsurance"
-            v-commas-seperate
             placeholder="โปรดระบุจำนวน"
+            :mask-money="true"
+            :errorText="errorPensionInsurance"
           />
         </div>
         <div class="col-span-2" v-if="canAddTaxBenefitOption">
@@ -324,11 +340,10 @@ export default {
             <p>ยกเลิก</p>
           </Button>
         </DialogClose>
-        <DialogClose as-child>
-          <Button type="button" class="bg-primary" @click="Save()">
-            <p>บันทึกข้อมูล</p>
-          </Button>
-        </DialogClose>
+
+        <Button type="button" class="bg-primary" @click="Save()">
+          <p>บันทึกข้อมูล</p>
+        </Button>
       </DialogFooter>
     </DialogContent>
   </Dialog>

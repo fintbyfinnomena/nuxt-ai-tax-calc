@@ -2,14 +2,14 @@
   <div>
     <div class="input-wrapper">
       <input
+        :id="id"
         :type="type"
         :placeholder="placeholder"
-        v-model="inputValue"
         :inputmode="inputmode"
         class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
         :class="{ 'border-red-600': errorText }"
-        @input="$emit('update:modelValue', inputValue)"
-        v-commas-seperate
+        :value="modelValue"
+        @input="updateModelValue($event.target.value)"
       />
       <span class="unit">{{ unit }}</span>
     </div>
@@ -23,12 +23,18 @@
 </template>
 
 <script>
+import { setMask, removeMask } from "simple-mask-money";
+
 export default {
   name: "InputWithUnit",
   props: {
-    modelValue: {
+    id: {
       type: String,
       default: "",
+    },
+    modelValue: {
+      type: [String, Number, null],
+      default: null,
     },
     unit: {
       type: String,
@@ -46,6 +52,10 @@ export default {
       type: String,
       default: "text",
     },
+    maskMoney: {
+      type: Boolean,
+      default: false,
+    },
     errorText: {
       type: String,
       default: "",
@@ -56,9 +66,16 @@ export default {
       inputValue: this.modelValue,
     };
   },
-  watch: {
-    modelValue(newVal) {
-      this.inputValue = newVal;
+  methods: {
+    updateModelValue(i) {
+      let input = i;
+
+      if (this.maskMoney) {
+        input = input.replace(/\,/g, "");
+        input = Math.round(Number(input)).toLocaleString();
+      }
+
+      this.$emit("update:modelValue", input);
     },
   },
 };
