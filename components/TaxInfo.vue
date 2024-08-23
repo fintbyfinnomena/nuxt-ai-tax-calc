@@ -17,6 +17,34 @@ import RiskRadio from "./riskRadio.vue";
 import { useTaxInfoStore } from "../stores/TaxInfoStore";
 import { useMessageStore } from "../stores/MessageStore";
 
+function isNumber(value) {
+  return typeof value === "number";
+}
+
+function stripCommasAndCheckNumber(value) {
+  if (isNumber(value)) {
+    return true;
+  }
+
+  try {
+    const parsedFloat = parseFloat(value.replace(/,/g, ""));
+    if (isNaN(parsedFloat)) {
+      return false;
+    }
+
+    return typeof parsedFloat === "number";
+  } catch (e) {
+    return false;
+  }
+}
+
+function stripCommaAndConvertNumber(value) {
+  if (isNumber(value)) {
+    return value;
+  }
+  return parseInt(value.replace(/,/g, ""));
+}
+
 export default {
   data() {
     return {
@@ -45,16 +73,139 @@ export default {
   },
   methods: {
     Save() {
-      // Validate
-      this.MessageStore.modal = false;
-
       try {
-        // this.MessageStore.autoMsg = this.TaxInfoStore.generatePrompt();
-        // this.nuxtApp.$tagEvent(
-        //   "allocation-param_submit",
-        //   "allocation-param-modal",
-        //   this.TaxInfoStore
-        // );
+        let isError = false;
+        if (
+          !stripCommasAndCheckNumber(this.TaxInfoStore.age) ||
+          !this.TaxInfoStore.age ||
+          this.TaxInfoStore.age < 1 ||
+          this.TaxInfoStore.age > 99
+        ) {
+          this.errorAge = "โปรดระบุอายุของคุณ";
+          isError = true;
+        } else {
+          this.errorAge = "";
+        }
+
+        if (
+          !stripCommasAndCheckNumber(this.TaxInfoStore.annualIncome) ||
+          !this.TaxInfoStore.annualIncome ||
+          this.TaxInfoStore.annualIncome < 0 ||
+          stripCommaAndConvertNumber(this.TaxInfoStore.annualIncome) > 999999999
+        ) {
+          this.errorAnnualIncome = "โปรดระบุรายได้ของคุณ";
+          isError = true;
+        } else {
+          this.errorAnnualIncome = "";
+        }
+
+        if (!this.TaxInfoStore.riskLevel) {
+          this.errorRisk = "โปรดระบุความเสี่ยงที่สามารถรับได้ของคุณ";
+          isError = true;
+        } else {
+          this.errorRisk = "";
+        }
+
+        if (
+          this.hasDesiredAmount &&
+          (!stripCommasAndCheckNumber(this.TaxInfoStore.desiredAmount) ||
+            this.TaxInfoStore.desiredAmount < 0 ||
+            stripCommaAndConvertNumber(this.TaxInfoStore.desiredAmount) >
+              999999999)
+        ) {
+          this.errorDesiredAmount = "โปรดระบุงบประมาณที่ต้องการลงทุน";
+          isError = true;
+        } else {
+          this.errorDesiredAmount = "";
+        }
+
+        if (
+          this.hasAlternativeRetirementFund &&
+          (!stripCommasAndCheckNumber(
+            this.TaxInfoStore.alternativeRetirementFund
+          ) ||
+            this.TaxInfoStore.alternativeRetirementFund < 0 ||
+            stripCommaAndConvertNumber(
+              this.TaxInfoStore.alternativeRetirementFund
+            ) > 999999999)
+        ) {
+          this.errorAlternativeRetirementFund = "โปรดระบุจำนวนเงินที่คุณลงทุน";
+          isError = true;
+        } else {
+          this.errorAlternativeRetirementFund = "";
+        }
+
+        if (
+          this.hasGovPensionFund &&
+          (!stripCommasAndCheckNumber(this.TaxInfoStore.govPensionFund) ||
+            this.TaxInfoStore.govPensionFund < 0 ||
+            stripCommaAndConvertNumber(this.TaxInfoStore.govPensionFund) >
+              999999999)
+        ) {
+          this.errorGovPensionFund = "โปรดระบุจำนวนเงินที่คุณลงทุน";
+          isError = true;
+        } else {
+          this.errorGovPensionFund = "";
+        }
+
+        if (
+          this.hasNationalSavingFund &&
+          (!stripCommasAndCheckNumber(this.TaxInfoStore.nationalSavingFund) ||
+            this.TaxInfoStore.nationalSavingFund < 0 ||
+            stripCommaAndConvertNumber(this.TaxInfoStore.nationalSavingFund) >
+              999999999)
+        ) {
+          this.errorNationalSavingFund = "โปรดระบุจำนวนเงินที่คุณลงทุน";
+          isError = true;
+        } else {
+          this.errorNationalSavingFund = "";
+        }
+
+        if (
+          this.hasPensionInsurance &&
+          (!stripCommasAndCheckNumber(this.TaxInfoStore.pensionInsurance) ||
+            this.TaxInfoStore.pensionInsurance < 0 ||
+            stripCommaAndConvertNumber(this.TaxInfoStore.pensionInsurance) >
+              999999999)
+        ) {
+          this.errorPensionInsurance = "โปรดระบุจำนวนเงินที่คุณลงทุน";
+          isError = true;
+        } else {
+          this.errorPensionInsurance = "";
+        }
+
+        if (isError) {
+          return;
+        }
+
+        // Format data
+        if (!this.hasDesiredAmount) {
+          this.TaxInfoStore.desiredAmount = 0;
+        }
+
+        if (!this.hasAlternativeRetirementFund) {
+          this.TaxInfoStore.alternativeRetirementFund = 0;
+        }
+
+        if (!this.hasGovPensionFund) {
+          this.TaxInfoStore.govPensionFund = 0;
+        }
+
+        if (!this.hasNationalSavingFund) {
+          this.TaxInfoStore.nationalSavingFund = 0;
+        }
+
+        if (!this.hasPensionInsurance) {
+          this.TaxInfoStore.pensionInsurance = 0;
+        }
+
+        this.MessageStore.autoMsg = this.TaxInfoStore.generatePrompt();
+        this.nuxtApp.$tagEvent(
+          "allocation-param_submit",
+          "allocation-param-modal",
+          this.TaxInfoStore
+        );
+        this.MessageStore.modal = false;
       } catch (e) {
         console.error(e);
       }
@@ -90,7 +241,7 @@ export default {
             >อายุ*</Label
           >
           <InputUnit
-            type="text"
+            type="number"
             id="age"
             unit="ปี"
             name="age"

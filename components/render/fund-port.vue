@@ -83,6 +83,7 @@ export default {
 
     this.colorArray = this.GenColors();
     this.groupingFund = this.GenGroupingFund(this.data);
+
     this.portAmount = this.data.reduce((acc, fund) => acc + fund.amount, 0);
   },
   methods: {
@@ -116,7 +117,7 @@ export default {
     GenFundJSON(list) {
       let result = [];
       // Check if the element is object as the LLM might return object instead of list
-      if (typeof list[0] === "object") {
+      if ("fundName" in list[0]) {
         for (let elem in list) {
           result.push({
             name: elem.fundName,
@@ -126,6 +127,9 @@ export default {
             amount: elem.amount,
           });
         }
+        console.log("obj");
+        console.log(list);
+        console.log(result);
         return result;
       }
 
@@ -137,6 +141,11 @@ export default {
           amount: elem[3],
         });
       }
+
+      console.log("list");
+      console.log(list);
+      console.log(result);
+
       return result;
     },
     GenGroupingFund(data) {

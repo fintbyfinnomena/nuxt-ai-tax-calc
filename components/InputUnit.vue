@@ -10,6 +10,7 @@
         :class="{ 'border-red-600': errorText }"
         :value="modelValue"
         @input="updateModelValue($event.target.value)"
+        @keypress="checkType($event)"
       />
       <span class="unit">{{ unit }}</span>
     </div>
@@ -67,6 +68,21 @@ export default {
     };
   },
   methods: {
+    checkType(e) {
+      if (this.maskMoney || this.type === "number") {
+        e = e ? e : window.event;
+        var charCode = e.which ? e.which : e.keyCode;
+        if (
+          charCode > 31 &&
+          (charCode < 48 || charCode > 57) &&
+          charCode !== 46
+        ) {
+          e.preventDefault();
+        } else {
+          return true;
+        }
+      }
+    },
     updateModelValue(i) {
       let input = i;
 
