@@ -1,12 +1,12 @@
 <template>
-  <div class="h-dvh w-full mx-auto">
+  <div class="w-full mx-auto">
     <div
-      class="flex flex-col mx-auto h-5/6 bg-white rounded-lg shadow-lg overflow-scroll"
+      class="flex flex-col mx-auto bg-white rounded-lg shadow-lg overflow-scroll"
     >
-      <div class="flex flex-grow justify-center items-center">
+      <div class="flex flex-grow justify-center items-center mt-20 mb-9">
         <img id="logo" src="../assets/img/chat-logo.png" alt="" />
       </div>
-      <div class="p-5 md:p-10">
+      <div class="p-5 pb-0 md:p-10 md:pb-0">
         <div
           v-for="(question, index) in MessageStore.Questions"
           :key="index"
