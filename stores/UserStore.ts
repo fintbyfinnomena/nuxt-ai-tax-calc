@@ -1,6 +1,6 @@
 import { type HttpResponse } from "~/server/types/http";
 
-const apiPrefix = "/api";
+const apiPrefix = "charlie-web/api";
 const defaultProfileImage =
   "https://storage.googleapis.com/scontent.finnomena.com/fint/finnomena-logo.png";
 

@@ -22,6 +22,10 @@ export default defineNuxtConfig({
     "nuxt-icon-tw",
     "@zadigetvoltaire/nuxt-gtm",
   ],
+  app: {
+    baseURL: '/charlie',
+    buildAssetsDir: '_charlie',
+  },
   plugins: [
     '~/plugins/commas.ts'
   ],

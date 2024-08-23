@@ -1,4 +1,4 @@
-const apiPrefix = '/api'
+const apiPrefix = 'charlie-web/api'
 
 export const useAuth = defineStore('auth', () => {
 	// composables
