@@ -40,6 +40,7 @@
 import { useMessageStore } from "../stores/MessageStore";
 import { useUser } from "../stores/UserStore";
 import { Button } from "@/components/ui/button";
+import { useChat } from "../stores/ChatStore";
 
 export default {
   data() {
@@ -47,12 +48,14 @@ export default {
       nuxtApp: useNuxtApp(),
       MessageStore: null,
       UserStore: null,
+      ChatStore: null,
       config: null,
     };
   },
   created() {
     this.MessageStore = useMessageStore();
     this.UserStore = useUser();
+    this.ChatStore = useChat();
     this.config = useRuntimeConfig();
   },
   mounted() {
@@ -65,28 +68,9 @@ export default {
       }
     },
     clearChatHistory() {
-      fetch(
-        `${this.config.public.url.serviceUrl}/private/api/v1/langchain-chat/chats`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "user-id": this.UserStore.user.userID,
-          },
-          // body: JSON.stringify({ key: 'value' })
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          // Handle the response data
-          this.UserStore.setChatID(data.chat_id);
-          this.MessageStore.message_obj.messagesList = [];
-          this.MessageStore.message_obj.index = 0;
-        })
-        .catch((error) => {
-          // Handle any errors
-          console.error(error);
-        });
+      this.ChatStore.initChat();
+      this.MessageStore.message_obj.messagesList = [];
+      this.MessageStore.message_obj.index = 0;
     },
   },
 };

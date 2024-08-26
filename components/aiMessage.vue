@@ -111,11 +111,12 @@ export default {
     },
     downvote() {
       fetch(
-        `${this.config.public.url.serviceUrl}/private/api/v1/langchain-chat/chats/${this.UserStore.user.chatID}/thumb-down`,
+        `charlie-web/api/charlie-service/langchain-chat/chats/${this.UserStore.user.chatID}/thumb-down`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Finno-User-Id": this.UserStore.user.userID,
           },
           body: JSON.stringify({ index: this.feedback }),
         }
