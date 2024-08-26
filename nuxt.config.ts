@@ -4,6 +4,7 @@ const finnoAuthURL =
   process.env.FINNO_AUTH_URL || "https://auth-int.finnomena.com";
 const gtmId = process.env.GTM_ID;
 const amplitudeId = process.env.AMPLITUDE_ID;
+const clarityId = process.env.CLARITY_ID;
 const logoutURL = `${finnoAuthURL}/logout?redirect_uri=${encodeURIComponent(
   baseURL
 )}`;
@@ -69,6 +70,9 @@ export default defineNuxtConfig({
       },
       amplitude: {
         id: amplitudeId,
+      },
+      clarity: {
+        id: clarityId,
       },
     },
   },
