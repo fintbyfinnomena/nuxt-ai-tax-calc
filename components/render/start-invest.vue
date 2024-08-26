@@ -61,7 +61,7 @@ export default {
     async Invest() {
       this.UnpackPayload();
       let res = await fetch(
-        `${this.config.public.url.serviceUrl}/api/v1/customer/batch-order/`,
+        `${this.config.public.url.serviceUrl}/private/api/v1/customer/batch-order/`,
         {
           method: "POST",
           header: { "user-id": this.AuthStore.user_obj.uid },
