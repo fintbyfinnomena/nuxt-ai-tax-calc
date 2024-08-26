@@ -80,6 +80,19 @@ export default {
           }
         )
           .then((response) => {
+            console.log(response);
+            if (response.status == 400) {
+              this.MessageStore.msgSent = false;
+              this.MessageStore.addMessage({
+                index: this.MessageStore.message_obj.index,
+                value: "เกิดข้อผิดพลาดกรุณา ส่งคำถามให้ Charlie ใหม่อีกครั้ง",
+                role: "ai",
+                downvote: false,
+              });
+              this.scrollToElement();
+              return;
+            }
+
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
             const readStream = () => {
@@ -186,6 +199,7 @@ export default {
               type="text"
               placeholder="ถามคำถาม..."
               v-model="newMessage"
+              maxlength="200"
             ></textarea>
             <Button
               @click="submit_message()"
