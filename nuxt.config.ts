@@ -30,6 +30,15 @@ export default defineNuxtConfig({
   app: {
     baseURL: "/charlie",
     buildAssetsDir: "_charlie",
+    head: {
+      link: [
+        {
+          rel: "icon",
+          type: "image/x-icon",
+          href: "/charlie/_charlie/assets/img/favicon.ico",
+        },
+      ],
+    },
   },
   plugins: ["~/plugins/commas.ts"],
   googleFonts: {
