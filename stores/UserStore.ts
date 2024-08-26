@@ -12,10 +12,11 @@ export const useUser = defineStore("user", () => {
   const user = reactive<UserState>({
     isLoggedIn: false,
     refresh: false,
-    userID: null,
+    userID: "",
     displayName: "",
     imageURL: "",
     chatID: "",
+    token: "",
   });
 
   // getters
@@ -49,6 +50,7 @@ export const useUser = defineStore("user", () => {
       user.imageURL = res.data.profile_url
         ? res.data.profile_url
         : defaultProfileImage;
+      user.token = accessToken.value
     } catch (err: unknown) {
       user.isLoggedIn = false;
     }
@@ -59,7 +61,7 @@ export const useUser = defineStore("user", () => {
     isLoggedIn,
     getProfile,
     setLoginStatus,
-    setChatID,
+    setChatID
   };
 });
 

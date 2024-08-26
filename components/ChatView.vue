@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useMessageStore } from "../stores/MessageStore";
 import { useUser } from "../stores/UserStore";
+import { useChat } from "../stores/ChatStore";
 
 export default {
   data() {
@@ -12,6 +13,7 @@ export default {
       // msgSent: false,
       MessageStore: null,
       UserStore: null,
+      ChatStore: null,
       prePopulateMsg: "",
       Rendered: false,
       config: null,
@@ -22,6 +24,7 @@ export default {
     this.config = useRuntimeConfig();
     this.UserStore = useUser();
     this.prePopulateMsg = this.MessageStore.autoMsg;
+    this.ChatStore = useChat();
   },
   mounted() {
     let selected = this.MessageStore.startingOption;
@@ -69,10 +72,10 @@ export default {
         this.newMessage = "";
         const headers = {
           "Content-type": "application/json",
-          "user-id": this.UserStore.user.userID,
+          "Finno-User-Id": this.UserStore.user.userID,
         };
         fetch(
-          `${this.config.public.url.serviceUrl}/private/api/v1/langchain-chat/chats/${this.UserStore.user.chatID}`,
+          `charlie-web/api/charlie-service/stream/langchain-chat/chats/${this.UserStore.user.chatID}`,
           {
             method: "POST",
             headers: headers,

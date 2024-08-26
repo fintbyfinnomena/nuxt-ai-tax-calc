@@ -30,6 +30,7 @@
 
 <script>
 import { useAuth } from "../stores/FinnoAuthStore";
+import { useChat } from "../stores/ChatStore";
 
 export default {
   data() {
@@ -38,6 +39,7 @@ export default {
       UserStore: null,
       MessageStore: null,
       FinnoAuthStore: null,
+      ChatStore: null,
       config: null,
       isinit: false,
     };
@@ -46,6 +48,7 @@ export default {
     this.config = useRuntimeConfig();
     this.UserStore = useUser();
     this.FinnoAuthStore = useAuth();
+    this.ChatStore = useChat();
   },
   mounted() {
     this.checkAuth();
@@ -55,28 +58,29 @@ export default {
       if (!this.UserStore.user) {
         window.location.href = "/";
       }
-      this.initChat();
+      this.isinit = this.ChatStore.initChat();
     },
-    initChat() {
-      fetch(
-        `${this.config.public.url.serviceUrl}/private/api/v1/langchain-chat/chats`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "user-id": this.UserStore.user.userID,
-          },
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          this.UserStore.setChatID(data.chat_id);
-          this.isinit = true;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
+    // initChat() {
+    //   fetch(
+    //     `${this.config.public.url.serviceUrl}/private/api/v1/langchain-chat/chats`,
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         "Authorization": `Bearer ${this.UserStore.user.token}`,
+    //         "user-id": this.UserStore.user.userID,
+    //       },
+    //     }
+    //   )
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       this.UserStore.setChatID(data.chat_id);
+    //       this.isinit = true;
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // },
     signout() {
       this.FinnoAuthStore.logout();
     },
@@ -84,3 +88,4 @@ export default {
 };
 </script>
 <style scoped></style>
+../stores/ChatStore
