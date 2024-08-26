@@ -1,7 +1,6 @@
 const serviceUrl = process.env.SERVICE_URL || "http://localhost:8080";
 const baseURL = process.env.BASE_URL || "http://localhost:3000";
-const finnoAuthURL =
-  process.env.FINNO_AUTH_URL || "https://auth-int.finnomena.com";
+const finnoAuthURL = process.env.FINNO_AUTH_URL || "https://auth-int.finnomena.com";
 const gtmId = process.env.GTM_ID;
 const logoutURL = `${finnoAuthURL}/logout?redirect_uri=${encodeURIComponent(
   baseURL
@@ -51,6 +50,7 @@ export default defineNuxtConfig({
     public: {
       url: {
         serviceUrl: serviceUrl,
+        finnoAuthUrl: finnoAuthURL,
       },
       auth: {
         token: `${finnoAuthURL}/oauth2/token`,
