@@ -80,33 +80,63 @@ export default {
           }
         )
           .then((response) => {
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            const readStream = () => {
-              reader.read().then(({ done, value }) => {
-                this.MessageStore.msgSent = false;
-                this.MessageStore.streaming = true;
-                if (done) {
-                  let ai_text = this.streamMessage;
-                  let ai_msg = {
-                    index: this.MessageStore.message_obj.index,
-                    value: ai_text,
-                    role: "ai",
-                    downvote: false,
-                  };
-                  this.MessageStore.addMessage(ai_msg);
-                  this.streamMessage = "";
-                  this.MessageStore.streaming = false;
-                  this.scrollToElement();
-                  return;
-                }
-                const text = decoder.decode(value, { stream: true });
-                this.streamMessage = this.streamMessage + text;
+            switch (response.status) {
+              case 200:
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                const readStream = () => {
+                  reader.read().then(({ done, value }) => {
+                    this.MessageStore.msgSent = false;
+                    this.MessageStore.streaming = true;
+                    if (done) {
+                      let ai_text = this.streamMessage;
+                      let ai_msg = {
+                        index: this.MessageStore.message_obj.index,
+                        value: ai_text,
+                        role: "ai",
+                        downvote: false,
+                      };
+                      this.MessageStore.addMessage(ai_msg);
+                      this.streamMessage = "";
+                      this.MessageStore.streaming = false;
+                      this.scrollToElement();
+                      return;
+                    }
+                    const text = decoder.decode(value, { stream: true });
+                    this.streamMessage = this.streamMessage + text;
+                    readStream();
+                    this.scrollToElement();
+                  });
+                };
                 readStream();
+                break;
+
+              case 400:
+                this.MessageStore.msgSent = false;
+                this.MessageStore.addMessage({
+                  index: this.MessageStore.message_obj.index,
+                  value:
+                    "เกิดข้อผิดพลาดจากคำถามที่คุณส่งเข้ามา กรุณาส่งคำถามให้ Charlie ใหม่อีกครั้ง",
+                  role: "ai",
+                  downvote: false,
+                });
                 this.scrollToElement();
-              });
-            };
-            readStream();
+                return;
+                break;
+
+              case 429:
+                this.MessageStore.msgSent = false;
+                this.MessageStore.addMessage({
+                  index: this.MessageStore.message_obj.index,
+                  value:
+                    "เนื่องจาก Charlie ยังอยู่ในช่วงทดสอบ เราจึงจำกัดการใช้งานต่อวัน คุณสามารถเข้ามาลองใช้งาน Charlie ใหม่ได้ใน 12 ชม.",
+                  role: "ai",
+                  downvote: false,
+                });
+                this.scrollToElement();
+                return;
+                break;
+            }
           })
           .catch((error) => {
             console.error(error);
@@ -186,6 +216,7 @@ export default {
               type="text"
               placeholder="ถามคำถาม..."
               v-model="newMessage"
+              maxlength="200"
             ></textarea>
             <Button
               @click="submit_message()"
