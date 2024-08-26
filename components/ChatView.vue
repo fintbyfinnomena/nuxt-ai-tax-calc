@@ -72,7 +72,7 @@ export default {
           "user-id": this.UserStore.user.userID,
         };
         fetch(
-          `${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats/${this.UserStore.user.chatID}`,
+          `${this.config.public.url.serviceUrl}/private/api/v1/langchain-chat/chats/${this.UserStore.user.chatID}`,
           {
             method: "POST",
             headers: headers,

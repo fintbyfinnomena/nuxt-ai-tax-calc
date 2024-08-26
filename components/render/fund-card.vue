@@ -212,7 +212,7 @@ export default {
       let encodedShortcode = encodeURIComponent(this.shortcode);
 
       let res = await fetch(
-        `${this.config.public.url.serviceUrl}/api/v1/fund/fund-info/${encodedShortcode}`
+        `${this.config.public.url.serviceUrl}/private/api/v1/fund/fund-info/${encodedShortcode}`
       );
       let data = await res.json();
       this.Code = data.data.info.shortCode;
