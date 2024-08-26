@@ -3,7 +3,7 @@
     <!-- <div class="text-left inline-flex align-middle"> -->
     <div class="flex-1">
       <div class="flex items-center">
-        <a href="/">
+        <a href="/charlie">
           <img
             src="../assets/img/nav_logo.png"
             alt="Logo Picture"
