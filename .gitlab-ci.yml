@@ -29,6 +29,8 @@ publish_staging:
   script:
     - >
       docker build -t $CI_PROJECT_NAME
+      --build-arg AMPLITUDE_ID=$AMPLITUDE_ID_INT
+      --build-arg NUXT_CLARITY_ID=$NUXT_CLARITY_ID_INT
       --build-arg SERVICE_URL=$SERVICE_URL
       --build-arg GTM_ID=$GTM_ID_INT
       --build-arg BASE_URL=$BASE_URL_INT
@@ -57,6 +59,8 @@ publish_uat:
   script:
     - >
       docker build -t $CI_PROJECT_NAME
+      --build-arg AMPLITUDE_ID=$AMPLITUDE_ID_UAT
+      --build-arg NUXT_CLARITY_ID=$NUXT_CLARITY_ID_UAT
       --build-arg SERVICE_URL=$SERVICE_URL
       --build-arg GTM_ID=$GTM_ID_UAT
       --build-arg BASE_URL=$BASE_URL_UAT
@@ -86,6 +90,8 @@ publish_prod:
   script:
     - >
       docker build -t $CI_PROJECT_NAME
+      --build-arg AMPLITUDE_ID=$AMPLITUDE_ID
+      --build-arg NUXT_CLARITY_ID=$NUXT_CLARITY_ID
       --build-arg SERVICE_URL=$SERVICE_URL
       --build-arg GTM_ID=$GTM_ID
       --build-arg BASE_URL=$BASE_URL
