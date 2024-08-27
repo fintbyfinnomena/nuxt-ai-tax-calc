@@ -2,8 +2,8 @@
 useHead({
   titleTemplate: (titleChunk: string | undefined) => {
     return titleChunk
-      ? `${titleChunk} - Charlie - Your Tax Companion`
-      : "Charlie - Your Tax Companion";
+      ? `${titleChunk} - Charlie - คู่คิด จัดพอร์ต กองทุนภาษี จาก Finnomena`
+      : "Charlie - คู่คิด จัดพอร์ต กองทุนภาษี จาก Finnomena";
   },
   meta: [
     {
