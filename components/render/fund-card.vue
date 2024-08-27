@@ -216,23 +216,24 @@ export default {
       let encodedShortcode = encodeURIComponent(this.shortcode);
 
       let res = await fetch(
-        `${this.config.public.url.serviceUrl}/private/api/v1/fund/fund-info/${encodedShortcode}`
+        `charlie-web/api/charlie-service/fund/fund-info/${encodedShortcode}`
       );
       let data = await res.json();
-      this.Code = data.data.info.shortCode;
-      this.name = data.data.info.nameTh;
-      this.category = data.data.info.categoryThName;
-      this.fundTaxType = data.data.info.fundTaxType;
-      this.isFinnnoPick = data.data.info.isFinnnoPick;
-      this.isEligibleForFintCashback = data.data.info.isEligibleForFintCashback;
-      this.isEligibleForFintEarn = data.data.info.isEligibleForFintEarn;
-      this.riskSpectrum = data.data.info.riskSpectrum;
-      this.link = data.data.fundQuoteLink;
-      this.factsheet = data.data.info.fundFactSheetUrl;
-      this.three_month = data.data.performance.return3m || "-";
-      this.six_month = data.data.performance.return6m || "-";
-      this.one_year = data.data.performance.return1y || "-";
-      this.comment = data.data.tsfComment || "";
+      let fundData = data.data.data
+      this.Code = fundData.info.shortCode;
+      this.name = fundData.info.nameTh;
+      this.category = fundData.info.categoryThName;
+      this.fundTaxType = fundData.info.fundTaxType;
+      this.isFinnnoPick = fundData.info.isFinnnoPick;
+      this.isEligibleForFintCashback = fundData.info.isEligibleForFintCashback;
+      this.isEligibleForFintEarn = fundData.info.isEligibleForFintEarn;
+      this.riskSpectrum = fundData.info.riskSpectrum;
+      this.link = fundData.fundQuoteLink;
+      this.factsheet = fundData.info.fundFactSheetUrl;
+      this.three_month = fundData.performance.return3m || "-";
+      this.six_month = fundData.performance.return6m || "-";
+      this.one_year = fundData.performance.return1y || "-";
+      this.comment = fundData.tsfComment || "";
 
       // this.MessageStore.Rendered = true;
     },
