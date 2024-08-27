@@ -31,6 +31,20 @@ export default defineNuxtConfig({
     baseURL: "/charlie",
     buildAssetsDir: "_charlie",
     head: {
+      meta: [
+        {
+          property: "og:image",
+          content: ``,
+        },
+        {
+          property: "og:title",
+          content: `Charlie - คู่คิด จัดพอร์ต กองทุนภาษี`,
+        },
+        {
+          property: "og:description",
+          content: `AI ช่วยจัดพอร์ตและแนะนำกองทุน SSF RMF ThaiESG จาก Finnomena`,
+        },
+      ],
       link: [
         {
           rel: "icon",
