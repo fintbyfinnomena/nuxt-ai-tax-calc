@@ -58,9 +58,14 @@ export default {
   }
   table {
     background-color: white;
-    margin-top: 1rem;
+    margin-top: 0.2rem;
+    th {
+      padding: 0.5rem;
+      border: 1px solid #f1f2f4;
+    }
     td {
       padding: 0.5rem;
+      border: 1px solid #f1f2f4;
     }
   }
 }
