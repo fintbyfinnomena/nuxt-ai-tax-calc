@@ -6,10 +6,7 @@ export const createRequestHeaders = async (event: H3Event): Promise<Headers> => 
 	let authorization = event.node.req.headers.authorization
 	let contentType = getHeader(event, 'content-type')
 	let cookie = getHeader(event, 'cookie')
-	const finnoUserId = process.env.FINNO_USER_ID
-	if (finnoUserId) {
-		header.set('Finno-User-Id', finnoUserId)
-	}
+
 	if (!authorization) {
 		authorization = getCookie(event, config.public.auth.cookie.accessToken)
 	}
@@ -19,7 +16,7 @@ export const createRequestHeaders = async (event: H3Event): Promise<Headers> => 
 	if (contentType) {
 		header.set('Content-Type', contentType)
 	}
-	if (cookie) {
+	if (cookie) {''
 		header.set('Cookie', cookie)
 	}
 	return header

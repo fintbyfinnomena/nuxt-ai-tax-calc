@@ -43,21 +43,30 @@
         v-if="isEligibleForFintCashback && isEligibleForFintEarn"
         class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
       >
-        <img class="w-5 h-5 rounded-full inline-block mr-1" src="../../assets/img/fint.png">
+        <img
+          class="w-5 h-5 rounded-full inline-block mr-1"
+          src="../../assets/img/fint.png"
+        />
         Earn / Cashback
       </span>
       <span
         v-else-if="isEligibleForFintCashback && !isEligibleForFintEarn"
         class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
-        >
-        <img class="w-5 h-5 rounded-full inline" src="../../assets/img/fint.png">
+      >
+        <img
+          class="w-5 h-5 rounded-full inline"
+          src="../../assets/img/fint.png"
+        />
         Cashback
       </span>
       <span
         v-else-if="isEligibleForFintEarn && !isEligibleForFintCashback"
         class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
-        >
-        <img class="w-5 h-5 rounded-full inline" src="../../assets/img/fint.png">
+      >
+        <img
+          class="w-5 h-5 rounded-full inline"
+          src="../../assets/img/fint.png"
+        />
         Earn
       </span>
     </section>
@@ -68,7 +77,7 @@
     </section>
     <a
       :href="factsheet"
-      class="text-sm font-semibold text-primary underline"
+      class="text-sm font-semibold text-primary"
       target="_blank"
       data-fn-location="chat"
       data-fn-action="fund-info-prospectus_click"
@@ -76,7 +85,7 @@
         'fund' : '${this.Code}'
         }`"
     >
-      <Icon icon="iconoir:page" size="1.4em" class="mr-1"/>หนังสือชี้ชวน
+      <Icon icon="iconoir:page" size="1.4em" class="mr-1" />หนังสือชี้ชวน
     </a>
     <section class="bg-white my-3 py-3 rounded-lg mb-5 mt-5">
       <div class="grid grid-cols-1 md:grid-cols-4">
@@ -134,20 +143,33 @@
         </div>
       </div>
     </section>
-
-    <a
-      :href="link"
-      class="text-sm px-3 py-1 rounded-full font-semibold bg-transparent text-primary border border-primary hover:text-white hover:bg-primary"
-      target="_blank"
-      data-fn-location="chat"
-      data-fn-action="fund-info-quote_click"
-      :data-fn-params="`{
+    <div v-if="comment" class="text-sm mb-3">
+      <b>คำแนะนำเกี่ยวกับกองทุนนี้</b>
+      <div>
+        {{ comment }}
+      </div>
+    </div>
+    <div class="text-right">
+      <a
+        :href="link"
+        class="text-sm px-3 py-1 rounded-full font-semibold bg-transparent text-primary border border-primary hover:text-white hover:bg-primary"
+        target="_blank"
+        data-fn-location="chat"
+        data-fn-action="fund-info-quote_click"
+        :data-fn-params="`{
         'fund' : '${this.Code}'
         }`"
-    >
-      ดูข้อมูล {{ this.Code }}
-      <Icon icon="iconoir:arrow-right" size="1.4em" />
-    </a>
+      >
+        ดูข้อมูล {{ this.Code }}
+        <Icon icon="iconoir:arrow-right" size="1.4em" />
+      </a>
+    </div>
+    <p class="text-xs mt-4">
+      *
+      ข้อมูลค่าธรรมเนียมทั้งหมดมาจากสำนักงานคณะกรรมการกำกับหลักทรัพย์และตลาดหลักทรัพย์
+      เพื่อความแม่นยำของข้อมูลกรุณาศึกษาข้อมูลจากหนังสือชี้ชวนอีกครั้งหนึ่ง |
+      ผลการดำเนินงานในอดีตและผลการเปรียบเทียบผลการดำเนินงานที่เกี่ยวข้องกับผลิตภัณฑ์ในตลาดทุนมิได้เป็นสิ่งยืนยันถึงผลการดำเนินงานในอนาคต
+    </p>
   </div>
 </template>
 <script>
@@ -172,6 +194,7 @@ export default {
       three_month: "",
       six_month: "",
       one_year: "",
+      comment: "",
     };
   },
   created() {
@@ -189,7 +212,7 @@ export default {
       let encodedShortcode = encodeURIComponent(this.shortcode);
 
       let res = await fetch(
-        `${this.config.public.url.serviceUrl}/api/v1/fund/fund-info/${encodedShortcode}`
+        `${this.config.public.url.serviceUrl}/private/api/v1/fund/fund-info/${encodedShortcode}`
       );
       let data = await res.json();
       this.Code = data.data.info.shortCode;
@@ -205,6 +228,7 @@ export default {
       this.three_month = data.data.performance.return3m || "-";
       this.six_month = data.data.performance.return6m || "-";
       this.one_year = data.data.performance.return1y || "-";
+      this.comment = data.data.tsfComment || "";
 
       // this.MessageStore.Rendered = true;
     },

@@ -1,10 +1,14 @@
 # use node 20 alpine image as build image
 FROM node:20-alpine as builder
 
+ARG GTM_ID
 ARG BASE_URL
 ARG FINNO_AUTH_URL
 ARG FINNO_AUTH_CLIENT_ID
 ARG FINNO_AUTH_SECRET
+ARG SERVICE_URL
+ARG AMPLITUDE_ID
+ARG CLARITY_ID
 
 # create work directory in app folder
 WORKDIR /app

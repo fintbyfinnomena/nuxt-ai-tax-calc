@@ -1,6 +1,8 @@
 import { type HttpResponse } from "~/server/types/http";
 
-const apiPrefix = "/api";
+const apiPrefix = "charlie-web/api";
+const defaultProfileImage =
+  "https://storage.googleapis.com/scontent.finnomena.com/fint/finnomena-logo.png";
 
 export const useUser = defineStore("user", () => {
   // composables
@@ -10,10 +12,11 @@ export const useUser = defineStore("user", () => {
   const user = reactive<UserState>({
     isLoggedIn: false,
     refresh: false,
-    userID: null,
+    userID: "",
     displayName: "",
     imageURL: "",
     chatID: "",
+    token: "",
   });
 
   // getters
@@ -44,7 +47,10 @@ export const useUser = defineStore("user", () => {
       );
       user.userID = res.data.user_id;
       user.displayName = res.data.display_name;
-      user.imageURL = res.data.profile_url;
+      user.imageURL = res.data.profile_url
+        ? res.data.profile_url
+        : defaultProfileImage;
+      user.token = accessToken.value
     } catch (err: unknown) {
       user.isLoggedIn = false;
     }
@@ -55,7 +61,7 @@ export const useUser = defineStore("user", () => {
     isLoggedIn,
     getProfile,
     setLoginStatus,
-    setChatID,
+    setChatID
   };
 });
 

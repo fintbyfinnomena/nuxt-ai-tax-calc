@@ -2,17 +2,18 @@
   <div class="w-11/12 md:w-5/6 lg:w-4/6 h-screen mx-auto flex flex-col">
     <div id="navbar">
       <navbar />
-      <div class="flex items-center justify-between pb-5">
-        <div class="flex-1 text-right flex justify-end space-x-4">
-          <TaxInfo v-model:open="isOpen" location="nav-bar" />
+      <div class="flex items-center justify-between">
+        <div class="flex-1 text-right flex justify-end space-x-4 -mt-2 pb-4">
+          <TaxInfo v-model:open="this.MessageStore.modal" />
+          <TaxInfoBtn location="nav-bar" />
           <Button
             @click="clearChatHistory()"
             class="ml-5 bg-transparent text-primary border border-primary rounded-2xl hover:text-white hover:bg-primary"
             data-fn-location="nav-bar"
             data-fn-action="reset-conversation_click"
           >
-            <Icon icon="iconoir:refresh-double" size="1.4em" class="mr-2" />
-            เริ่มการสนทนาใหม่
+            <Icon icon="iconoir:refresh-double" size="1.4em" />
+            <p class="hidden sm:inline ml-2">เริ่มการสนทนาใหม่</p>
           </Button>
         </div>
       </div>
@@ -22,14 +23,13 @@
     </div>
     <div id="footer" class="mt-4">
       <p class="text-sm text-gray-500">
-        <Icon
-          icon="iconoir:info-circle"
-          size="1.2em"
-        />ระบบคำนวณยอดเงินลงทุนในกองทุนลดหย่อนภาษีนี้เป็นการคำนวณเพียงเบื้องต้น
+        <Icon icon="iconoir:info-circle" size="1.2em" />
+        ระบบคำนวณยอดเงินลงทุนในกองทุนลดหย่อนภาษีนี้เป็นการคำนวณเพียงเบื้องต้น
         โดยใช้ข้อมูลจากกรมสรรพากรสำหรับปีภาษี 2567 เท่านั้น
         ทางบริษัทขอไม่รับรองความถูกต้องของข้อมูลและผลลัพธ์
         ในกรณีที่มีการเปลี่ยนแปลงข้อมูลเกี่ยวกับการลดหย่อนภาษี...<terms
-          class="display-inline"
+          class="inline"
+          text="อ่านเพิ่มเติม"
         />
       </p>
     </div>
@@ -39,64 +39,40 @@
 <script>
 import { useMessageStore } from "../stores/MessageStore";
 import { useUser } from "../stores/UserStore";
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
+import { useChat } from "../stores/ChatStore";
 
 export default {
-    data() {
-        return {
-            nuxtApp: useNuxtApp(),
-            MessageStore: null,
-            UserStore: null,
-            config: null,
-        };
+  data() {
+    return {
+      nuxtApp: useNuxtApp(),
+      MessageStore: null,
+      UserStore: null,
+      ChatStore: null,
+      config: null,
+    };
+  },
+  created() {
+    this.MessageStore = useMessageStore();
+    this.UserStore = useUser();
+    this.ChatStore = useChat();
+    this.config = useRuntimeConfig();
+  },
+  mounted() {
+    this.checkAuth();
+  },
+  methods: {
+    checkAuth() {
+      if (!this.UserStore.user) {
+        window.location.href = "/";
+      }
     },
-    created() {
-        this.MessageStore = useMessageStore();
-        this.UserStore = useUser();
-        this.config = useRuntimeConfig();
+    clearChatHistory() {
+      this.ChatStore.initChat();
+      this.MessageStore.message_obj.messagesList = [];
+      this.MessageStore.message_obj.index = 0;
     },
-    mounted() {
-        this.checkAuth();
-    },
-    methods: {
-      checkAuth() {
-          if (!this.UserStore.user) {
-              window.location.href = "/";
-          }
-      },
-      clearChatHistory() {
-        fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'user-id': this.UserStore.user.userID,
-            },
-                // body: JSON.stringify({ key: 'value' })
-        }).then(response => response.json())
-          .then(data => {
-            // Handle the response data
-            this.UserStore.setChatID(data.chat_id)
-            this.MessageStore.message_obj.messagesList = [];
-            this.MessageStore.message_obj.index = 0;
-          })
-          .catch(error => {
-            // Handle any errors
-            console.error(error);
-          });
-       }
-    }
+  },
 };
 </script>
-<style>
-#navbar {
-  height: 15%;
-  margin-bottom: 1em;
-}
-
-#chat {
-  height: 80%;
-}
-#foot {
-  height: 5%;
-}
-</style>
+<style scoped></style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="display-inline">
-    <div v-if="tags == 'fund-click'" class="display-inline">
+  <div class="inline">
+    <div v-if="tags == 'fund-click'" class="inline">
       <fund-click :shortcode="value" />
     </div>
     <div v-else-if="tags == 'fund-card'">
@@ -9,8 +9,11 @@
     <div v-else-if="tags == 'fund-port'">
       <fund-port :port="value" />
     </div>
-    <div v-else-if="tags == 'info-modal'">
-      <TaxInfo v-model:open="this.MessageStore.modal" location="chat" />
+    <div v-else-if="tags == 'prompt-click-list'" class="inline">
+      <prompt-click-list :prompt="value" />
+    </div>
+    <div class="info-modal" v-else-if="tags == 'info-modal'">
+      <TaxInfoBtn location="chat" />
     </div>
     <div v-else-if="tags == 'info-change'">
       <info-change :value="value" />
@@ -55,4 +58,8 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+.info-modal {
+  margin-top: 10px;
+}
+</style>
