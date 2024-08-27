@@ -35,7 +35,7 @@ export default defineNuxtConfig({
         {
           rel: "icon",
           type: "image/x-icon",
-          href: "/charlie/_charlie/assets/img/favicon.ico",
+          href: "https://scontent.finnomena.com/favicon/favicon.ico",
         },
       ],
     },
