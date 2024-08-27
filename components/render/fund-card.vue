@@ -1,24 +1,26 @@
 <template>
-  <div class="bg-gray-100 p-5 text-primary mt-5 rounded-md">
-    <section>
+  <div
+    class="bg-gray-100 p-5 text-primary mt-5 rounded-md mr-5 flex flex-col min-h-[600px] h-fit w-[270px] sm:w-[380px] lg:w-[500px] xl:w-[600px]"
+  >
+    <section class="flex flex-wrap">
       <span
         v-if="fundTaxType == 'SSF'"
-        class="bg-SSF text-primary text-md font-semibold me-2 px-2.5 py-0.5 rounded"
+        class="bg-SSF text-primary text-md font-semibold me-2 px-2.5 py-0.5 rounded mt-1"
         >{{ this.fundTaxType }}</span
       >
       <span
         v-else-if="fundTaxType == 'RMF'"
-        class="bg-RMF text-white text-base font-semibold me-2 px-2.5 py-0.5 rounded"
+        class="bg-RMF text-white text-base font-semibold me-2 px-2.5 py-0.5 rounded mt-1"
         >{{ this.fundTaxType }}</span
       >
       <span
         v-else-if="fundTaxType == 'TESG'"
-        class="bg-TESG text-primary text-base font-medium me-2 px-2.5 py-0.5 rounded"
+        class="bg-TESG text-primary text-base font-medium me-2 px-2.5 py-0.5 rounded mt-1"
         >{{ this.fundTaxType }}</span
       >
       <span
         v-if="isFinnnoPick"
-        class="bg-primary text-white text-md font-medium me-2 px-2.5 py-0.5 rounded"
+        class="bg-primary text-white text-md font-medium me-2 px-2.5 py-0.5 rounded mt-1"
       >
         <svg
           width="15"
@@ -26,7 +28,7 @@
           viewBox="0 0 12 14"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          style="display: inline; margin-right: 2px"
+          class="inline-block mr-1"
         >
           <path
             d="M10.4356 0.333252V2.11103H0.666626V6.55547H11.3237V0.333252H10.4356Z"
@@ -41,30 +43,30 @@
       </span>
       <span
         v-if="isEligibleForFintCashback && isEligibleForFintEarn"
-        class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
+        class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded mt-1"
       >
         <img
-          class="w-5 h-5 rounded-full inline-block mr-1"
+          class="w-5 h-5 rounded-full inline-block mr-1 align-sub"
           src="../../assets/img/fint.png"
         />
         Earn / Cashback
       </span>
       <span
         v-else-if="isEligibleForFintCashback && !isEligibleForFintEarn"
-        class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
+        class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded mt-1"
       >
         <img
-          class="w-5 h-5 rounded-full inline"
+          class="w-5 h-5 rounded-full inline align-sub"
           src="../../assets/img/fint.png"
         />
         Cashback
       </span>
       <span
         v-else-if="isEligibleForFintEarn && !isEligibleForFintCashback"
-        class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
+        class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded mt-1"
       >
         <img
-          class="w-5 h-5 rounded-full inline"
+          class="w-5 h-5 rounded-full inline align-sub"
           src="../../assets/img/fint.png"
         />
         Earn
@@ -149,27 +151,29 @@
         {{ comment }}
       </div>
     </div>
-    <div class="text-right">
-      <a
-        :href="link"
-        class="text-sm px-3 py-1 rounded-full font-semibold bg-transparent text-primary border border-primary hover:text-white hover:bg-primary"
-        target="_blank"
-        data-fn-location="chat"
-        data-fn-action="fund-info-quote_click"
-        :data-fn-params="`{
+    <div class="mt-auto">
+      <div class="text-right">
+        <a
+          :href="link"
+          class="text-sm px-3 py-1 rounded-full font-semibold bg-transparent text-primary border border-primary hover:text-white hover:bg-primary"
+          target="_blank"
+          data-fn-location="chat"
+          data-fn-action="fund-info-quote_click"
+          :data-fn-params="`{
         'fund' : '${this.Code}'
         }`"
-      >
-        ดูข้อมูล {{ this.Code }}
-        <Icon icon="iconoir:arrow-right" size="1.4em" />
-      </a>
+        >
+          ดูข้อมูล {{ this.Code }}
+          <Icon icon="iconoir:arrow-right" size="1.4em" />
+        </a>
+      </div>
+      <p class="text-xs mt-4">
+        *
+        ข้อมูลค่าธรรมเนียมทั้งหมดมาจากสำนักงานคณะกรรมการกำกับหลักทรัพย์และตลาดหลักทรัพย์
+        เพื่อความแม่นยำของข้อมูลกรุณาศึกษาข้อมูลจากหนังสือชี้ชวนอีกครั้งหนึ่ง |
+        ผลการดำเนินงานในอดีตและผลการเปรียบเทียบผลการดำเนินงานที่เกี่ยวข้องกับผลิตภัณฑ์ในตลาดทุนมิได้เป็นสิ่งยืนยันถึงผลการดำเนินงานในอนาคต
+      </p>
     </div>
-    <p class="text-xs mt-4">
-      *
-      ข้อมูลค่าธรรมเนียมทั้งหมดมาจากสำนักงานคณะกรรมการกำกับหลักทรัพย์และตลาดหลักทรัพย์
-      เพื่อความแม่นยำของข้อมูลกรุณาศึกษาข้อมูลจากหนังสือชี้ชวนอีกครั้งหนึ่ง |
-      ผลการดำเนินงานในอดีตและผลการเปรียบเทียบผลการดำเนินงานที่เกี่ยวข้องกับผลิตภัณฑ์ในตลาดทุนมิได้เป็นสิ่งยืนยันถึงผลการดำเนินงานในอนาคต
-    </p>
   </div>
 </template>
 <script>
