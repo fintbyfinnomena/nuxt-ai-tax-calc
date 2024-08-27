@@ -60,27 +60,6 @@ export default {
       }
       this.isinit = this.ChatStore.initChat();
     },
-    // initChat() {
-    //   fetch(
-    //     `${this.config.public.url.serviceUrl}/private/api/v1/langchain-chat/chats`,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         "Authorization": `Bearer ${this.UserStore.user.token}`,
-    //         "user-id": this.UserStore.user.userID,
-    //       },
-    //     }
-    //   )
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       this.UserStore.setChatID(data.chat_id);
-    //       this.isinit = true;
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //     });
-    // },
     signout() {
       this.FinnoAuthStore.logout();
     },
