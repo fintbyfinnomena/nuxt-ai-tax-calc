@@ -29,6 +29,12 @@ export default {
   },
   methods: {
     MDtoHTML(mdString) {
+      mdString = mdString.replace(
+        /<br>/g,
+        `
+      `
+      );
+
       let converter = new showdown.Converter({
         openLinksInNewWindow: true,
         requireSpaceBeforeHeadingText: true,
