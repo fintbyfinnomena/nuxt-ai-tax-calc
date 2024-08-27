@@ -67,4 +67,3 @@ export default {
 };
 </script>
 <style scoped></style>
-../stores/ChatStore

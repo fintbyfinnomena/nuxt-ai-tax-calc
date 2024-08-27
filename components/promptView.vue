@@ -1,7 +1,8 @@
 <template>
-  <div class="w-full mx-auto">
+  <div class="w-full mx-auto" id="prompt_view">
     <div
-      class="flex flex-col mx-auto bg-white rounded-lg shadow-lg overflow-scroll"
+      class="flex flex-col mx-auto bg-white rounded-lg shadow-lg"
+      id="prompt_wrap"
     >
       <div class="flex flex-grow justify-center items-center mt-20 mb-9">
         <img id="logo" src="../assets/img/chat-logo.png" alt="" />
@@ -57,5 +58,13 @@ export default {
 #logo {
   width: 25vh;
   height: 25vh;
+}
+
+#prompt_view {
+  height: 80dvh;
+}
+
+#prompt_wrap {
+  height: 100%;
 }
 </style>
