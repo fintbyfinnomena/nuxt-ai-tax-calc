@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useTaxInfoStore } from "../../stores/TaxInfoStore";
 import { useAuthStore } from "../stores/AuthStore";
+import { useUser } from "../../stores/UserStore"
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 
@@ -23,12 +24,14 @@ export default {
       allocationPayload: [],
       taxInfoStore: null,
       AuthStore: null,
+      UserStore: null,
       config: null,
     };
   },
   created() {
     this.taxInfoStore = useTaxInfoStore();
     this.AuthStore = useAuthStore();
+    this.UserStore = useUser();
     this.config = useRuntimeConfig();
   },
   methods: {
@@ -46,7 +49,6 @@ export default {
         };
         this.allocationPayload.push(fundObj);
       });
-      // console.log(this.allocationPayload);
       Toastify({
         text: "Hello world",
         duration: 3000,
@@ -60,18 +62,23 @@ export default {
     },
     async Invest() {
       this.UnpackPayload();
+      console.log(this.allocationPayload)
       let res = await fetch(
-        `${this.config.public.url.serviceUrl}/private/api/v1/customer/batch-order/`,
+        `charlie-web/api/charlie-service/customer/batch-order`,
         {
           method: "POST",
-          header: { "user-id": this.AuthStore.user_obj.uid },
-          body: JSON.stringify({ order: this.allocationPayload }),
+          header: { "Finno-User-Id": this.UserStore.user.userID },
+          body: JSON.stringify({ orders: this.allocationPayload }),
         }
       );
 
+      console.log(res)
+
       let data = await res.json();
+      console.log(data)
+
       if (data.status == 200) {
-        await navigateTo("Some link", {
+        await navigateTo(``, {
           external: true,
         });
       }
