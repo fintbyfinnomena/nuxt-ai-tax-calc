@@ -11,6 +11,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.11.1",
     "@dotlottie/dotlottie-js": "^0.8.0",
     "@lottiefiles/dotlottie-vue": "^0.4.8",
     "@nuxt/icon": "^1.2.0",
