@@ -146,7 +146,7 @@
       </div>
     </section>
     <div v-if="comment" class="text-sm mb-3">
-      <b>คำแนะนำเกี่ยวกับกองทุนนี้</b>
+      <b>ความเห็นจากทีมงาน</b>
       <div>
         {{ comment }}
       </div>
@@ -171,6 +171,8 @@
         *
         ข้อมูลค่าธรรมเนียมทั้งหมดมาจากสำนักงานคณะกรรมการกำกับหลักทรัพย์และตลาดหลักทรัพย์
         เพื่อความแม่นยำของข้อมูลกรุณาศึกษาข้อมูลจากหนังสือชี้ชวนอีกครั้งหนึ่ง |
+        กองทุนแนะนำและคำแนะนำในการจัดพอร์ตกองทุนประหยัดภาษีทั้งหมดเป็นคำแนะนำแบบทั่วไปจากบลน.ฟินโนมีนาจำกัด
+        ระบบ Charlie เพียงแค่นำข้อมูลจากผู้ลงทุนเพื่อใช้ในการคำนวณเท่านั้น |
         ผลการดำเนินงานในอดีตและผลการเปรียบเทียบผลการดำเนินงานที่เกี่ยวข้องกับผลิตภัณฑ์ในตลาดทุนมิได้เป็นสิ่งยืนยันถึงผลการดำเนินงานในอนาคต
       </p>
     </div>
@@ -219,7 +221,7 @@ export default {
         `charlie-web/api/charlie-service/fund/fund-info/${encodedShortcode}`
       );
       let data = await res.json();
-      let fundData = data.data.data
+      let fundData = data.data.data;
       this.Code = fundData.info.shortCode;
       this.name = fundData.info.nameTh;
       this.category = fundData.info.categoryThName;

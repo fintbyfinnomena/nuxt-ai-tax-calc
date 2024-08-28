@@ -202,9 +202,9 @@ export default {
         this.MessageStore.autoMsg = this.TaxInfoStore.generatePrompt();
         this.nuxtApp.$tagEvent(
           "allocation-param_submit",
-          "allocation-param-modal",
-          this.TaxInfoStore
+          "allocation-param-modal"
         );
+
         this.MessageStore.modal = false;
       } catch (e) {
         console.error(e);
