@@ -29,6 +29,12 @@ export default {
   },
   methods: {
     MDtoHTML(mdString) {
+      mdString = mdString.replace(
+        /<br>/g,
+        `
+      `
+      );
+
       let converter = new showdown.Converter({
         openLinksInNewWindow: true,
         requireSpaceBeforeHeadingText: true,
@@ -101,13 +107,28 @@ export default {
       const nonFundCardElements = this.RenderObjectArray.filter(
         (item) => !item.value.startsWith("<fund-card>")
       );
-      this.RenderObjectArray = [...nonFundCardElements, ...fundCardElements];
 
       const fundPortElement = this.RenderObjectArray.filter((item) =>
         item.value.startsWith("<fund-port>")
       );
 
-      this.isAdvisoryMessage = fundPortElement.length > 0;
+      const advisoryElement = this.RenderObjectArray.filter(
+        (item) =>
+          item.value.includes("ความเห็น") ||
+          item.value.includes("มุมมอง") ||
+          item.value.includes("มุมมอง")
+      );
+
+      this.RenderObjectArray = [
+        ...nonFundCardElements,
+        {
+          type: "render-group",
+          value: fundCardElements,
+        },
+      ];
+
+      this.isAdvisoryMessage =
+        fundPortElement.length > 0 || advisoryElement.length > 0;
     },
     downvote() {
       fetch(
@@ -154,7 +175,7 @@ export default {
         />
         <div>
           <div
-            class="flex flex-col w-auto max-w-[280px] sm:max-w-[450px] md:max-w-[450px] lg:max-w-[600px] xl:max-w-[800px] leading-1.5 p-4 bg-gradient-to-r from-finnopurple to-finnoblue rounded-e-xl rounded-es-xl dark:bg-gray-700 border border-pink-200"
+            class="flex flex-col w-auto max-w-[300px] sm:max-w-[450px] md:max-w-[450px] lg:max-w-[600px] xl:max-w-[800px] leading-1.5 p-4 bg-gradient-to-r from-finnopurple to-finnoblue rounded-e-xl rounded-es-xl dark:bg-gray-700 border border-pink-200"
           >
             <div class="flex items-center space-x-2 rtl:space-x-reverse">
               <span class="text-sm font-semibold text-gray-900 dark:text-white"
@@ -176,6 +197,10 @@ export default {
               <div v-else-if="item.type === 'render'" class="inline">
                 <Render :renderVal="item.value" />
               </div>
+
+              <div v-else-if="item.type === 'render-group'" class="inline">
+                <RenderGroup :renderVal="item.value" />
+              </div>
             </div>
             <div v-if="isAdvisoryMessage" class="text-xs mt-3">
               เนื่องจากระบบยังอยู่ในช่วงทดสอบ อาจจะให้ข้อมูลที่ผิดพลาดได้
@@ -183,6 +208,8 @@ export default {
               |
               กองทุนแนะนำและคำแนะนำในการจัดพอร์ตกองทุนประหยัดภาษีทั้งหมดเป็นคำแนะนำแบบทั่วไปจากบลน.ฟินโนมีนาจำกัด
               ระบบ Charlie เพียงแค่นำข้อมูลจากผู้ลงทุนเพื่อใช้ในการคำนวณเท่านั้น
+              |
+              ผู้ลงทุนควรศึกษาข้อมูลเกี่ยวกับสิทธิประโยชน์ทางภาษีที่ระบุไว้ในคู่มือการลงทุนในกองทุนรวมเพื่อสิทธิ์ประโยชน์ทางภาษีก่อนตัดสินใจลงทุน
             </div>
           </div>
           <div v-if="this.MessageStore.message_obj.messagesList.length > 0">

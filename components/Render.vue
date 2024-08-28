@@ -3,9 +3,6 @@
     <div v-if="tags == 'fund-click'" class="inline">
       <fund-click :shortcode="value" />
     </div>
-    <div v-else-if="tags == 'fund-card'">
-      <fund-card :shortcode="value" />
-    </div>
     <div v-else-if="tags == 'fund-port'">
       <fund-port :port="value" />
     </div>

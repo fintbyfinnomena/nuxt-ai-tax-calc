@@ -1,6 +1,7 @@
 const serviceUrl = process.env.SERVICE_URL || "http://localhost:8080";
 const baseURL = process.env.BASE_URL || "http://localhost:3000";
-const finnoAuthURL = process.env.FINNO_AUTH_URL || "https://auth-int.finnomena.com";
+const finnoAuthURL =
+  process.env.FINNO_AUTH_URL || "https://auth-int.finnomena.com";
 const gtmId = process.env.GTM_ID;
 const amplitudeId = process.env.AMPLITUDE_ID;
 const clarityId = process.env.CLARITY_ID;
@@ -30,11 +31,32 @@ export default defineNuxtConfig({
     baseURL: "/charlie",
     buildAssetsDir: "_charlie",
     head: {
+      meta: [
+        {
+          property: "og:image",
+          content: ``,
+        },
+        {
+          property: "og:title",
+          content: `Charlie - คู่คิด จัดพอร์ต กองทุนภาษี`,
+        },
+        {
+          property: "og:description",
+          content: `AI ช่วยจัดพอร์ตและแนะนำกองทุน SSF RMF ThaiESG จาก Finnomena`,
+        },
+      ],
       link: [
         {
           rel: "icon",
           type: "image/x-icon",
-          href: "/charlie/_charlie/assets/img/favicon.ico",
+          href: "https://scontent.finnomena.com/favicon/favicon.ico",
+        },
+      ],
+      script: [
+        {
+          hid: "gtm",
+          innerHTML: `window.dataLayer = window.dataLayer || [];`,
+          type: "text/javascript",
         },
       ],
     },

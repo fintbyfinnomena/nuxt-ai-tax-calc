@@ -3,6 +3,7 @@
     <h1 class="text-base font-semibold">
       การจัดพอร์ตการลงทุนในกองทุน ความเสี่ยงระดับ {{ this.riskLevel }}
     </h1>
+    <div>ยอดเงินลงทุนทั้งหมด: {{ portAmount.toLocaleString() }} บาท</div>
     <br />
     <DonutChart
       index="name"
@@ -117,17 +118,17 @@ export default {
     GenFundJSON(list) {
       let result = [];
       // Check if the element is object as the LLM might return object instead of list
+
       if ("fundName" in list[0]) {
-        for (let elem in list) {
+        for (let elem of list) {
           result.push({
             name: elem.fundName,
             type: elem.fundType,
             proportion: elem.proportion,
-
             amount: elem.amount,
           });
         }
-
+        console.log(result);
         return result;
       }
 
