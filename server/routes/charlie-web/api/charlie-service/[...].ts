@@ -32,5 +32,6 @@ export default defineEventHandler(async (event) => {
 	} catch (error: unknown) {
 		const err = error as AppError
 		console.error(`error "${err.statusCode}:${event.method}" api from "/private/api/v1" url : ${url}`)
+		return errorResponse(err.statusCode, err)
 	}
 })
