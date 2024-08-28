@@ -52,6 +52,13 @@ export default defineNuxtConfig({
           href: "https://scontent.finnomena.com/favicon/favicon.ico",
         },
       ],
+      script: [
+        {
+          hid: "gtm",
+          innerHTML: `window.dataLayer = window.dataLayer || [];`,
+          type: "text/javascript",
+        },
+      ],
     },
   },
   plugins: ["~/plugins/commas.ts"],
