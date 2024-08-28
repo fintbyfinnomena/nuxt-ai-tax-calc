@@ -3,6 +3,7 @@
     <h1 class="text-base font-semibold">
       การจัดพอร์ตการลงทุนในกองทุน ความเสี่ยงระดับ {{ this.riskLevel }}
     </h1>
+    <div>ยอดเงินลงทุนทั้งหมด: {{ portAmount.toLocaleString() }} บาท</div>
     <br />
     <DonutChart
       index="name"
