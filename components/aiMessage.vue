@@ -112,6 +112,11 @@ export default {
         item.value.startsWith("<fund-port>")
       );
 
+      const advisoryElement = this.RenderObjectArray.filter(
+        (item) =>
+          item.value.includes("ความเห็น") || item.value.includes("มุมมอง")
+      );
+
       this.RenderObjectArray = [
         ...nonFundCardElements,
         {
@@ -120,7 +125,8 @@ export default {
         },
       ];
 
-      this.isAdvisoryMessage = fundPortElement.length > 0;
+      this.isAdvisoryMessage =
+        fundPortElement.length > 0 || advisoryElement.length > 0;
     },
     downvote() {
       fetch(
