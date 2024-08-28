@@ -13,20 +13,17 @@ export const useChat = defineStore("chat", () => {
 
     const res: HttpResponse = await fetch(`${apiPrefix}/langchain-chat/chats`, {
       method: "POST",
-      headers: {
-        "Finno-User-Id": user.user.userID,
-      },
     });
-	if (res.data.chat_id) {
-		user.setChatID(res.data.chat_id);
-		return true;
-	}
-    
-	return false;
+    if (res.data.chat_id) {
+      user.setChatID(res.data.chat_id);
+      return true;
+    }
+
+    return false;
   }
 
   return {
-    initChat
+    initChat,
   };
 });
 

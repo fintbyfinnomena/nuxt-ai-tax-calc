@@ -72,7 +72,6 @@ export default {
         this.newMessage = "";
         const headers = {
           "Content-type": "application/json",
-          "Finno-User-Id": this.UserStore.user.userID,
         };
         fetch(
           `charlie-web/api/charlie-service/stream/langchain-chat/chats/${this.UserStore.user.chatID}`,
