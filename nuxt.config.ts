@@ -8,6 +8,8 @@ const clarityId = process.env.CLARITY_ID;
 const logoutURL = `${finnoAuthURL}/logout?redirect_uri=${encodeURIComponent(
   baseURL
 )}`;
+const batchCheckoutUrl =
+  process.env.BATCH_CHECKOUT_URL || "https://trade-int.finnomena.com";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -75,6 +77,7 @@ export default defineNuxtConfig({
       url: {
         serviceUrl: serviceUrl,
         finnoAuthUrl: finnoAuthURL,
+        batchCheckoutUrl: batchCheckoutUrl,
       },
       auth: {
         token: `${finnoAuthURL}/oauth2/token`,

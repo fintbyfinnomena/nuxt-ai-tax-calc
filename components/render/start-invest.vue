@@ -52,7 +52,6 @@ export default {
           {
             method: "POST",
             headers: {
-              "Finno-User-Id": this.UserStore.user.userID,
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ orders: funds }),
@@ -65,14 +64,13 @@ export default {
           case 200:
             const encodedData = btoa(JSON.stringify(res.data.batch_payload));
             navigateTo(
-              `https://trade-int.finnomena.com/review/${res.data.account_code}?q=${encodedData}`,
+              `${this.config.public.url.batchCheckoutUrl}/review/${res.data.account_code}?q=${encodedData}`,
               { external: true }
             );
             break;
 
           default:
             this.handleError(res.data.error_code);
-            
         }
       } catch (error) {
         console.error("Fetch batch-order payload error:", error);
@@ -82,9 +80,7 @@ export default {
     handleError(errorCode) {
       const handleErrorAction = {
         "00": () =>
-          this.showToast(
-            "ไม่พบข้อมูลสมาชิกของท่าน โปรดลองใหม่อีกครั้ง"
-          ),
+          this.showToast("ไม่พบข้อมูลสมาชิกของท่าน โปรดลองใหม่อีกครั้ง"),
         "01": () =>
           navigateTo("https://port.finnomena.com/tax-saving-fund", {
             external: true,

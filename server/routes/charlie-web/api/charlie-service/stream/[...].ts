@@ -5,19 +5,15 @@ export default defineEventHandler(async (event) => {
   if (!event.node.req.url) {
     throw errorResponse(400, "api:charlie invalid url");
   }
-  
-  const routes = event.node.req.url.split("charlie-web/api/charlie-service/stream");
+
+  const routes = event.node.req.url.split(
+    "charlie-web/api/charlie-service/stream"
+  );
   const endpoint = routes[routes.length - 1];
   const url = `${SERVICE_URL}/private/api/v1${endpoint}`;
-  
+
   try {
     const headers = await createRequestHeaders(event);
-
-    // TODO: Temporary use - Have to migrate to access token extraction
-    const finnoId = getHeader(event, "Finno-User-Id");
-    if (finnoId) {
-      headers.set("Finno-User-Id", finnoId);
-    }
 
     let body: string | undefined = undefined;
     if (isMethod(event, ["POST", "PATCH", "PUT"])) {
