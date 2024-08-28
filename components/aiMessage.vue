@@ -114,7 +114,9 @@ export default {
 
       const advisoryElement = this.RenderObjectArray.filter(
         (item) =>
-          item.value.includes("ความเห็น") || item.value.includes("มุมมอง")
+          item.value.includes("ความเห็น") ||
+          item.value.includes("มุมมอง") ||
+          item.value.includes("มุมมอง")
       );
 
       this.RenderObjectArray = [
