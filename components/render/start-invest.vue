@@ -64,7 +64,7 @@ export default {
           case 200:
             const encodedData = btoa(JSON.stringify(res.data.batch_payload));
             navigateTo(
-              `https://trade-int.finnomena.com/review/${res.data.account_code}?q=${encodedData}`,
+              `${this.config.public.url.batchCheckoutUrl}/review/${res.data.account_code}?q=${encodedData}`,
               { external: true }
             );
             break;
