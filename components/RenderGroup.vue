@@ -41,7 +41,6 @@ export default {
   },
   mounted() {
     this.components.forEach((element) => {
-      console.log(element);
       this.parsedComponents.push({
         componentString: element,
         tags: this.GetTag(element.value),
@@ -53,7 +52,6 @@ export default {
   methods: {
     GetTag(tags) {
       const extractedTag = tags.match(/<([^>]+)>/)[1];
-      // console.log(extractedTag)
       return extractedTag;
     },
     GetValue(tags) {
