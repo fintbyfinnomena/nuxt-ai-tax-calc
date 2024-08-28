@@ -128,7 +128,6 @@ export default {
             amount: elem.amount,
           });
         }
-        console.log(result);
         return result;
       }
 
