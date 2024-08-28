@@ -202,7 +202,18 @@ export default {
         this.MessageStore.autoMsg = this.TaxInfoStore.generatePrompt();
         this.nuxtApp.$tagEvent(
           "allocation-param_submit",
-          "allocation-param-modal"
+          "allocation-param-modal",
+          {
+            age: this.TaxInfoStore.age,
+            annualIncome: this.TaxInfoStore.annualIncome,
+            alternativeRetirementFund:
+              this.TaxInfoStore.alternativeRetirementFund,
+            govPensionFund: this.TaxInfoStore.govPensionFund,
+            nationalSavingFund: this.TaxInfoStore.nationalSavingFund,
+            pensionInsurance: this.TaxInfoStore.pensionInsurance,
+            riskLevel: this.TaxInfoStore.riskLevel,
+            desiredAmount: this.TaxInfoStore.desiredAmount,
+          }
         );
 
         this.MessageStore.modal = false;
