@@ -32,6 +32,7 @@ publish_staging:
       --build-arg AMPLITUDE_ID=$AMPLITUDE_ID_INT
       --build-arg CLARITY_ID=$CLARITY_ID_INT
       --build-arg SERVICE_URL=$SERVICE_URL
+      --build-arg BATCH_CHECKOUT_URL=$BATCH_CHECKOUT_URL_INT
       --build-arg GTM_ID=$GTM_ID_INT
       --build-arg BASE_URL=$BASE_URL_INT
       --build-arg FINNO_AUTH_URL=$FINNO_AUTH_URL_INT
@@ -62,6 +63,7 @@ publish_uat:
       --build-arg AMPLITUDE_ID=$AMPLITUDE_ID_UAT
       --build-arg CLARITY_ID=$CLARITY_ID_UAT
       --build-arg SERVICE_URL=$SERVICE_URL
+      --build-arg BATCH_CHECKOUT_URL=$BATCH_CHECKOUT_URL_UAT
       --build-arg GTM_ID=$GTM_ID_UAT
       --build-arg BASE_URL=$BASE_URL_UAT
       --build-arg FINNO_AUTH_URL=$FINNO_AUTH_URL_UAT
@@ -95,6 +97,7 @@ publish_prod:
       --build-arg SERVICE_URL=$SERVICE_URL
       --build-arg GTM_ID=$GTM_ID
       --build-arg BASE_URL=$BASE_URL
+      --build-arg BATCH_CHECKOUT_URL=$BATCH_CHECKOUT_URL
       --build-arg FINNO_AUTH_URL=$FINNO_AUTH_URL
       --build-arg FINNO_AUTH_CLIENT_ID=$FINNO_AUTH_CLIENT_ID
       --build-arg FINNO_AUTH_SECRET=$FINNO_AUTH_SECRET -f Dockerfile .
