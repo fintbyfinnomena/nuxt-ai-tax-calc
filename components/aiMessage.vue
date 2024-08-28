@@ -137,7 +137,6 @@ export default {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Finno-User-Id": this.UserStore.user.userID,
           },
           body: JSON.stringify({ index: this.feedback }),
         }

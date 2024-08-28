@@ -52,7 +52,6 @@ export default {
           {
             method: "POST",
             headers: {
-              "Finno-User-Id": this.UserStore.user.userID,
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ orders: funds }),
@@ -72,7 +71,6 @@ export default {
 
           default:
             this.handleError(res.data.error_code);
-            
         }
       } catch (error) {
         console.error("Fetch batch-order payload error:", error);
@@ -82,9 +80,7 @@ export default {
     handleError(errorCode) {
       const handleErrorAction = {
         "00": () =>
-          this.showToast(
-            "ไม่พบข้อมูลสมาชิกของท่าน โปรดลองใหม่อีกครั้ง"
-          ),
+          this.showToast("ไม่พบข้อมูลสมาชิกของท่าน โปรดลองใหม่อีกครั้ง"),
         "01": () =>
           navigateTo("https://port.finnomena.com/tax-saving-fund", {
             external: true,
