@@ -47,7 +47,7 @@
         </div>
       </section>
       <div v-if="portAmount > 0">
-        <start-invest :data="port" />
+        <start-invest :port="data" />
       </div>
     </section>
   </div>
