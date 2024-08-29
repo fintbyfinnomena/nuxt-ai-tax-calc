@@ -1,24 +1,26 @@
 <template>
-  <div class="bg-gray-100 p-5 text-primary mt-5 rounded-md">
-    <section>
+  <div
+    class="bg-gray-100 p-5 text-primary mt-5 rounded-md mr-5 flex flex-col min-h-[600px] h-fit w-[270px] sm:w-[380px] lg:w-[500px] xl:w-[600px]"
+  >
+    <section class="flex flex-wrap">
       <span
         v-if="fundTaxType == 'SSF'"
-        class="bg-SSF text-primary text-md font-semibold me-2 px-2.5 py-0.5 rounded"
+        class="bg-SSF text-primary text-md font-semibold me-2 px-2.5 py-0.5 rounded mt-1"
         >{{ this.fundTaxType }}</span
       >
       <span
         v-else-if="fundTaxType == 'RMF'"
-        class="bg-RMF text-white text-base font-semibold me-2 px-2.5 py-0.5 rounded"
+        class="bg-RMF text-white text-base font-semibold me-2 px-2.5 py-0.5 rounded mt-1"
         >{{ this.fundTaxType }}</span
       >
       <span
         v-else-if="fundTaxType == 'TESG'"
-        class="bg-TESG text-primary text-base font-medium me-2 px-2.5 py-0.5 rounded"
+        class="bg-TESG text-primary text-base font-medium me-2 px-2.5 py-0.5 rounded mt-1"
         >{{ this.fundTaxType }}</span
       >
       <span
         v-if="isFinnnoPick"
-        class="bg-primary text-white text-md font-medium me-2 px-2.5 py-0.5 rounded"
+        class="bg-primary text-white text-md font-medium me-2 px-2.5 py-0.5 rounded mt-1"
       >
         <svg
           width="15"
@@ -26,7 +28,7 @@
           viewBox="0 0 12 14"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          style="display: inline; margin-right: 2px"
+          class="inline-block mr-1"
         >
           <path
             d="M10.4356 0.333252V2.11103H0.666626V6.55547H11.3237V0.333252H10.4356Z"
@@ -41,32 +43,51 @@
       </span>
       <span
         v-if="isEligibleForFintCashback && isEligibleForFintEarn"
-        class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
+        class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded mt-1"
       >
+        <img
+          class="w-5 h-5 rounded-full inline-block mr-1 align-sub"
+          src="../../assets/img/fint.png"
+        />
         Earn / Cashback
       </span>
       <span
         v-else-if="isEligibleForFintCashback && !isEligibleForFintEarn"
-        class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
-        >Cashback
+        class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded mt-1"
+      >
+        <img
+          class="w-5 h-5 rounded-full inline align-sub"
+          src="../../assets/img/fint.png"
+        />
+        Cashback
       </span>
       <span
         v-else-if="isEligibleForFintEarn && !isEligibleForFintCashback"
-        class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded"
-        >Earn
+        class="bg-FINT text-primary text-base font-semibold me-2 px-2.5 py-0.5 rounded mt-1"
+      >
+        <img
+          class="w-5 h-5 rounded-full inline align-sub"
+          src="../../assets/img/fint.png"
+        />
+        Earn
       </span>
     </section>
     <section class="mb-3 mt-4">
-      <h2 class="text-2xl">{{ this.Code }}</h2>
+      <h2 class="text-2xl font-semibold">{{ this.Code }}</h2>
       <p>{{ this.name }}</p>
       <p class="text-sm">{{ this.category }} | {{ this.riskSpectrum }}</p>
     </section>
     <a
       :href="factsheet"
-      class="text-sm font-semibold text-primary underline"
+      class="text-sm font-semibold text-primary"
       target="_blank"
+      data-fn-location="chat"
+      data-fn-action="fund-info-prospectus_click"
+      :data-fn-params="`{
+        'fund' : '${this.Code}'
+        }`"
     >
-      <Icon icon="iconoir:page" size="1.4em" />หนังสือชี้ชวน
+      <Icon icon="iconoir:page" size="1.4em" class="mr-1" />หนังสือชี้ชวน
     </a>
     <section class="bg-white my-3 py-3 rounded-lg mb-5 mt-5">
       <div class="grid grid-cols-1 md:grid-cols-4">
@@ -124,22 +145,47 @@
         </div>
       </div>
     </section>
-
-    <a
-      :href="link"
-      class="text-sm px-3 py-1 rounded-full font-semibold bg-transparent text-primary border border-primary hover:text-white hover:bg-primary"
-      target="_blank"
-    >
-      ดูข้อมูล {{ this.Code }}
-      <Icon icon="iconoir:arrow-right" size="1.4em" />
-    </a>
+    <div v-if="comment" class="text-sm mb-3">
+      <b>ความเห็นจากทีมงาน</b>
+      <div>
+        {{ comment }}
+      </div>
+    </div>
+    <div class="mt-auto">
+      <div class="text-right">
+        <a
+          :href="link"
+          class="text-sm px-3 py-1 rounded-full font-semibold bg-transparent text-primary border border-primary hover:text-white hover:bg-primary"
+          target="_blank"
+          data-fn-location="chat"
+          data-fn-action="fund-info-quote_click"
+          :data-fn-params="`{
+        'fund' : '${this.Code}'
+        }`"
+        >
+          ดูข้อมูล {{ this.Code }}
+          <Icon icon="iconoir:arrow-right" size="1.4em" />
+        </a>
+      </div>
+      <p class="text-xs mt-4">
+        *
+        ข้อมูลค่าธรรมเนียมทั้งหมดมาจากสำนักงานคณะกรรมการกำกับหลักทรัพย์และตลาดหลักทรัพย์
+        เพื่อความแม่นยำของข้อมูลกรุณาศึกษาข้อมูลจากหนังสือชี้ชวนอีกครั้งหนึ่ง |
+        กองทุนแนะนำและคำแนะนำในการจัดพอร์ตกองทุนประหยัดภาษีทั้งหมดเป็นคำแนะนำแบบทั่วไปจากบลน.ฟินโนมีนาจำกัด
+        ระบบ Charlie เพียงแค่นำข้อมูลจากผู้ลงทุนเพื่อใช้ในการคำนวณเท่านั้น |
+        ผลการดำเนินงานในอดีตและผลการเปรียบเทียบผลการดำเนินงานที่เกี่ยวข้องกับผลิตภัณฑ์ในตลาดทุนมิได้เป็นสิ่งยืนยันถึงผลการดำเนินงานในอนาคต
+      </p>
+    </div>
   </div>
 </template>
 <script>
+// import { useMessageStore } from "../stores/MessageStore";
+
 export default {
   props: ["shortcode"],
   data() {
     return {
+      // MessageStore: null,
       config: null,
       Code: "",
       name: "",
@@ -154,10 +200,12 @@ export default {
       three_month: "",
       six_month: "",
       one_year: "",
+      comment: "",
     };
   },
   created() {
     this.config = useRuntimeConfig();
+    this.MessageStore = useMessageStore();
   },
   mounted() {
     let fundInfo = this.GetFundData();
@@ -170,22 +218,26 @@ export default {
       let encodedShortcode = encodeURIComponent(this.shortcode);
 
       let res = await fetch(
-        `${this.config.public.url.serviceUrl}/api/v1/fund/fund-info/${encodedShortcode}`
+        `charlie-web/api/charlie-service/fund/fund-info/${encodedShortcode}`
       );
       let data = await res.json();
-      this.Code = data.data.info.shortCode;
-      this.name = data.data.info.nameTh;
-      this.category = data.data.info.categoryThName;
-      this.fundTaxType = data.data.info.fundTaxType;
-      this.isFinnnoPick = data.data.info.isFinnnoPick;
-      this.isEligibleForFintCashback = data.data.info.isEligibleForFintCashback;
-      this.isEligibleForFintEarn = data.data.info.isEligibleForFintEarn;
-      this.riskSpectrum = data.data.info.riskSpectrum;
-      this.link = data.data.fundQuoteLink;
-      this.factsheet = data.data.info.fundFactSheetUrl;
-      this.three_month = data.data.performance.return3m || "-";
-      this.six_month = data.data.performance.return6m || "-";
-      this.one_year = data.data.performance.return1y || "-";
+      let fundData = data.data.data;
+      this.Code = fundData.info.shortCode;
+      this.name = fundData.info.nameTh;
+      this.category = fundData.info.categoryThName;
+      this.fundTaxType = fundData.info.fundTaxType;
+      this.isFinnnoPick = fundData.info.isFinnnoPick;
+      this.isEligibleForFintCashback = fundData.info.isEligibleForFintCashback;
+      this.isEligibleForFintEarn = fundData.info.isEligibleForFintEarn;
+      this.riskSpectrum = fundData.info.riskSpectrum;
+      this.link = fundData.fundQuoteLink;
+      this.factsheet = fundData.info.fundFactSheetUrl;
+      this.three_month = fundData.performance.return3m || "-";
+      this.six_month = fundData.performance.return6m || "-";
+      this.one_year = fundData.performance.return1y || "-";
+      this.comment = fundData.tsfComment || "";
+
+      // this.MessageStore.Rendered = true;
     },
   },
 };

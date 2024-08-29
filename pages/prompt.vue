@@ -1,110 +1,69 @@
 <template>
-    <div>
-        <div class="mx-3 max-w-screen-xl md:mx-auto w-6/7">
-            <div class="grid max-w-screen-xl mx-auto h-2/8">
-                <nav class="flex justify-between mt-10 mb-5">
-                    <div class="text-left inline-flex align-middle">
-                        <div class="flex items-center">
-                            <img :src="AuthStore.user_obj.profPic" alt="Profile Picture"
-                                class="rounded-full h-10 w-10" />
-                            <span class="ml-5 font-medium">{{ AuthStore.user_obj.name }}</span>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <Button @click="signout()"
-                            class="ml-5 bg-transparent text-primary border border-primary hover:text-white hover:bg-primary">ออกจากระบบ
-                        </Button>
-                    </div>
-                </nav>
-            </div>
-            <div class="h-6/8">
-                <div v-if="isinit">
-                    <promptView/>
-                </div>
-                <div v-else>
-                    Loading..
-                </div>
-            </div>
+  <div class="w-11/12 md:w-5/6 lg:w-4/6 h-screen mx-auto flex flex-col">
+    <navbar />
+    <div id="prompt">
+      <div v-if="isinit">
+        <promptView />
+      </div>
+      <div v-else class="text-center">
+        <div class="flex items-center justify-center">
+          <img src="../assets/animations/loading.gif" alt="loading" />
         </div>
+        <br />
+        กำลังเชื่อมต่อกับระบบ...
+      </div>
     </div>
+    <div id="footer" class="mt-4">
+      <p class="text-sm text-gray-500">
+        <Icon icon="iconoir:info-circle" size="1.2em" />
+        ระบบคำนวณยอดเงินลงทุนในกองทุนลดหย่อนภาษีนี้เป็นการคำนวณเพียงเบื้องต้น
+        โดยใช้ข้อมูลจากกรมสรรพากรสำหรับปีภาษี 2567 เท่านั้น
+        ทางบริษัทขอไม่รับรองความถูกต้องของข้อมูลและผลลัพธ์
+        ในกรณีที่มีการเปลี่ยนแปลงข้อมูลเกี่ยวกับการลดหย่อนภาษี...<terms
+          class="inline"
+          text="อ่านเพิ่มเติม"
+        />
+      </p>
+    </div>
+  </div>
 </template>
 
 <script>
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { useAuthStore } from "../stores/AuthStore";
+import { useAuth } from "../stores/FinnoAuthStore";
+import { useChat } from "../stores/ChatStore";
+
 export default {
-    data() {
-        return {
-            nuxtApp: useNuxtApp(),
-            AuthStore: null,
-            MessageStore: null,
-            config: null,
-            isinit: false
-        };
+  data() {
+    return {
+      nuxtApp: useNuxtApp(),
+      UserStore: null,
+      MessageStore: null,
+      FinnoAuthStore: null,
+      ChatStore: null,
+      config: null,
+      isinit: false,
+    };
+  },
+  created() {
+    this.config = useRuntimeConfig();
+    this.UserStore = useUser();
+    this.FinnoAuthStore = useAuth();
+    this.ChatStore = useChat();
+  },
+  mounted() {
+    this.checkAuth();
+  },
+  methods: {
+    checkAuth() {
+      if (!this.UserStore.user) {
+        window.location.href = "/";
+      }
+      this.isinit = this.ChatStore.initChat();
     },
-    created() {
-        this.AuthStore = useAuthStore();
-        this.config = useRuntimeConfig();
+    signout() {
+      this.FinnoAuthStore.logout();
     },
-    mounted() {
-        this.checkAuth();
-    },
-    methods: {
-        checkAuth() {
-            onAuthStateChanged(this.nuxtApp.$auth, (user) => {
-                if (user) {
-                    console.log("user is authenticated")
-                    const uid = user.uid;
-                    this.AuthStore.user_obj.name = user.displayName;
-                    this.AuthStore.user_obj.email = user.email;
-                    this.AuthStore.user_obj.profPic = user.photoURL;
-                    this.AuthStore.user_obj.access_token = user.accessToken;
-                    this.AuthStore.user_obj.uid = uid;
-
-                    console.log(this.AuthStore.user_obj.name);
-                    this.initChat();
-                    // ...
-                } else {
-                    // User is signed out
-                    console.log("user is not authenticated");
-                    window.location.href = "/";
-                }
-            });
-        },
-        initChat() {
-            console.log("POSTING CHAT");
-            console.log(this.AuthStore.user_obj.uid);
-            fetch(`${this.config.public.url.serviceUrl}/api/v1/langchain-chat/chats`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'user-id': this.AuthStore.user_obj.uid,
-                },
-                // body: JSON.stringify({ key: 'value' })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    // Handle the response data
-                    this.AuthStore.user_obj.chatid = data.chat_id;
-                    this.isinit = true;
-                })
-                .catch(error => {
-                    // Handle any errors
-                    console.error(error);
-                });
-        },
-        signout() {
-            signOut(this.nuxtApp.$auth).then(() => {
-                window.location.href = "/";
-            }).catch((error) => {
-                // An error happened.
-                console.log(error);
-            });
-        },
-    }
-}
+  },
+};
 </script>
-<style lang="">
-
-</style>
+<style scoped></style>
