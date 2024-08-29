@@ -71,6 +71,8 @@ export default {
       this.ChatStore.initChat();
       this.MessageStore.message_obj.messagesList = [];
       this.MessageStore.message_obj.index = 0;
+
+      navigateTo("/prompt");
     },
   },
 };
