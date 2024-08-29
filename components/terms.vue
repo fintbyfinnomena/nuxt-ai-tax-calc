@@ -82,7 +82,7 @@
       </div>
       <DialogFooter class="p-6 pt-0">
         <DialogClose as-child>
-          <Button type="submit" @click="handleSubmit"> ปิด </Button>
+          <Button type="submit"> ปิด </Button>
         </DialogClose>
       </DialogFooter>
     </DialogContent>
