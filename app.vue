@@ -2,8 +2,8 @@
 useHead({
   titleTemplate: (titleChunk: string | undefined) => {
     return titleChunk
-      ? `${titleChunk} - Charlie - คู่คิด จัดพอร์ต กองทุนภาษี จาก Finnomena`
-      : "Charlie - คู่คิด จัดพอร์ต กองทุนภาษี จาก Finnomena";
+      ? `${titleChunk} - Charlie - แชทบอท AI ผู้แนะนำ SSF RMF ThaiESG`
+      : "Charlie - แชทบอท AI ผู้แนะนำ SSF RMF ThaiESG";
   },
   meta: [
     {
