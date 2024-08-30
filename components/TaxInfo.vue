@@ -65,11 +65,16 @@ export default {
       errorGovPensionFund: "",
       errorNationalSavingFund: "",
       errorPensionInsurance: "",
+
+      isSafari: false,
     };
   },
   created() {
     this.TaxInfoStore = useTaxInfoStore();
     this.MessageStore = useMessageStore();
+  },
+  mounted() {
+    this.isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   },
   methods: {
     Save() {
@@ -472,6 +477,7 @@ export default {
               class="bg-gray-100 cursor-pointer px-3 py-1 rounded"
               @click="hasAlternativeRetirementFund = true"
               v-if="!hasAlternativeRetirementFund"
+              :class="{ 'safari-width': isSafari }"
             >
               กองทุนสำรองเลี้ยงชีพและกองทุนสงเคราะห์ครูฯ
               <Icon icon="iconoir:plus" size="1.2rem" class="align-sub" />
@@ -480,6 +486,7 @@ export default {
               class="bg-gray-100 cursor-pointer px-3 py-1 rounded"
               @click="hasGovPensionFund = true"
               v-if="!hasGovPensionFund"
+              :class="{ 'safari-width': isSafari }"
             >
               กบข. <Icon icon="iconoir:plus" size="1.2rem" class="align-sub" />
             </div>
@@ -488,6 +495,7 @@ export default {
               class="bg-gray-100 cursor-pointer px-3 py-1 rounded"
               @click="hasNationalSavingFund = true"
               v-if="!hasNationalSavingFund"
+              :class="{ 'safari-width': isSafari }"
             >
               กองทุนการออมแห่งชาติ
               <Icon icon="iconoir:plus" size="1.2rem" class="align-sub" />
@@ -497,6 +505,7 @@ export default {
               class="bg-gray-100 cursor-pointer px-3 py-1 rounded"
               @click="hasPensionInsurance = true"
               v-if="!hasPensionInsurance"
+              :class="{ 'safari-width': isSafari }"
             >
               ประกันบำนาญ
               <Icon icon="iconoir:plus" size="1.2rem" class="align-sub" />
@@ -530,5 +539,9 @@ export default {
 
 .has-tooltip:hover .tooltip {
   @apply visible z-50;
+}
+
+.safari-width {
+  width: 100%;
 }
 </style>
