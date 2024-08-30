@@ -16,17 +16,17 @@
           />
         </div>
         <h1
-          class="max-w-2xl mb-4 text-3xl text-primary font-bold leading-none flex align-middle"
+          class="max-w-2xl mb-2 text-2xl text-primary font-bold leading-none flex align-middle"
         >
           SSF, RMF, ThaiESG ให้ AI ช่วยแนะนำ
         </h1>
         <h1
-          class="max-w-xl mb-4 font-medium text-primary md:text-lg lg:text-lg"
+          class="max-w-xl mb-2 font-medium text-primary md:text-lg lg:text-lg"
         >
           อยากรู้ อยากซื้อ อยากวางแผนกองทุนประหยัดภาษี Finnomena Charlie
           พร้อมตอบคำถามคุณ
         </h1>
-        <ul class="text-base mb-6">
+        <ul class="text-base mb-5">
           <li class="flex flex-column mt-2">
             <Icon icon="fa:money" class="mr-2" size="1.5em" />
             <div>
