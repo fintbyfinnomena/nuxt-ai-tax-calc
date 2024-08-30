@@ -3,12 +3,12 @@
     <navbar />
     <div
       id="wrap"
-      class="bg-white grid lg:grid-cols-12 shadow-lg p-5 sm:py-10 sm:px-10 md:py-20 md:px-20 lg:py-25 lg:px-20 rounded-xl"
+      class="bg-white grid lg:grid-cols-12 shadow-lg p-5 sm:py-10 sm:px-10 md:py-16 md:px-20 lg:py-25 lg:px-20 rounded-xl"
     >
       <div
         class="mr-auto place-self-center lg:col-span-7 justify-center items-center"
       >
-        <div class="lg:hidden text-center mb-10">
+        <div class="lg:hidden text-center mb-10 chat-logo">
           <img
             src="../assets/img/chat-logo.png"
             alt="logo"
@@ -18,16 +18,51 @@
         <h1
           class="max-w-2xl mb-4 text-3xl text-primary font-bold leading-none flex align-middle"
         >
-          สวัสดี! Charlie พร้อมช่วยคุณเรื่องประหยัดภาษี
+          SSF, RMF, ThaiESG ให้ AI ช่วยแนะนำ
         </h1>
         <h1
-          class="max-w-xl mb-6 font-medium text-primary lg:mb-8 md:text-lg lg:text-lg"
+          class="max-w-xl mb-4 font-medium text-primary md:text-lg lg:text-lg"
         >
-          ให้เรื่องการลดหย่อนภาษีเป็นเรื่องง่ายๆ
-          ทั้งแนะนำกองทุนในประเภทที่คุณสนใจ
-          ความรู้ทั่วไปเกี่ยวกับกองทุนประหยัดภาษี
-          รวมถึงเรื่องแนะนำการจัดพอร์ตกองทุนประหยัดภาษี
+          อยากรู้ อยากซื้อ อยากวางแผนกองทุนประหยัดภาษี Finnomena Charlie
+          พร้อมตอบคำถามคุณ
         </h1>
+        <ul class="text-base mb-6">
+          <li class="flex flex-column mt-2">
+            <Icon icon="fa:money" class="mr-2" size="1.5em" />
+            <div>
+              <div class="font-semibold">
+                อยากลงทุน 100,000 บาท จะกระจายลงทุนยังไงดี ?
+              </div>
+              <div>
+                แนะนำกองทุนที่เหมาะกับคุณ จากเงินลงทุน ความเสี่ยง และอื่นๆ
+              </div>
+            </div>
+          </li>
+          <li class="flex flex-column mt-2">
+            <Icon icon="fa:question" class="mr-2" size="1.5em" />
+            <div>
+              <div class="font-semibold">
+                <span>กอง&nbsp;</span>
+                <Transition
+                  ><span :key="showingFund">
+                    {{ showingFund }}</span
+                  ></Transition
+                >
+              </div>
+              <div>
+                ช่วยหากองทุนตามความต้องการของคุณ
+                หรือช่วยเปรียบเทียบกองทุนให้ก็ได้
+              </div>
+            </div>
+          </li>
+          <li class="flex flex-column mt-2">
+            <Icon icon="fa:book" class="mr-2" size="1.5em" />
+            <div>
+              <div class="font-semibold">สอนการลงทุน SSF ฉันหน่อย</div>
+              <div>เสริมศักยภาพการลงทุน ตอบทุกข้อสงสัยการลงทุน</div>
+            </div>
+          </li>
+        </ul>
         <button
           id="mybutton"
           @click="SignInWithFinno()"
@@ -85,7 +120,7 @@
         class="hidden lg:mt-0 place-self-center lg:col-span-5 lg:flex text-center h-full justify-center items-center"
       >
         <img
-          class="h-3/5 w-auto"
+          class="h-3/5 w-auto chat-logo"
           src="../assets/img/chat-logo.png"
           alt="mockup"
         />
@@ -113,20 +148,69 @@ export default {
     return {
       nuxtApp: useNuxtApp(),
       FinnoAuthStore: null,
+      showingFund: null,
+
+      fundList: [
+        "KPE-RMF-UH",
+        "A-IOJSSF",
+        "UAC-SSF",
+        "KP-AEEE-SSF",
+        "M-AEO-MF",
+      ],
     };
   },
   created() {
     this.FinnoAuthStore = useAuth();
   },
+  mounted() {
+    this.intervalFundShow();
+  },
   methods: {
     SignInWithFinno() {
       this.FinnoAuthStore.login();
     },
+    intervalFundShow() {
+      let i = 0;
+      this.showingFund = this.fundList[i] + " ดีไหม?";
+      setInterval(() => {
+        i++;
+        if (i >= this.fundList.length) {
+          i = 0;
+        }
+        this.showingFund = this.fundList[i] + " ดีไหม?";
+      }, 2500);
+    },
   },
 };
 </script>
-<style>
+<style scoped lang="scss">
 h1 {
   font-weight: 700;
+}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+  position: absolute;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+@keyframes rotateTransform {
+  0% {
+    transform: perspective(1500px) rotateY(25deg);
+  }
+  50% {
+    transform: perspective(3000px) rotateY(5deg);
+  }
+  100% {
+    transform: perspective(1500px) rotateY(25deg);
+  }
+}
+
+.chat-logo {
+  animation: rotateTransform 2.5s infinite ease-in-out;
 }
 </style>
