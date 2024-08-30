@@ -65,11 +65,16 @@ export default {
       errorGovPensionFund: "",
       errorNationalSavingFund: "",
       errorPensionInsurance: "",
+
+      isSafari: false,
     };
   },
   created() {
     this.TaxInfoStore = useTaxInfoStore();
     this.MessageStore = useMessageStore();
+  },
+  mounted() {
+    this.isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   },
   methods: {
     Save() {
@@ -346,6 +351,18 @@ export default {
             :mask-money="true"
             :errorText="errorDesiredAmount"
           />
+          <div v-else class="text-sm bg-[#EAEFF2] py-3 px-4 mt-2 rounded-lg">
+            กรณีไม่ระบุงบประมาณ Charlie จะแนะนำพอร์ตโดยใช้<b
+              >จำนวนเงินสูงสุดที่ลงทุนได้</b
+            >
+            นักลงทุนโปรดตรวจสอบภาษีที่คุณต้องเสียให้เรียบร้อยก่อน
+            (แนะนำแอปพลิเคชัน
+            <a class="underline" href="https://www.itax.in.th/" target="_blank"
+              >iTAX</a
+            >) หากคุณไม่ต้องเสียภาษี เราไม่แนะนำให้ซื้อกองทุนเหล่านี้
+            เนื่องจากในอนาคตหากมีกำไรที่เกิดจากการขายกองทุนเหล่านี้
+            คุณจำเป็นที่จะต้องเสียภาษีในส่วนกำไรที่ได้ด้วย
+          </div>
         </div>
         <div class="col-span-2" v-if="hasAlternativeRetirementFund">
           <div class="flex justify-between">
@@ -460,6 +477,7 @@ export default {
               class="bg-gray-100 cursor-pointer px-3 py-1 rounded"
               @click="hasAlternativeRetirementFund = true"
               v-if="!hasAlternativeRetirementFund"
+              :class="{ 'safari-width': isSafari }"
             >
               กองทุนสำรองเลี้ยงชีพและกองทุนสงเคราะห์ครูฯ
               <Icon icon="iconoir:plus" size="1.2rem" class="align-sub" />
@@ -468,6 +486,7 @@ export default {
               class="bg-gray-100 cursor-pointer px-3 py-1 rounded"
               @click="hasGovPensionFund = true"
               v-if="!hasGovPensionFund"
+              :class="{ 'safari-width': isSafari }"
             >
               กบข. <Icon icon="iconoir:plus" size="1.2rem" class="align-sub" />
             </div>
@@ -476,6 +495,7 @@ export default {
               class="bg-gray-100 cursor-pointer px-3 py-1 rounded"
               @click="hasNationalSavingFund = true"
               v-if="!hasNationalSavingFund"
+              :class="{ 'safari-width': isSafari }"
             >
               กองทุนการออมแห่งชาติ
               <Icon icon="iconoir:plus" size="1.2rem" class="align-sub" />
@@ -485,6 +505,7 @@ export default {
               class="bg-gray-100 cursor-pointer px-3 py-1 rounded"
               @click="hasPensionInsurance = true"
               v-if="!hasPensionInsurance"
+              :class="{ 'safari-width': isSafari }"
             >
               ประกันบำนาญ
               <Icon icon="iconoir:plus" size="1.2rem" class="align-sub" />
@@ -518,5 +539,9 @@ export default {
 
 .has-tooltip:hover .tooltip {
   @apply visible z-50;
+}
+
+.safari-width {
+  width: 100%;
 }
 </style>

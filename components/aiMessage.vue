@@ -15,6 +15,7 @@ export default {
       RenderObjectArray: [],
       config: null,
       isAdvisoryMessage: false,
+      showFundPort: false,
     };
   },
   created() {
@@ -126,7 +127,7 @@ export default {
           value: fundCardElements,
         },
       ];
-
+      this.showFundPort = fundPortElement.length > 0;
       this.isAdvisoryMessage =
         fundPortElement.length > 0 || advisoryElement.length > 0;
     },
@@ -200,6 +201,24 @@ export default {
               <div v-else-if="item.type === 'render-group'" class="inline">
                 <RenderGroup :renderVal="item.value" />
               </div>
+            </div>
+            <div v-if="showFundPort" class="text-sm">
+              <br />
+              สำหรับการคัดเลือกกองทุน เมื่อ Charlie
+              คำนวณสัดส่วนกองทุนทั้งหมดแล้ว
+              จะทำการเลือกกองทุนที่เหมาะสมแต่ละประเภทตามความเสี่ยงที่ผู้เสียภาษีต้องการ
+              โดยกองทุนเหล่านี้ได้มีการคัดเลือกจากทีมงาน Investment ของบลน.
+              Finnomena ดูหลักการคัดเลือกกองทุนเต็ม ๆ
+              <a
+                href="https://www.finnomena.com/finnomenafunds/ssf-rmf-for-diy/#screening-method"
+                class="underline"
+                target="_blank"
+                >คลิก</a
+              >
+
+              <br /><br />
+              หากคุณต้องการข้อมูลของกองทุนแต่ละกองทุน
+              สามารถกดที่ชื่อกองทุนเพื่อดูข้อมูลเพิ่มเติมได้
             </div>
             <div v-if="isAdvisoryMessage" class="text-xs mt-3">
               เนื่องจากระบบยังอยู่ในช่วงทดสอบ อาจจะให้ข้อมูลที่ผิดพลาดได้

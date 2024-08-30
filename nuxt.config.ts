@@ -36,15 +36,15 @@ export default defineNuxtConfig({
       meta: [
         {
           property: "og:image",
-          content: ``,
+          content: `https://storage.googleapis.com/scontent.finnomena.com/fint/charlie/og-image.png`,
         },
         {
           property: "og:title",
-          content: `Charlie - คู่คิด จัดพอร์ต กองทุนภาษี`,
+          content: `Charlie - แชทบอท AI ผู้แนะนำ SSF RMF ThaiESG`,
         },
         {
           property: "og:description",
-          content: `AI ช่วยจัดพอร์ตและแนะนำกองทุน SSF RMF ThaiESG จาก Finnomena`,
+          content: `ช่วยจัดพอร์ต แนะนำ และ ให้ความรู้ทั่วไปเกี่ยวกับกองทุนประหยัดภาษีจาก Finnomena`,
         },
       ],
       link: [
