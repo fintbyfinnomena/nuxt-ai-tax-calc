@@ -346,6 +346,18 @@ export default {
             :mask-money="true"
             :errorText="errorDesiredAmount"
           />
+          <div v-else class="text-sm bg-[#EAEFF2] py-3 px-4 mt-2 rounded-lg">
+            กรณีไม่ระบุงบประมาณ Charlie จะแนะนำพอร์ตโดยใช้<b
+              >จำนวนเงินสูงสุดที่ลงทุนได้</b
+            >
+            นักลงทุนโปรดตรวจสอบภาษีที่คุณต้องเสียให้เรียบร้อยก่อน
+            (แนะนำแอปพลิเคชัน
+            <a class="underline" href="https://www.itax.in.th/" target="_blank"
+              >iTAX</a
+            >) หากคุณไม่ต้องเสียภาษี เราไม่แนะนำให้ซื้อกองทุนเหล่านี้
+            เนื่องจากในอนาคตหากมีกำไรที่เกิดจากการขายกองทุนเหล่านี้
+            คุณจำเป็นที่จะต้องเสียภาษีในส่วนกำไรที่ได้ด้วย
+          </div>
         </div>
         <div class="col-span-2" v-if="hasAlternativeRetirementFund">
           <div class="flex justify-between">
